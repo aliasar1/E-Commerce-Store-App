@@ -1,32 +1,24 @@
 import 'package:e_commerce_shopping_app/views/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
+import '../controllers/auth_controller.dart';
 import '../utils/exports/managers_exports.dart';
 import '../utils/size_config.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/custom_text_form_field.dart';
 import '../widgets/cutom_button.dart';
 
-class SignupScreen extends StatefulWidget {
+class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
-
-  @override
-  State<SignupScreen> createState() => _SignupScreenState();
-}
-
-class _SignupScreenState extends State<SignupScreen> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
-  bool isObscure = true;
-  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+
+    AuthenticateController controller = Get.put(AuthenticateController());
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorsManager.scaffoldBgColor,
@@ -37,7 +29,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   vertical: MarginManager.marginXL,
                   horizontal: MarginManager.marginXL),
               child: Form(
-                //key: signupFormKey,
+                key: controller.signupFormKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -78,7 +70,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       height: SizeManager.sizeSemiM,
                     ),
                     CustomTextFormField(
-                      controller: nameController,
+                      controller: controller.nameController,
                       labelText: StringsManager.nameTxt,
                       autofocus: false,
                       keyboardType: TextInputType.name,
@@ -95,7 +87,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       height: SizeManager.sizeSemiM,
                     ),
                     CustomTextFormField(
-                      controller: phoneController,
+                      controller: controller.phoneController,
                       labelText: StringsManager.phoneTxt,
                       autofocus: false,
                       hintText: StringsManager.phoneHintTxt,
@@ -113,7 +105,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       height: SizeManager.sizeSemiM,
                     ),
                     CustomTextFormField(
-                      controller: emailController,
+                      controller: controller.emailController,
                       labelText: StringsManager.emailTxt,
                       autofocus: false,
                       hintText: StringsManager.emailHintTxt,
@@ -130,43 +122,62 @@ class _SignupScreenState extends State<SignupScreen> {
                     const SizedBox(
                       height: SizeManager.sizeSemiM,
                     ),
-                    CustomTextFormField(
-                      controller: passwordController,
-                      autofocus: false,
-                      labelText: StringsManager.passwordTxt,
-                      obscureText: isObscure,
-                      prefixIconData: Icons.vpn_key_rounded,
-                      suffixIconData: isObscure
-                          ? Icons.visibility_rounded
-                          : Icons.visibility_off_rounded,
-                      onSuffixTap: toggleVisibility,
-                      textInputAction: TextInputAction.done,
-                      onFieldSubmit: (v) {},
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return ErrorManager.kPasswordNullError;
-                        }
-                        return null;
-                      },
+                    Obx(
+                      () => CustomTextFormField(
+                        controller: controller.passwordController,
+                        autofocus: false,
+                        labelText: StringsManager.passwordTxt,
+                        obscureText: controller.isObscure.value,
+                        prefixIconData: Icons.vpn_key_rounded,
+                        suffixIconData: controller.isObscure.value
+                            ? Icons.visibility_rounded
+                            : Icons.visibility_off_rounded,
+                        onSuffixTap: controller.toggleVisibility,
+                        textInputAction: TextInputAction.done,
+                        onFieldSubmit: (_) {
+                          controller.signUpUser(
+                            email: controller.emailController.text,
+                            name: controller.nameController.text,
+                            password: controller.passwordController.text,
+                            phone: controller.phoneController.text,
+                          );
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return ErrorManager.kPasswordNullError;
+                          }
+                          return null;
+                        },
+                      ),
                     ),
                     const SizedBox(
                       height: SizeManager.sizeXL,
                     ),
-                    CustomButton(
-                      color: ColorsManager.secondaryColor,
-                      hasInfiniteWidth: true,
-                      loadingWidget: isLoading
-                          ? const Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                backgroundColor: ColorsManager.scaffoldBgColor,
-                              ),
-                            )
-                          : null,
-                      onPressed: () {},
-                      text: StringsManager.registerTxt,
-                      textColor: ColorsManager.whiteColor,
-                      buttonType: ButtonType.loading,
+                    Obx(
+                      () => CustomButton(
+                        color: ColorsManager.secondaryColor,
+                        hasInfiniteWidth: true,
+                        loadingWidget: controller.isLoading.value
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  backgroundColor:
+                                      ColorsManager.scaffoldBgColor,
+                                ),
+                              )
+                            : null,
+                        onPressed: () {
+                          controller.signUpUser(
+                            email: controller.emailController.text,
+                            name: controller.nameController.text,
+                            password: controller.passwordController.text,
+                            phone: controller.phoneController.text,
+                          );
+                        },
+                        text: StringsManager.registerTxt,
+                        textColor: ColorsManager.whiteColor,
+                        buttonType: ButtonType.loading,
+                      ),
                     ),
                     const SizedBox(
                       height: SizeManager.sizeL,
@@ -203,9 +214,5 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
-  }
-
-  void toggleVisibility() {
-    isObscure = !isObscure;
   }
 }

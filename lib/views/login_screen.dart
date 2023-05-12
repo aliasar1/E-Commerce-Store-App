@@ -1,6 +1,8 @@
 import 'package:e_commerce_shopping_app/views/signup_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../controllers/auth_controller.dart';
 import '../utils/exports/managers_exports.dart';
 import '../utils/size_config.dart';
 import '../widgets/custom_text.dart';
@@ -8,24 +10,15 @@ import '../widgets/custom_text_form_field.dart';
 import '../widgets/cutom_button.dart';
 import '../widgets/packages/group_radio_buttons/src/radio_button_field.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  late String userTypeController = 'Participant';
-
-  bool isObscure = true;
-  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+
+    AuthenticateController controller = Get.put(AuthenticateController());
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorsManager.scaffoldBgColor,
@@ -36,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   vertical: MarginManager.marginXL,
                   horizontal: MarginManager.marginXL),
               child: Form(
-                //key:,
+                key: controller.loginFormKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -82,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: SizeManager.sizeXL,
                     ),
                     CustomTextFormField(
-                      controller: emailController,
+                      controller: controller.emailController,
                       labelText: StringsManager.emailTxt,
                       autofocus: false,
                       hintText: StringsManager.emailHintTxt,
@@ -103,10 +96,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       labels: const ['Buyer', 'Seller'],
                       icons: const [Icons.shopping_bag, Icons.store],
                       onChange: (String label, int index) =>
-                          userTypeController = label,
-                      onSelected: (String label) => userTypeController = label,
+                          controller.userTypeController = label,
+                      onSelected: (String label) =>
+                          controller.userTypeController = label,
                       decoration: InputDecoration(
-                        labelText: 'User Type',
+                        labelText: 'controller Type',
                         contentPadding: const EdgeInsets.all(0.0),
                         labelStyle: const TextStyle(
                           color: ColorsManager.primaryColor,
@@ -130,24 +124,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: SizeManager.sizeL,
                     ),
-                    CustomTextFormField(
-                      controller: passwordController,
-                      autofocus: false,
-                      labelText: StringsManager.passwordTxt,
-                      obscureText: isObscure,
-                      prefixIconData: Icons.vpn_key_rounded,
-                      suffixIconData: isObscure
-                          ? Icons.visibility_rounded
-                          : Icons.visibility_off_rounded,
-                      onSuffixTap: toggleVisibility,
-                      textInputAction: TextInputAction.done,
-                      onFieldSubmit: (v) => {},
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return ErrorManager.kPasswordNullError;
-                        }
-                        return null;
-                      },
+                    Obx(
+                      () => CustomTextFormField(
+                        controller: controller.passwordController,
+                        autofocus: false,
+                        labelText: StringsManager.passwordTxt,
+                        obscureText: controller.isObscure.value,
+                        prefixIconData: Icons.vpn_key_rounded,
+                        suffixIconData: controller.isObscure.value
+                            ? Icons.visibility_rounded
+                            : Icons.visibility_off_rounded,
+                        onSuffixTap: controller.toggleVisibility,
+                        textInputAction: TextInputAction.done,
+                        onFieldSubmit: (_) => controller.login(
+                            controller.emailController.text,
+                            controller.passwordController.text,
+                            controller.userTypeController),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return ErrorManager.kPasswordNullError;
+                          }
+                          return null;
+                        },
+                      ),
                     ),
                     const SizedBox(
                       height: SizeManager.sizeM,
@@ -168,21 +167,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: SizeManager.sizeXL,
                     ),
-                    CustomButton(
-                      color: ColorsManager.secondaryColor,
-                      hasInfiniteWidth: true,
-                      buttonType: ButtonType.loading,
-                      loadingWidget: isLoading
-                          ? const Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                backgroundColor: ColorsManager.scaffoldBgColor,
-                              ),
-                            )
-                          : null,
-                      onPressed: () {},
-                      text: StringsManager.loginTxt,
-                      textColor: ColorsManager.whiteColor,
+                    Obx(
+                      () => CustomButton(
+                        color: ColorsManager.secondaryColor,
+                        hasInfiniteWidth: true,
+                        buttonType: ButtonType.loading,
+                        loadingWidget: controller.isLoading.value
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  backgroundColor:
+                                      ColorsManager.scaffoldBgColor,
+                                ),
+                              )
+                            : null,
+                        onPressed: () {
+                          controller.login(
+                              controller.emailController.text,
+                              controller.passwordController.text,
+                              controller.userTypeController);
+                        },
+                        text: StringsManager.loginTxt,
+                        textColor: ColorsManager.whiteColor,
+                      ),
                     ),
                     const SizedBox(
                       height: SizeManager.sizeL,
@@ -219,11 +226,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  void toggleVisibility() {
-    setState(() {
-      isObscure = !isObscure;
-    });
   }
 }
