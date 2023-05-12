@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'views/home_page.dart';
+import 'managers/strings_manager.dart';
+import 'views/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,13 +10,12 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Flutter App',
+      title: StringsManager.appName,
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: SplashScreen(),
     );
   }
 }
