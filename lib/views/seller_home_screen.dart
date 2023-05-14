@@ -12,7 +12,6 @@ import 'package:get/get.dart';
 import '../controllers/product_controller.dart';
 import '../utils/exports/managers_exports.dart';
 import '../widgets/custom_text.dart';
-import '../widgets/cutom_button.dart';
 import '../widgets/seller_home_drawer.dart';
 import '../controllers/search_controller.dart' as ctrl;
 
@@ -68,7 +67,8 @@ class SellerHomeScreen extends StatelessWidget {
                 Obx(
                   () {
                     if (searchController.searchedProducts.isNotEmpty) {
-                      return Expanded(
+                      return SizedBox(
+                        height: Get.height - 250,
                         child: GridView.builder(
                           padding: const EdgeInsets.all(10.0),
                           itemCount: searchController.searchedProducts.length,
@@ -99,7 +99,8 @@ class SellerHomeScreen extends StatelessWidget {
                         ],
                       );
                     } else {
-                      return Expanded(
+                      return SizedBox(
+                        height: Get.height - 250,
                         child: GridView.builder(
                           padding: const EdgeInsets.all(10.0),
                           itemCount: productController.products.length,
@@ -129,7 +130,7 @@ class SellerHomeScreen extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Get.to(AddProductScreen(), arguments: [productController]);
+            Get.to(AddProductScreen());
           },
           backgroundColor: ColorsManager.secondaryColor,
           child: const Icon(

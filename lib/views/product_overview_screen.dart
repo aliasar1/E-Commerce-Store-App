@@ -1,5 +1,6 @@
 import 'package:e_commerce_shopping_app/controllers/product_controller.dart';
 import 'package:e_commerce_shopping_app/utils/extension.dart';
+import 'package:e_commerce_shopping_app/views/add_product_screen.dart';
 import 'package:e_commerce_shopping_app/views/seller_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -121,7 +122,12 @@ class ProductOverviewScreen extends StatelessWidget {
                 Icons.edit,
                 color: ColorsManager.lightSecondaryColor,
               ),
-              onTap: () => {},
+              onTap: () => {
+                Get.to(AddProductScreen(
+                  isEdit: true,
+                  product: product,
+                )),
+              },
             ),
           ],
         ),

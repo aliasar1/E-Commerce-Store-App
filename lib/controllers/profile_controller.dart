@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:e_commerce_shopping_app/controllers/auth_controller.dart';
-import 'package:e_commerce_shopping_app/views/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,7 +9,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../managers/firebase_manager.dart';
 import '../utils/utils.dart';
-import '../models/user_model.dart' as model;
 
 class ProfileController extends GetxController {
   final Rx<Map<String, dynamic>> _user = Rx<Map<String, dynamic>>({});

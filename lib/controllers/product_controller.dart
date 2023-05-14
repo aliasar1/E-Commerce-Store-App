@@ -94,9 +94,36 @@ class ProductController extends GetxController {
     }
   }
 
-  // Future<void> updateProduct(Product product) async {
-  //   await productsRef.doc(product.id).update(product.toJson());
-  // }
+  Future<void> updateProduct(String id, String name, String description,
+      String price, String stockQty, File? image) async {
+    toggleLoading();
+    String imageUrl = "";
+    if (image != null) {
+      imageUrl = await _uploadToStorage(image, id);
+      print(imageUrl);
+    }
+
+    Product product = Product(
+        id: id,
+        name: name,
+        description: description,
+        ownerId: firebaseAuth.currentUser!.uid,
+        imageUrl: imageUrl,
+        price: int.parse(price),
+        stockQuantity: int.parse(stockQty));
+
+    await firestore
+        .collection('products')
+        .doc(id)
+        .update(product.toJson())
+        .whenComplete(() {
+      Get.snackbar(
+          'Product Updated.', 'You have successfully updated your product.');
+      resetFields();
+      toggleLoading();
+      Get.back();
+    });
+  }
 
   Future<void> deleteProduct(String productId) async {
     await firestore.collection('products').doc(productId).delete();
