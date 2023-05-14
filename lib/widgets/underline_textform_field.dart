@@ -39,6 +39,7 @@ class _UnderlineTextFormFieldState extends State<UnderlineTextFormField> {
       keyboardType: widget.keyboardType ?? TextInputType.text,
       textCapitalization: widget.textCapitalization ?? TextCapitalization.words,
       maxLength: widget.maxLength,
+      cursorColor: ColorsManager.secondaryColor,
       decoration: InputDecoration(
         labelText: widget.label,
         labelStyle: const TextStyle(

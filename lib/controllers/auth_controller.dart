@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import '../models/user_model.dart' as model;
 import '../managers/firebase_manager.dart';
 
-import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../utils/utils.dart';
