@@ -29,4 +29,14 @@ class User {
       phone: snapshot["phone"],
     );
   }
+
+  static User fromMap(Map<String, dynamic> map) {
+    return User(
+      email: map["email"],
+      name: map["name"],
+      uid: map["uid"],
+      profilePhoto: map["profilePhoto"],
+      phone: map["phone"],
+    );
+  }
 }

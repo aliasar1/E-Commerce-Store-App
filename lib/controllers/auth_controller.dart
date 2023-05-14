@@ -111,6 +111,10 @@ class AuthenticateController extends GetxController with CacheManager {
     }
   }
 
+  void logout() async {
+    await firebaseAuth.signOut();
+  }
+
   void clearfields() {
     nameController.clear();
     emailController.clear();

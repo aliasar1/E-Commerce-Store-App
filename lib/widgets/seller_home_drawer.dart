@@ -1,48 +1,124 @@
+import 'package:e_commerce_shopping_app/views/login_screen.dart';
+import 'package:e_commerce_shopping_app/views/profile_screen.dart';
 import 'package:e_commerce_shopping_app/views/seller_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controllers/auth_controller.dart';
+import '../controllers/profile_controller.dart';
+import '../models/user_model.dart';
 import '../utils/exports/managers_exports.dart';
 import 'custom_text.dart';
 import 'mode_switch.dart';
 
-class SellerHomeDrawer extends StatelessWidget {
+class SellerHomeDrawer extends StatefulWidget {
   const SellerHomeDrawer({
     super.key,
+    required this.controller,
   });
+
+  final AuthenticateController controller;
+
+  @override
+  State<SellerHomeDrawer> createState() => _SellerHomeDrawerState();
+}
+
+class _SellerHomeDrawerState extends State<SellerHomeDrawer> {
+  final profileController = Get.put(ProfileController());
+
+  @override
+  void initState() {
+    super.initState();
+    profileController.updateUserId(firebaseAuth.currentUser!.uid);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      backgroundColor: ColorsManager.scaffoldBgColor,
-      child: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            const CircleAvatar(
-              backgroundColor: ColorsManager.lightSecondaryColor,
-              backgroundImage: NetworkImage(
-                  'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'),
-              radius: 70,
+    return GetBuilder<ProfileController>(
+      init: ProfileController(),
+      builder: (controller) {
+        if (controller.user.isEmpty) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: ColorsManager.secondaryColor,
             ),
-            const SizedBox(height: 10),
-            const Txt(
-              text: 'Ali Asar',
-              fontWeight: FontWeightManager.bold,
-              fontSize: FontSize.titleFontSize,
+          );
+        } else {
+          return Drawer(
+            backgroundColor: ColorsManager.scaffoldBgColor,
+            child: SafeArea(
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  CircleAvatar(
+                    backgroundColor: ColorsManager.lightSecondaryColor,
+                    backgroundImage: controller.user['profilePhoto'] == ""
+                        ? const NetworkImage(
+                            'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png')
+                        : NetworkImage(
+                            controller.user['profilePhoto'],
+                          ),
+                    radius: 70,
+                  ),
+                  const SizedBox(height: 10),
+                  Txt(
+                    text: controller.user['name'],
+                    fontWeight: FontWeightManager.bold,
+                    fontSize: FontSize.titleFontSize,
+                  ),
+                  const SizedBox(height: 10),
+                  const Divider(),
+                  buildDrawerTile("Profile", Icons.person, () {
+                    Get.offAll(ProfileScreen(
+                        user: User.fromMap(controller.user),
+                        controller: widget.controller));
+                  }),
+                  buildDrawerTile("My Products", Icons.list_alt, () {
+                    Get.offAll(SellerHomeScreen());
+                  }),
+                  buildDrawerTile("Orders", Icons.local_shipping, () {}),
+                  buildDrawerTile("Logout", Icons.logout, () {
+                    buildLogoutDialog();
+                  }),
+                  SizedBox(height: Get.height * 0.25),
+                  const ModeSwitch(),
+                ],
+              ),
             ),
-            const SizedBox(height: 10),
-            const Divider(),
-            buildDrawerTile("Profile", Icons.person, () {}),
-            buildDrawerTile("My Products", Icons.list_alt, () {
-              Get.offAll(SellerHomeScreen());
-            }),
-            buildDrawerTile("Orders", Icons.local_shipping, () {}),
-            buildDrawerTile("Logout", Icons.logout, () {}),
-            SizedBox(height: Get.height * 0.25),
-            const ModeSwitch(),
-          ],
-        ),
+          );
+        }
+      },
+    );
+  }
+
+  Future<dynamic> buildLogoutDialog() {
+    return Get.dialog(
+      AlertDialog(
+        backgroundColor: ColorsManager.scaffoldBgColor,
+        title: const Text('Confirm Logout'),
+        content: const Text('Are you sure you want to log out?'),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: ColorsManager.secondaryColor),
+            ),
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(ColorsManager.secondaryColor)),
+            onPressed: () async {
+              widget.controller.logout();
+              Get.offAll(const LoginScreen());
+            },
+            child: const Text(
+              'Logout',
+              style: TextStyle(color: ColorsManager.scaffoldBgColor),
+            ),
+          ),
+        ],
       ),
     );
   }

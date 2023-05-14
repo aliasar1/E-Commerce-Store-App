@@ -33,7 +33,6 @@ class AddProductScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: ColorsManager.scaffoldBgColor,
         appBar: AppBar(
-          automaticallyImplyLeading: true,
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back,
@@ -194,6 +193,9 @@ class AddProductScreen extends StatelessWidget {
                       },
                       hasInfiniteWidth: true,
                     ),
+                  ),
+                  const SizedBox(
+                    height: SizeManager.sizeXL,
                   ),
                 ],
               ),

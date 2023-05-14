@@ -39,8 +39,7 @@ class ProductController extends GetxController {
     isLoading.value = !isLoading.value;
   }
 
-  Future<String> _uploadToStorage(File image) async {
-    String id = await getUniqueId();
+  Future<String> _uploadToStorage(File image, String id) async {
     Reference ref = firebaseStorage.ref().child('products').child(id);
 
     UploadTask uploadTask = ref.putFile(image);
@@ -72,8 +71,7 @@ class ProductController extends GetxController {
       addFormKey.currentState!.save();
       toggleLoading();
       String id = await getUniqueId();
-
-      String imageUrl = await _uploadToStorage(_pickedImage.value!);
+      String imageUrl = await _uploadToStorage(_pickedImage.value!, id);
       name = name.toLowerCase();
       Product product = Product(
         id: id,
@@ -100,9 +98,10 @@ class ProductController extends GetxController {
   //   await productsRef.doc(product.id).update(product.toJson());
   // }
 
-  // Future<void> deleteProduct(String productId) async {
-  //   await productsRef.doc(productId).delete();
-  // }
+  Future<void> deleteProduct(String productId) async {
+    await firestore.collection('products').doc(productId).delete();
+    await firebaseStorage.ref().child('products').child(productId).delete();
+  }
 
   void resetFields() {
     productCategoryController.clear();
