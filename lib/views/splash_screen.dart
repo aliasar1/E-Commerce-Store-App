@@ -23,25 +23,27 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorsManager.secondaryColor,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.shopping_cart,
-              color: ColorsManager.whiteColor,
-              size: SizeManager.sizeXL * 8,
-            ),
-            Txt(
-              text: StringsManager.appName,
-              color: ColorsManager.whiteColor.withOpacity(0.6),
-              fontFamily: FontsManager.fontFamilyPoppins,
-              fontSize: FontSize.headerFontSize * 1.5,
-              fontWeight: FontWeightManager.bold,
-            ),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: ColorsManager.secondaryColor,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.shopping_cart,
+                color: ColorsManager.whiteColor,
+                size: SizeManager.sizeXL * 8,
+              ),
+              Txt(
+                text: StringsManager.appName,
+                color: ColorsManager.whiteColor.withOpacity(0.6),
+                fontFamily: FontsManager.fontFamilyPoppins,
+                fontSize: FontSize.headerFontSize * 1.5,
+                fontWeight: FontWeightManager.bold,
+              ),
+            ],
+          ),
         ),
       ),
     );

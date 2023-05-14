@@ -100,7 +100,7 @@ class LoginScreen extends StatelessWidget {
                       onSelected: (String label) =>
                           controller.userTypeController = label,
                       decoration: InputDecoration(
-                        labelText: 'controller Type',
+                        labelText: 'User Type',
                         contentPadding: const EdgeInsets.all(0.0),
                         labelStyle: const TextStyle(
                           color: ColorsManager.primaryColor,

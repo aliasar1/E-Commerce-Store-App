@@ -9,6 +9,9 @@ class StringsManager {
   static const String alreadyHaveAccTxt = 'Already have an account? ';
   static const String welcomTxt = 'Welcome Back';
   static const String offlineTxt = "You're Offline.";
+  static const String myProductsTxt = "My Products";
+
+  //////////////////////////
   static const String searchEventTxt = "Search Event";
   static const String searchNowEventTxt = "Search Events Now!";
   static const String noEventsAttendedTxt = "Events Log is empty!";
@@ -46,9 +49,16 @@ class StringsManager {
 
 class ErrorManager {
   // form field error
+  static const String kProductNameNullError = 'Please enter product name';
   static const String kEventNameNullError = 'Please enter a event name';
   static const String kUserNameNullError = 'Please Enter a Name';
+  static const String kInvalidPriceError =
+      'Please enter a price greater than 0.';
+  static const String kInvalidStockError =
+      'Please enter a stock greater than 0.';
   static const String kFieldEmptyError = 'Please Enter a Value';
+  static const String kPriceEmptyError = 'Please enter a valid price.';
+  static const String kStockEmptyError = 'Please enter a valid price.';
   static const String kEmailNullError = 'Please Enter a Valid Email';
   static const String kPhoneNullError = 'Please Enter a Phone Number';
   static const String kDescriptionNullError = 'Please enter description';

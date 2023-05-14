@@ -2,22 +2,18 @@ import 'package:e_commerce_shopping_app/local/local_storage.dart';
 import 'package:e_commerce_shopping_app/views/login_screen.dart';
 import 'package:e_commerce_shopping_app/views/seller_home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../models/user_model.dart' as model;
 import '../managers/firebase_manager.dart';
 
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../utils/utils.dart';
 import '../views/buyer_home_screen.dart';
 
 class AuthenticateController extends GetxController with CacheManager {
-  model.User? _user;
-
-  model.User get getUser => _user!;
-
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -30,20 +26,6 @@ class AuthenticateController extends GetxController with CacheManager {
 
   final loginFormKey = GlobalKey<FormState>();
   final signupFormKey = GlobalKey<FormState>();
-
-  Future<void> refreshUser() async {
-    model.User user = await getUserDetails();
-    _user = user;
-  }
-
-  Future<model.User> getUserDetails() async {
-    User currentUser = firebaseAuth.currentUser!;
-
-    DocumentSnapshot documentSnapshot =
-        await firestore.collection('users').doc(currentUser.uid).get();
-
-    return model.User.fromSnap(documentSnapshot);
-  }
 
   void toggleVisibility() {
     isObscure.value = !isObscure.value;

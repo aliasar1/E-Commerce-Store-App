@@ -9,7 +9,7 @@ import 'views/splash_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  //await GetStorage.init();
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
