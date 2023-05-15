@@ -45,4 +45,18 @@ class Product {
       isAvailable: snapshot['isAvailable'],
     );
   }
+
+  static Product fromMap(Map<String, dynamic> map) {
+    return Product(
+      id: map['id'],
+      name: map['name'],
+      description: map['description'],
+      // category: map['category'],
+      ownerId: map['ownerId'],
+      imageUrl: map['imageUrl'],
+      price: map['price'],
+      stockQuantity: map['stockQuantity'],
+      isAvailable: map['isAvailable'],
+    );
+  }
 }

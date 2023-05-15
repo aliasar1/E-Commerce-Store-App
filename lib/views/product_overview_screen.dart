@@ -29,7 +29,14 @@ class ProductOverviewScreen extends StatelessWidget {
                 children: [
                   Hero(
                     tag: product.id,
-                    child: Image.network(product.imageUrl),
+                    child: Container(
+                        color: ColorsManager.lightGreyColor.withOpacity(0.1),
+                        height: Get.height * 0.35,
+                        width: double.infinity,
+                        child: Image.network(
+                          product.imageUrl,
+                          fit: BoxFit.cover,
+                        )),
                   ),
                   Positioned(
                     child: IconButton(
@@ -39,7 +46,7 @@ class ProductOverviewScreen extends StatelessWidget {
                         color: ColorsManager.secondaryColor,
                       ),
                       onPressed: () {
-                        Get.back();
+                        Get.offAll(SellerHomeScreen());
                       },
                     ),
                   ),
@@ -48,18 +55,26 @@ class ProductOverviewScreen extends StatelessWidget {
               const SizedBox(
                 height: SizeManager.sizeXL,
               ),
-              Txt(
-                text: product.name.capitalizeFirstOfEach,
-                fontWeight: FontWeightManager.bold,
-                fontSize: FontSize.headerFontSize,
-                fontFamily: FontsManager.fontFamilyPoppins,
+              Obx(
+                () => Txt(
+                  text: controller.productName == ""
+                      ? product.name.capitalizeFirstOfEach
+                      : controller.productName.capitalizeFirstOfEach,
+                  fontWeight: FontWeightManager.bold,
+                  fontSize: FontSize.headerFontSize,
+                  fontFamily: FontsManager.fontFamilyPoppins,
+                ),
               ),
-              Txt(
-                textAlign: TextAlign.center,
-                text: product.description.capitalize,
-                fontWeight: FontWeightManager.medium,
-                fontSize: FontSize.textFontSize,
-                fontFamily: FontsManager.fontFamilyPoppins,
+              Obx(
+                () => Txt(
+                  textAlign: TextAlign.center,
+                  text: controller.productDescription == ""
+                      ? product.description.capitalize
+                      : controller.productDescription.capitalize,
+                  fontWeight: FontWeightManager.medium,
+                  fontSize: FontSize.textFontSize,
+                  fontFamily: FontsManager.fontFamilyPoppins,
+                ),
               ),
               const SizedBox(
                 height: SizeManager.sizeL,
@@ -124,11 +139,11 @@ class ProductOverviewScreen extends StatelessWidget {
                 Icons.edit,
                 color: ColorsManager.lightSecondaryColor,
               ),
-              onTap: () => {
+              onTap: () {
                 Get.to(AddProductScreen(
                   isEdit: true,
                   product: product,
-                )),
+                ));
               },
             ),
           ],

@@ -152,7 +152,7 @@ class ProductsCard extends StatelessWidget {
         );
       },
       child: Container(
-        width: 120,
+        width: 140,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -170,9 +170,34 @@ class ProductsCard extends StatelessWidget {
           children: [
             Hero(
               tag: prod.id,
-              child: Image.network(
-                prod.imageUrl,
-                height: 80,
+              child: SizedBox(
+                height: 100,
+                width: 140,
+                child: Image.network(
+                  prod.imageUrl,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: ColorsManager.secondaryColor,
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    return const Icon(
+                      Icons.error,
+                      color: ColorsManager.secondaryColor,
+                    );
+                  },
+                ),
               ),
             ),
             const SizedBox(height: 10),

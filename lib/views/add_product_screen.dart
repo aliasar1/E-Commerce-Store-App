@@ -108,16 +108,20 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               productController.pickImage();
                             },
                             child: productController.posterPhoto != null
-                                ? Image.file(
-                                    productController.posterPhoto!,
-                                    fit: BoxFit.fill,
+                                ? SizedBox(
+                                    width: double.infinity,
+                                    height: 240,
+                                    child: Image.file(
+                                      productController.posterPhoto!,
+                                      fit: BoxFit.cover,
+                                    ),
                                   )
                                 : SizedBox(
                                     width: double.infinity,
                                     height: 240,
                                     child: Image.network(
                                       widget.product!.imageUrl,
-                                      fit: BoxFit.fill,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                           ),
@@ -223,16 +227,20 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         final stock = productController
                             .productStockQuantityController.text
                             .trim();
-                        widget.isEdit
-                            ? productController.updateProduct(
-                                widget.product!.id,
-                                name,
-                                description,
-                                price,
-                                stock,
-                                productController.posterPhoto)
-                            : productController.addProduct(
-                                name, description, price, stock);
+                        if (widget.isEdit) {
+                          productController.updateProduct(
+                              widget.product!.id,
+                              name,
+                              description,
+                              price,
+                              stock,
+                              widget.product!.imageUrl,
+                              productController.posterPhoto,
+                              productController);
+                        } else {
+                          productController.addProduct(
+                              name, description, price, stock);
+                        }
                       },
                       hasInfiniteWidth: true,
                     ),

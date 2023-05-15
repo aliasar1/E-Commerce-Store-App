@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:e_commerce_shopping_app/views/product_overview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../managers/firebase_manager.dart';
 import '../models/product_model.dart';
@@ -28,6 +30,15 @@ class ProductController extends GetxController {
 
   final Rx<File?> _pickedImage = Rx<File?>(null);
   File? get posterPhoto => _pickedImage.value;
+
+  final Rx<String> _productNameRx = "".obs;
+  final Rx<String> _productDescriptionRx = "".obs;
+
+  String get productName => _productNameRx.value;
+  String get productDescription => _productDescriptionRx.value;
+
+  final Rx<Map<String, dynamic>> _product = Rx<Map<String, dynamic>>({});
+  Map<String, dynamic> get product => _product.value;
 
   @override
   void onInit() {
@@ -108,35 +119,75 @@ class ProductController extends GetxController {
     }
   }
 
-  Future<void> updateProduct(String id, String name, String description,
-      String price, String stockQty, File? image) async {
+  Future<String> _updateToStorage(File newImage, String id) async {
+    Reference ref = firebaseStorage.ref().child('products').child(id);
+
+    await ref.delete();
+
+    UploadTask uploadTask = ref.putFile(newImage);
+    TaskSnapshot snap = await uploadTask;
+    String downloadUrl = await snap.ref.getDownloadURL();
+    return downloadUrl;
+  }
+
+  Future<String> getImageFromStorage(String id) async {
+    Reference ref = firebaseStorage.ref().child('products').child(id);
+    String downloadUrl = await ref.getDownloadURL();
+    return downloadUrl;
+  }
+
+  Future<void> updateProduct(
+    String id,
+    String name,
+    String description,
+    String price,
+    String stockQty,
+    String oldImageUrl,
+    File? image,
+    ProductController controller,
+  ) async {
     toggleLoading();
     String imageUrl = "";
     if (image != null) {
-      imageUrl = await _uploadToStorage(image, id);
-      print(imageUrl);
+      imageUrl = await _updateToStorage(image, id);
+    } else {
+      imageUrl = oldImageUrl;
     }
 
     Product product = Product(
-        id: id,
-        name: name,
-        description: description,
-        ownerId: firebaseAuth.currentUser!.uid,
-        imageUrl: imageUrl,
-        price: int.parse(price),
-        stockQuantity: int.parse(stockQty));
+      id: id,
+      name: name,
+      description: description,
+      ownerId: firebaseAuth.currentUser!.uid,
+      imageUrl: imageUrl,
+      price: int.parse(price),
+      stockQuantity: int.parse(stockQty),
+    );
 
     await firestore
         .collection('products')
         .doc(id)
         .update(product.toJson())
         .whenComplete(() {
-      Get.snackbar(
-          'Product Updated.', 'You have successfully updated your product.');
-      resetFields();
+      _productNameRx.value = product.name;
+      _productDescriptionRx.value = product.description;
+
       toggleLoading();
-      Get.back();
+      Get.offAll(
+          ProductOverviewScreen(product: product, controller: controller));
+      Get.snackbar(
+        'Product Updated.',
+        'You have successfully updated your product.',
+      );
+      resetFields();
     });
+  }
+
+  void getProductData(String id) async {
+    DocumentSnapshot userDoc =
+        await firestore.collection('products').doc(id).get();
+    _product.value = userDoc.data()! as dynamic;
+    update();
   }
 
   Future<void> deleteProduct(String productId) async {
