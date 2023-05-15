@@ -13,6 +13,10 @@ class ProductController extends GetxController {
 
   List<Product> get products => _products;
 
+  final RxList<Product> _myProducts = RxList<Product>([]);
+
+  List<Product> get myProducts => _myProducts;
+
   final productNameController = TextEditingController();
   final productDescriptionController = TextEditingController();
   final productPriceController = TextEditingController();
@@ -29,9 +33,19 @@ class ProductController extends GetxController {
   void onInit() {
     super.onInit();
     firestore.collection('products').snapshots().listen((querySnapshot) {
-      _products.value = querySnapshot.docs
+      final products = querySnapshot.docs
           .map((doc) => Product.fromSnap(doc))
           .toList(growable: false);
+
+      final currentUserID = firebaseAuth.currentUser?.uid;
+
+      _products.value = products;
+
+      if (currentUserID != null) {
+        _myProducts.value = products
+            .where((product) => product.ownerId == currentUserID)
+            .toList(growable: false);
+      }
     });
   }
 

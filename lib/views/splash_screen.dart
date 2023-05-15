@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               Txt(
                 text: StringsManager.appName,
-                color: ColorsManager.whiteColor.withOpacity(0.6),
+                color: ColorsManager.whiteColor.withOpacity(0.8),
                 fontFamily: FontsManager.fontFamilyPoppins,
                 fontSize: FontSize.headerFontSize * 1.5,
                 fontWeight: FontWeightManager.bold,

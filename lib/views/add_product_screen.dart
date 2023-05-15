@@ -36,7 +36,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
     super.initState();
   }
 
-  // List<String> category = [
   @override
   Widget build(BuildContext context) {
     return SafeArea(

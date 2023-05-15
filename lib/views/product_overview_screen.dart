@@ -22,52 +22,54 @@ class ProductOverviewScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorsManager.scaffoldBgColor,
-        body: Column(
-          children: [
-            Stack(
-              children: [
-                Hero(
-                  tag: product.id,
-                  child: Image.network(product.imageUrl),
-                ),
-                Positioned(
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      size: 30,
-                      color: ColorsManager.secondaryColor,
-                    ),
-                    onPressed: () {
-                      Get.back();
-                    },
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  Hero(
+                    tag: product.id,
+                    child: Image.network(product.imageUrl),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: SizeManager.sizeXL,
-            ),
-            Txt(
-              text: product.name.capitalizeFirstOfEach,
-              fontWeight: FontWeightManager.bold,
-              fontSize: FontSize.headerFontSize,
-              fontFamily: FontsManager.fontFamilyPoppins,
-            ),
-            Txt(
-              textAlign: TextAlign.center,
-              text: product.description.capitalize,
-              fontWeight: FontWeightManager.medium,
-              fontSize: FontSize.textFontSize,
-              fontFamily: FontsManager.fontFamilyPoppins,
-            ),
-            const SizedBox(
-              height: SizeManager.sizeL,
-            ),
-            const CircularStepProgressIndicatorWidget(
-              totalSteps: 5,
-              currentStep: 3,
-            ),
-          ],
+                  Positioned(
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        size: 30,
+                        color: ColorsManager.secondaryColor,
+                      ),
+                      onPressed: () {
+                        Get.back();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: SizeManager.sizeXL,
+              ),
+              Txt(
+                text: product.name.capitalizeFirstOfEach,
+                fontWeight: FontWeightManager.bold,
+                fontSize: FontSize.headerFontSize,
+                fontFamily: FontsManager.fontFamilyPoppins,
+              ),
+              Txt(
+                textAlign: TextAlign.center,
+                text: product.description.capitalize,
+                fontWeight: FontWeightManager.medium,
+                fontSize: FontSize.textFontSize,
+                fontFamily: FontsManager.fontFamilyPoppins,
+              ),
+              const SizedBox(
+                height: SizeManager.sizeL,
+              ),
+              const CircularStepProgressIndicatorWidget(
+                totalSteps: 5,
+                currentStep: 3,
+              ),
+            ],
+          ),
         ),
         floatingActionButton: SpeedDial(
           animatedIcon: AnimatedIcons.menu_close,

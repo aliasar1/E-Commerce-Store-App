@@ -16,7 +16,7 @@ import '../widgets/seller_home_drawer.dart';
 import '../controllers/search_controller.dart' as ctrl;
 
 class SellerHomeScreen extends StatelessWidget {
-  SellerHomeScreen({super.key});
+  SellerHomeScreen({Key? key}) : super(key: key);
 
   final ProductController productController = Get.put(ProductController());
   final ctrl.SearchController searchController =
@@ -37,100 +37,87 @@ class SellerHomeScreen extends StatelessWidget {
           elevation: 0,
           iconTheme: const IconThemeData(color: ColorsManager.secondaryColor),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            margin:
-                const EdgeInsets.symmetric(horizontal: MarginManager.marginL),
-            child: Column(
-              children: [
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: const Txt(
-                    textAlign: TextAlign.start,
-                    text: StringsManager.myProductsTxt,
-                    fontWeight: FontWeightManager.bold,
-                    fontSize: FontSize.headerFontSize,
-                    fontFamily: FontsManager.fontFamilyPoppins,
-                  ),
+        body: Container(
+          margin: const EdgeInsets.symmetric(horizontal: MarginManager.marginL),
+          child: Column(
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                child: const Txt(
+                  textAlign: TextAlign.start,
+                  text: StringsManager.myProductsTxt,
+                  fontWeight: FontWeightManager.bold,
+                  fontSize: FontSize.headerFontSize,
+                  fontFamily: FontsManager.fontFamilyPoppins,
                 ),
-                const SizedBox(
-                  height: 12,
-                ),
-                CustomSearchWidget(
-                  onFieldSubmit: (value) {
-                    searchController.searchProduct(value.trim());
-                  },
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Obx(
-                  () {
-                    if (searchController.searchedProducts.isNotEmpty) {
-                      return SizedBox(
-                        height: Get.height - 250,
-                        child: GridView.builder(
-                          padding: const EdgeInsets.all(10.0),
-                          itemCount: searchController.searchedProducts.length,
-                          itemBuilder: (ctx, i) {
-                            final prod = searchController.searchedProducts[i];
-                            return firebaseAuth.currentUser!.uid == prod.ownerId
-                                ? ProductsCard(
-                                    prod: prod,
-                                    controller: productController,
-                                  )
-                                : Container();
-                          },
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                          ),
+              ),
+              const SizedBox(height: 12),
+              CustomSearchWidget(
+                onFieldSubmit: (value) {
+                  searchController.searchProduct(value.trim());
+                },
+              ),
+              const SizedBox(height: 12),
+              Obx(
+                () {
+                  if (searchController.searchedProducts.isNotEmpty) {
+                    return Expanded(
+                      child: GridView.builder(
+                        padding: const EdgeInsets.all(10.0),
+                        itemCount: searchController.searchedProducts.length,
+                        itemBuilder: (ctx, i) {
+                          final prod = searchController.searchedProducts[i];
+                          return firebaseAuth.currentUser!.uid == prod.ownerId
+                              ? ProductsCard(
+                                  prod: prod,
+                                  controller: productController,
+                                )
+                              : Container();
+                        },
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
                         ),
-                      );
-                    } else if (productController.products.isEmpty) {
-                      return const Column(
-                        children: [
-                          SizedBox(
-                            height: SizeManager.sizeXL * 3,
-                          ),
-                          AddProductTemplate(),
-                        ],
-                      );
-                    } else {
-                      return SizedBox(
-                        height: Get.height - 250,
-                        child: GridView.builder(
-                          padding: const EdgeInsets.all(10.0),
-                          itemCount: productController.products.length,
-                          itemBuilder: (ctx, i) {
-                            final prod = productController.products[i];
-                            return firebaseAuth.currentUser!.uid == prod.ownerId
-                                ? ProductsCard(
-                                    prod: prod,
-                                    controller: productController,
-                                  )
-                                : Container();
-                          },
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                          ),
+                      ),
+                    );
+                  } else if (productController.myProducts.isEmpty) {
+                    return const Column(
+                      children: [
+                        SizedBox(height: SizeManager.sizeXL * 3),
+                        AddProductTemplate(),
+                      ],
+                    );
+                  } else {
+                    return Expanded(
+                      child: GridView.builder(
+                        padding: const EdgeInsets.all(10.0),
+                        itemCount: productController.myProducts.length,
+                        itemBuilder: (ctx, i) {
+                          final prod = productController.myProducts[i];
+                          return ProductsCard(
+                            prod: prod,
+                            controller: productController,
+                          );
+                        },
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
                         ),
-                      );
-                    }
-                  },
-                ),
-              ],
-            ),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Get.to(AddProductScreen());
+            Get.to(const AddProductScreen());
           },
           backgroundColor: ColorsManager.secondaryColor,
           child: const Icon(
@@ -145,10 +132,10 @@ class SellerHomeScreen extends StatelessWidget {
 
 class ProductsCard extends StatelessWidget {
   const ProductsCard({
-    super.key,
+    Key? key,
     required this.prod,
     required this.controller,
-  });
+  }) : super(key: key);
 
   final Product prod;
   final ProductController controller;
