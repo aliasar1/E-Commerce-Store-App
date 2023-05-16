@@ -1,29 +1,26 @@
-import 'package:e_commerce_shopping_app/views/login_screen.dart';
-import 'package:e_commerce_shopping_app/views/profile_screen.dart';
-import 'package:e_commerce_shopping_app/views/seller_home_screen.dart';
+import 'package:e_commerce_shopping_app/controllers/auth_controller.dart';
+import 'package:e_commerce_shopping_app/views/buyer_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/auth_controller.dart';
 import '../controllers/profile_controller.dart';
 import '../models/user_model.dart';
 import '../utils/exports/managers_exports.dart';
+import '../views/login_screen.dart';
+import '../views/profile_screen.dart';
 import 'custom_text.dart';
 import 'mode_switch.dart';
 
-class SellerHomeDrawer extends StatefulWidget {
-  const SellerHomeDrawer({
-    super.key,
-    required this.controller,
-  });
+class BuyerHomeDrawer extends StatefulWidget {
+  const BuyerHomeDrawer({super.key, required this.controller});
 
   final AuthenticateController controller;
 
   @override
-  State<SellerHomeDrawer> createState() => _SellerHomeDrawerState();
+  State<BuyerHomeDrawer> createState() => _BuyerHomeDrawerState();
 }
 
-class _SellerHomeDrawerState extends State<SellerHomeDrawer> {
+class _BuyerHomeDrawerState extends State<BuyerHomeDrawer> {
   final profileController = Get.put(ProfileController());
 
   @override
@@ -77,10 +74,20 @@ class _SellerHomeDrawerState extends State<SellerHomeDrawer> {
                           : false,
                     ));
                   }),
-                  buildDrawerTile("My Products", Icons.list_alt, () {
-                    Get.offAll(SellerHomeScreen());
-                  }),
-                  buildDrawerTile("Orders", Icons.local_shipping, () {}),
+                  buildDrawerTile(
+                    "Buy Products",
+                    Icons.list_alt,
+                    () {
+                      Get.offAll(BuyerHomeScreen());
+                    },
+                  ),
+                  buildDrawerTile(
+                    "Cart",
+                    Icons.shopping_cart_checkout,
+                    () {
+                      // Get.offAll(SellerHomeScreen());
+                    },
+                  ),
                   buildDrawerTile("Logout", Icons.logout, () {
                     buildLogoutDialog();
                   }),

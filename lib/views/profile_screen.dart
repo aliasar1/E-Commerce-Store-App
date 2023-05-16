@@ -1,5 +1,6 @@
 import 'package:e_commerce_shopping_app/controllers/auth_controller.dart';
 import 'package:e_commerce_shopping_app/controllers/profile_controller.dart';
+import 'package:e_commerce_shopping_app/widgets/buyer_home_drawer.dart';
 import 'package:e_commerce_shopping_app/widgets/seller_home_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,10 +13,15 @@ import '../widgets/custom_text_form_field.dart';
 import '../widgets/cutom_button.dart';
 
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen({super.key, required this.user, required this.controller});
+  ProfileScreen(
+      {super.key,
+      required this.user,
+      required this.controller,
+      required this.isUserBuyer});
 
   final User user;
   final AuthenticateController controller;
+  final bool isUserBuyer;
 
   final ProfileController profileController = Get.put(ProfileController());
 
@@ -24,7 +30,9 @@ class ProfileScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorsManager.scaffoldBgColor,
-        drawer: SellerHomeDrawer(controller: controller),
+        drawer: isUserBuyer
+            ? BuyerHomeDrawer(controller: controller)
+            : SellerHomeDrawer(controller: controller),
         appBar: AppBar(
           backgroundColor: ColorsManager.scaffoldBgColor,
           elevation: 0,

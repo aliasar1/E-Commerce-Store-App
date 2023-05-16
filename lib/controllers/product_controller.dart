@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../managers/firebase_manager.dart';
 import '../models/product_model.dart';
 
@@ -36,9 +34,6 @@ class ProductController extends GetxController {
 
   String get productName => _productNameRx.value;
   String get productDescription => _productDescriptionRx.value;
-
-  final Rx<Map<String, dynamic>> _product = Rx<Map<String, dynamic>>({});
-  Map<String, dynamic> get product => _product.value;
 
   @override
   void onInit() {
@@ -181,13 +176,6 @@ class ProductController extends GetxController {
       );
       resetFields();
     });
-  }
-
-  void getProductData(String id) async {
-    DocumentSnapshot userDoc =
-        await firestore.collection('products').doc(id).get();
-    _product.value = userDoc.data()! as dynamic;
-    update();
   }
 
   Future<void> deleteProduct(String productId) async {

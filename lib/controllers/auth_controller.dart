@@ -39,7 +39,7 @@ class AuthenticateController extends GetxController with CacheManager {
         if (getUserType() == "Seller") {
           Get.offAll(SellerHomeScreen());
         } else {
-          Get.offAll(const BuyerHomeScreen());
+          Get.offAll(BuyerHomeScreen());
         }
       }
     });
