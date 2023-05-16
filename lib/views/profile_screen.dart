@@ -283,7 +283,7 @@ class ProfileScreen extends StatelessWidget {
                 },
                 text: "Change",
                 hasInfiniteWidth: true,
-                textColor: ColorsManager.backgroundColor,
+                textColor: ColorsManager.whiteColor,
               ),
             ),
           ],
@@ -340,7 +340,7 @@ class ProfileScreen extends StatelessWidget {
               height: 12,
             ),
             CustomButton(
-              color: ColorsManager.primaryColor,
+              color: ColorsManager.secondaryColor,
               loadingWidget: controller.isLoading.value
                   ? const Center(
                       child: CircularProgressIndicator(
@@ -357,7 +357,7 @@ class ProfileScreen extends StatelessWidget {
               },
               text: "Edit",
               hasInfiniteWidth: true,
-              textColor: ColorsManager.backgroundColor,
+              textColor: ColorsManager.whiteColor,
             ),
           ],
         ),

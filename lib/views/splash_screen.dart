@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:e_commerce_shopping_app/views/login_screen.dart';
+import 'package:e_commerce_shopping_app/controllers/auth_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -15,10 +15,12 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final authController = Get.put(AuthenticateController());
+
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 2), () => Get.offAll(LoginScreen()));
+    Timer(const Duration(seconds: 2), () => authController.checkLoginStatus());
   }
 
   @override

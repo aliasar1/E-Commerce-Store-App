@@ -204,7 +204,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   Obx(
                     () => CustomButton(
                       color: ColorsManager.secondaryColor,
-                      textColor: ColorsManager.scaffoldBgColor,
+                      textColor: ColorsManager.whiteColor,
                       text: widget.isEdit ? "Edit" : "Add",
                       buttonType: ButtonType.loading,
                       loadingWidget: productController.isLoading.value

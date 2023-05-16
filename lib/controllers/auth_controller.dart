@@ -30,6 +30,21 @@ class AuthenticateController extends GetxController with CacheManager {
     isObscure.value = !isObscure.value;
   }
 
+  Future<void> checkLoginStatus() async {
+    firebaseAuth.idTokenChanges().listen((User? user) {
+      if (user == null) {
+        removeToken();
+        Get.off(const LoginScreen());
+      } else {
+        if (getUserType() == "Seller") {
+          Get.offAll(SellerHomeScreen());
+        } else {
+          Get.offAll(const BuyerHomeScreen());
+        }
+      }
+    });
+  }
+
   void toggleLoading({bool showMessage = false, String message = ''}) {
     isLoading.value = !isLoading.value;
     if (showMessage) {
@@ -112,6 +127,7 @@ class AuthenticateController extends GetxController with CacheManager {
   }
 
   void logout() async {
+    removeToken();
     await firebaseAuth.signOut();
   }
 
