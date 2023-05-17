@@ -11,6 +11,7 @@ class StringsManager {
   static const String offlineTxt = "You're Offline.";
   static const String myProductsTxt = "My Products";
   static const String allProductsTxt = "All Products";
+  static const String myCartTxt = "My Cart";
 
   //////////////////////////
   static const String searchEventTxt = "Search Event";

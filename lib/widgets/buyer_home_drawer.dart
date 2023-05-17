@@ -1,5 +1,6 @@
 import 'package:e_commerce_shopping_app/controllers/auth_controller.dart';
 import 'package:e_commerce_shopping_app/views/buyer_home_screen.dart';
+import 'package:e_commerce_shopping_app/views/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -85,13 +86,20 @@ class _BuyerHomeDrawerState extends State<BuyerHomeDrawer> {
                     "Cart",
                     Icons.shopping_cart_checkout,
                     () {
-                      // Get.offAll(SellerHomeScreen());
+                      Get.offAll(CartScreen(
+                        authController: widget.controller,
+                      ));
                     },
+                  ),
+                  buildDrawerTile(
+                    "Favourites",
+                    Icons.favorite,
+                    () {},
                   ),
                   buildDrawerTile("Logout", Icons.logout, () {
                     buildLogoutDialog();
                   }),
-                  SizedBox(height: Get.height * 0.25),
+                  SizedBox(height: Get.height * 0.2),
                   const ModeSwitch(),
                 ],
               ),
