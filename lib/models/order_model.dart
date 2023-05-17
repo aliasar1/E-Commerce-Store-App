@@ -1,5 +1,6 @@
-import 'cart_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'cart_item.dart';
 
 class OrderItem {
   final String id;
@@ -17,17 +18,31 @@ class OrderItem {
   Map<String, dynamic> toJson() => {
         "id": id,
         "amount": amount,
-        "products": products,
+        "products": products.map((product) => product.toJson()).toList(),
         "dateTime": dateTime,
       };
 
   static OrderItem fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
+    var productsData =
+        List<Map<String, dynamic>>.from(snapshot['products'] ?? []);
+    var products = productsData.map((data) => CartItem.fromMap(data)).toList();
     return OrderItem(
       id: snapshot['id'],
       amount: snapshot['amount'],
-      products: snapshot['products'],
+      products: products,
       dateTime: snapshot['dateTime'],
+    );
+  }
+
+  factory OrderItem.fromJson(Map<String, dynamic> json) {
+    var productsData = List<Map<String, dynamic>>.from(json['products'] ?? []);
+    var products = productsData.map((data) => CartItem.fromMap(data)).toList();
+    return OrderItem(
+      id: json['id'],
+      amount: json['amount'],
+      products: products,
+      dateTime: json['dateTime'].toDate(),
     );
   }
 }

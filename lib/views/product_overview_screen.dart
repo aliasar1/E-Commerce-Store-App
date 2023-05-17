@@ -30,140 +30,103 @@ class ProductOverviewScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorsManager.scaffoldBgColor,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  Hero(
-                    tag: product.id,
-                    child: Container(
-                        color: ColorsManager.lightGreyColor.withOpacity(0.1),
-                        height: Get.height * 0.35,
-                        width: double.infinity,
-                        child: Image.network(
-                          product.imageUrl,
-                          fit: BoxFit.cover,
-                        )),
-                  ),
-                  Positioned(
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        size: 30,
-                        color: ColorsManager.secondaryColor,
+        body: CustomScrollView(
+          slivers: [
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Stack(
+                    children: [
+                      Hero(
+                        tag: product.id,
+                        child: Container(
+                          color: ColorsManager.lightGreyColor.withOpacity(0.1),
+                          height: Get.height * 0.35,
+                          width: double.infinity,
+                          child: Image.network(
+                            product.imageUrl,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                      onPressed: () {
+                      Positioned(
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            size: 30,
+                            color: ColorsManager.secondaryColor,
+                          ),
+                          onPressed: () {
+                            isUserBuyer
+                                ? Get.offAll(BuyerHomeScreen())
+                                : Get.offAll(SellerHomeScreen());
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: SizeManager.sizeXL,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: MarginManager.marginM),
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Obx(
+                                () => Txt(
+                                  text: controller.productName == ""
+                                      ? product.name.capitalizeFirstOfEach
+                                      : controller
+                                          .productName.capitalizeFirstOfEach,
+                                  fontWeight: FontWeightManager.bold,
+                                  fontSize: FontSize.headerFontSize * 0.8,
+                                  fontFamily: FontsManager.fontFamilyPoppins,
+                                ),
+                              ),
+                              Txt(
+                                text: "\$ ${product.price.toString()}",
+                                fontWeight: FontWeightManager.semibold,
+                                fontSize: FontSize.textFontSize,
+                                fontFamily: FontsManager.fontFamilyPoppins,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Obx(
+                            () => Txt(
+                              text: controller.productDescription == ""
+                                  ? product.description.capitalize
+                                  : controller.productDescription.capitalize,
+                              fontWeight: FontWeightManager.medium,
+                              fontSize: FontSize.textFontSize * 0.8,
+                              fontFamily: FontsManager.fontFamilyPoppins,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: SizeManager.sizeL,
+                        ),
                         isUserBuyer
-                            ? Get.offAll(BuyerHomeScreen())
-                            : Get.offAll(SellerHomeScreen());
-                      },
+                            ? Container()
+                            : const CircularStepProgressIndicatorWidget(
+                                totalSteps: 5,
+                                currentStep: 3,
+                              ),
+                      ],
                     ),
                   ),
                 ],
               ),
-              const SizedBox(
-                height: SizeManager.sizeXL,
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(
-                    horizontal: MarginManager.marginM),
-                child: Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Obx(
-                            () => Txt(
-                              text: controller.productName == ""
-                                  ? product.name.capitalizeFirstOfEach
-                                  : controller
-                                      .productName.capitalizeFirstOfEach,
-                              fontWeight: FontWeightManager.bold,
-                              fontSize: FontSize.headerFontSize * 0.8,
-                              fontFamily: FontsManager.fontFamilyPoppins,
-                            ),
-                          ),
-                          Txt(
-                            text: "\$ ${product.price.toString()}",
-                            fontWeight: FontWeightManager.semibold,
-                            fontSize: FontSize.textFontSize,
-                            fontFamily: FontsManager.fontFamilyPoppins,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Obx(
-                        () => Txt(
-                          text: controller.productDescription == ""
-                              ? product.description.capitalize
-                              : controller.productDescription.capitalize,
-                          fontWeight: FontWeightManager.medium,
-                          fontSize: FontSize.textFontSize * 0.8,
-                          fontFamily: FontsManager.fontFamilyPoppins,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: SizeManager.sizeL,
-                    ),
-                    isUserBuyer
-                        ? Container()
-                        : const CircularStepProgressIndicatorWidget(
-                            totalSteps: 5,
-                            currentStep: 3,
-                          ),
-                    isUserBuyer
-                        ? Row(
-                            children: [
-                              InkWell(
-                                onTap: () {},
-                                child: Container(
-                                  width: 45,
-                                  height: 45,
-                                  color: ColorsManager.lightGreyColor
-                                      .withOpacity(0.3),
-                                  child: const Icon(Icons.favorite_border,
-                                      color: ColorsManager.secondaryColor),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 2,
-                              ),
-                              Expanded(
-                                child: InkWell(
-                                  onTap: () {
-                                    cartController.addToCart(product.id,
-                                        product.name, product.price.toString());
-                                  },
-                                  child: Container(
-                                    height: 45,
-                                    width: double.infinity,
-                                    alignment: Alignment.center,
-                                    color: ColorsManager.secondaryColor,
-                                    child: const Txt(
-                                      text: "Add to cart",
-                                      color: ColorsManager.scaffoldBgColor,
-                                      fontWeight: FontWeightManager.bold,
-                                      fontSize: FontSize.titleFontSize * 0.75,
-                                      fontFamily:
-                                          FontsManager.fontFamilyPoppins,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Container(),
-                  ],
-                ),
-              )
-            ],
-          ),
+            ),
+          ],
         ),
         floatingActionButton: isUserBuyer
             ? null
@@ -230,6 +193,47 @@ class ProductOverviewScreen extends StatelessWidget {
                   ),
                 ],
               ),
+        persistentFooterButtons: isUserBuyer
+            ? [
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        width: 45,
+                        height: 45,
+                        color: ColorsManager.lightGreyColor.withOpacity(0.3),
+                        child: const Icon(Icons.favorite_border,
+                            color: ColorsManager.secondaryColor),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          cartController.addToCart(product.id, product.name,
+                              product.price.toString());
+                        },
+                        child: Container(
+                          height: 45,
+                          alignment: Alignment.center,
+                          color: ColorsManager.secondaryColor,
+                          child: const Txt(
+                            text: "Add to cart",
+                            color: ColorsManager.scaffoldBgColor,
+                            fontWeight: FontWeightManager.bold,
+                            fontSize: FontSize.titleFontSize * 0.75,
+                            fontFamily: FontsManager.fontFamilyPoppins,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ]
+            : null,
       ),
     );
   }

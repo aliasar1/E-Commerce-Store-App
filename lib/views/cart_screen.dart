@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../controllers/cart_controller.dart';
+import '../controllers/orders_controller.dart';
 import '../utils/exports/managers_exports.dart';
 import '../widgets/buyer_home_drawer.dart';
 
@@ -14,6 +15,7 @@ class CartScreen extends StatelessWidget {
 
   final AuthenticateController authController;
   final CartController cartController = Get.put(CartController());
+  final OrderController orderController = Get.put(OrderController());
 
   @override
   Widget build(BuildContext context) {
@@ -145,27 +147,16 @@ class CartScreen extends StatelessWidget {
         const SizedBox(width: 8),
         TextButton(
           onPressed: () {
-            // if (cart.items.isNotEmpty) {
-            //   Provider.of<Orders>(context,
-            //           listen: false)
-            //       .addOrder(
-            //     cart.items.values.toList(),
-            //     cart.totalAmount,
-            //   );
-            //   cart.clear();
-            // } else {
-            //   ScaffoldMessenger.of(context)
-            //       .hideCurrentSnackBar();
-            //   ScaffoldMessenger.of(context)
-            //       .showSnackBar(
-            //     const SnackBar(
-            //       content: Text(
-            //         'Add products to cart first to order.',
-            //       ),
-            //       duration: Duration(seconds: 2),
-            //     ),
-            //   );
-            // }
+            if (cartController.cartItems.isNotEmpty) {
+              orderController.placeOrder(
+                  cartController.cartItems, cartController.totalAmount);
+              cartController.clear();
+            } else {
+              Get.snackbar(
+                'Failed!',
+                'Add items first to place an order.',
+              );
+            }
           },
           style: ButtonStyle(
             foregroundColor:
