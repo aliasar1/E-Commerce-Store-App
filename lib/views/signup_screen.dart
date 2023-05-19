@@ -134,8 +134,8 @@ class SignupScreen extends StatelessWidget {
                             : Icons.visibility_off_rounded,
                         onSuffixTap: controller.toggleVisibility,
                         textInputAction: TextInputAction.done,
-                        onFieldSubmit: (_) {
-                          controller.signUpUser(
+                        onFieldSubmit: (_) async {
+                          await controller.signUpUser(
                             email: controller.emailController.text,
                             name: controller.nameController.text,
                             password: controller.passwordController.text,
@@ -166,8 +166,8 @@ class SignupScreen extends StatelessWidget {
                                 ),
                               )
                             : null,
-                        onPressed: () {
-                          controller.signUpUser(
+                        onPressed: () async {
+                          await controller.signUpUser(
                             email: controller.emailController.text,
                             name: controller.nameController.text,
                             password: controller.passwordController.text,

@@ -23,6 +23,7 @@ class BuyerHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isUserBuyer = authController.getUserType() == "Buyer" ? true : false;
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorsManager.scaffoldBgColor,
@@ -66,6 +67,7 @@ class BuyerHomeScreen extends StatelessWidget {
                             return ProductsCard(
                               prod: prod,
                               controller: productController,
+                              isUserBuyer: isUserBuyer,
                             );
                           },
                           gridDelegate:
@@ -93,6 +95,7 @@ class BuyerHomeScreen extends StatelessWidget {
                             return ProductsCard(
                               prod: prod,
                               controller: productController,
+                              isUserBuyer: isUserBuyer,
                             );
                           },
                           gridDelegate:

@@ -46,7 +46,6 @@ class ProductController extends GetxController {
       final currentUserID = firebaseAuth.currentUser?.uid;
 
       _products.value = products;
-
       if (currentUserID != null) {
         _myProducts.value = products
             .where((product) => product.ownerId == currentUserID)

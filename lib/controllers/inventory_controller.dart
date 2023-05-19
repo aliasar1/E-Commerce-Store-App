@@ -5,7 +5,6 @@ import '../models/product_model.dart';
 
 class InventoryController extends GetxController {
   final RxList<Product> _products = RxList<Product>([]);
-
   List<Product> get products => _products;
 
   @override
@@ -38,5 +37,13 @@ class InventoryController extends GetxController {
     } catch (error) {
       Get.snackbar('Error!', 'Failed to decrement stock quantity.');
     }
+  }
+
+  int getProductStockQuantity(String productId) {
+    final product = _products.firstWhere(
+      (product) => product.id == productId,
+    );
+
+    return product.stockQuantity;
   }
 }

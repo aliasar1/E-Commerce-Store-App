@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../controllers/cart_controller.dart';
 import '../controllers/product_controller.dart';
 import '../utils/exports/managers_exports.dart';
 import '../widgets/custom_text.dart';
@@ -26,6 +27,7 @@ class SellerHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isUserBuyer = authController.getUserType() == "Buyer" ? true : false;
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorsManager.scaffoldBgColor,
@@ -71,6 +73,7 @@ class SellerHomeScreen extends StatelessWidget {
                               ? ProductsCard(
                                   prod: prod,
                                   controller: productController,
+                                  isUserBuyer: isUserBuyer,
                                 )
                               : Container();
                         },
@@ -96,10 +99,13 @@ class SellerHomeScreen extends StatelessWidget {
                         itemCount: productController.myProducts.length,
                         itemBuilder: (ctx, i) {
                           final prod = productController.myProducts[i];
-                          return ProductsCard(
-                            prod: prod,
-                            controller: productController,
-                          );
+                          return firebaseAuth.currentUser!.uid == prod.ownerId
+                              ? ProductsCard(
+                                  prod: prod,
+                                  controller: productController,
+                                  isUserBuyer: isUserBuyer,
+                                )
+                              : Container();
                         },
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
@@ -131,14 +137,17 @@ class SellerHomeScreen extends StatelessWidget {
 }
 
 class ProductsCard extends StatelessWidget {
-  const ProductsCard({
+  ProductsCard({
     Key? key,
     required this.prod,
     required this.controller,
+    required this.isUserBuyer,
   }) : super(key: key);
 
   final Product prod;
   final ProductController controller;
+  final bool isUserBuyer;
+  final cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
@@ -209,13 +218,46 @@ class ProductsCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 5),
-            Text(
-              '\$ ${prod.price}',
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
+            if (isUserBuyer && (firebaseAuth.currentUser!.uid != prod.ownerId))
+              Container(
+                margin: const EdgeInsets.symmetric(
+                    horizontal: MarginManager.marginS),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      '\$ ${prod.price}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeightManager.medium,
+                        color: ColorsManager.primaryColor.withOpacity(0.8),
+                      ),
+                    ),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        cartController.addToCart(prod.id, prod.name,
+                            prod.price.toString(), prod.ownerId);
+                      },
+                      child: const Icon(
+                        Icons.add_shopping_cart,
+                        color: ColorsManager.secondaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else
+              Center(
+                child: Text(
+                  '\$ ${prod.price}',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeightManager.medium,
+                    color: ColorsManager.primaryColor.withOpacity(0.8),
+                  ),
+                ),
               ),
-            ),
           ],
         ),
       ),

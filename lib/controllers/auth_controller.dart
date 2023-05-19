@@ -84,7 +84,7 @@ class AuthenticateController extends GetxController with CacheManager {
             .doc(cred.user!.uid)
             .set(user.toJson());
         toggleLoading();
-        Get.offAll(LoginScreen());
+        Get.offAll(const LoginScreen());
         Get.snackbar(
           'Success!',
           'Account created successfully.',

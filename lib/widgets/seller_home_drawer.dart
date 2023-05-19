@@ -1,4 +1,5 @@
 import 'package:e_commerce_shopping_app/views/login_screen.dart';
+import 'package:e_commerce_shopping_app/views/orders_sceen.dart';
 import 'package:e_commerce_shopping_app/views/profile_screen.dart';
 import 'package:e_commerce_shopping_app/views/seller_home_screen.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,9 @@ class _SellerHomeDrawerState extends State<SellerHomeDrawer> {
                   buildDrawerTile("My Products", Icons.list_alt, () {
                     Get.offAll(SellerHomeScreen());
                   }),
-                  buildDrawerTile("Orders", Icons.local_shipping, () {}),
+                  buildDrawerTile("Orders", Icons.local_shipping, () {
+                    Get.offAll(OrdersScreen());
+                  }),
                   buildDrawerTile("Logout", Icons.logout, () {
                     buildLogoutDialog();
                   }),

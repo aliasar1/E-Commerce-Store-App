@@ -14,6 +14,7 @@ class StringsManager {
   static const String myCartTxt = "My Cart";
   static const String myOrdersTxt = "My Orders";
   static const String favouriteTxt = "Favourite Products";
+  static const String ordersPlacedTxt = "Orders Log";
 
   //////////////////////////
   static const String searchEventTxt = "Search Event";

@@ -10,6 +10,10 @@ class OrderController extends GetxController {
 
   List<OrderItem> get orders => _orders.toList();
 
+  final RxList<OrderItem> _sellerOrders = <OrderItem>[].obs;
+
+  List<OrderItem> get sellerOrders => _sellerOrders.toList();
+
   Rx<bool> isLoading = false.obs;
 
   @override
@@ -17,6 +21,7 @@ class OrderController extends GetxController {
     isLoading.value = true;
     super.onInit();
     fetchOrders();
+    fetchUserOrders();
   }
 
   Future<void> fetchOrders() async {
@@ -37,7 +42,6 @@ class OrderController extends GetxController {
         error.toString(),
       );
     }
-    isLoading.value = false;
   }
 
   Future<void> placeOrder(List<CartItem> cartItems, double totalAmount) async {
@@ -75,5 +79,23 @@ class OrderController extends GetxController {
         error.toString(),
       );
     }
+  }
+
+  Future<void> fetchUserOrders() async {
+    var currentUserID = firebaseAuth.currentUser!.uid;
+    var querySnapshot = await firestore.collection('orders').get();
+
+    for (var doc in querySnapshot.docs) {
+      var userOrdersSnapshot = await doc.reference
+          .collection('user_orders')
+          .where('ownerId', isEqualTo: currentUserID)
+          .get();
+
+      for (var userOrderDoc in userOrdersSnapshot.docs) {
+        var orderItem = OrderItem.fromJson(userOrderDoc.data());
+        _sellerOrders.add(orderItem);
+      }
+    }
+    isLoading.value = false;
   }
 }

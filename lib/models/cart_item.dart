@@ -6,6 +6,7 @@ class CartItem {
   int quantity;
   final double price;
   final String productId;
+  final String ownerId;
 
   CartItem({
     required this.id,
@@ -13,6 +14,7 @@ class CartItem {
     required this.quantity,
     required this.price,
     required this.productId,
+    required this.ownerId,
   });
 
   Map<String, dynamic> toJson() => {
@@ -21,6 +23,7 @@ class CartItem {
         "quantity": quantity,
         "price": price,
         "productId": productId,
+        "ownerId": ownerId,
       };
 
   static CartItem fromSnap(DocumentSnapshot snap) {
@@ -31,6 +34,7 @@ class CartItem {
       quantity: snapshot['quantity'],
       price: snapshot['price'],
       productId: snapshot['productId'],
+      ownerId: snapshot['ownerId'],
     );
   }
 
@@ -41,6 +45,7 @@ class CartItem {
       quantity: map['quantity'],
       price: map['price'],
       productId: map['productId'],
+      ownerId: map['ownerId'],
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:e_commerce_shopping_app/controllers/auth_controller.dart';
-import 'package:e_commerce_shopping_app/utils/extension.dart';
 import 'package:e_commerce_shopping_app/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +8,7 @@ import '../controllers/cart_controller.dart';
 import '../controllers/orders_controller.dart';
 import '../utils/exports/managers_exports.dart';
 import '../widgets/buyer_home_drawer.dart';
+import '../widgets/cart_item_card.dart';
 
 class CartScreen extends StatelessWidget {
   CartScreen({Key? key, required this.authController}) : super(key: key);
@@ -70,43 +70,7 @@ class CartScreen extends StatelessWidget {
                         itemCount: cartController.cartItems.length,
                         itemBuilder: (ctx, i) {
                           final item = items[i];
-                          return Card(
-                            margin: const EdgeInsets.symmetric(
-                                vertical: MarginManager.marginS * 0.8),
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                backgroundColor: ColorsManager.secondaryColor,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: FittedBox(
-                                    child: Txt(
-                                      text:
-                                          '\$ ${item.price.toStringAsFixed(1)}',
-                                      fontWeight: FontWeightManager.medium,
-                                      color: ColorsManager.whiteColor,
-                                      fontSize: FontSize.subTitleFontSize,
-                                      fontFamily:
-                                          FontsManager.fontFamilyPoppins,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              title: Txt(
-                                text: item.name.capitalizeFirstOfEach,
-                                fontWeight: FontWeightManager.medium,
-                                color: ColorsManager.primaryColor,
-                                fontFamily: FontsManager.fontFamilyPoppins,
-                              ),
-                              subtitle: Txt(
-                                text:
-                                    'Total: \$${(item.price * item.quantity)}',
-                                color:
-                                    ColorsManager.primaryColor.withOpacity(0.7),
-                                fontFamily: FontsManager.fontFamilyPoppins,
-                              ),
-                              trailing: Text('${item.quantity} x'),
-                            ),
-                          );
+                          return CartItemCard(item: item);
                         },
                       );
                     } else {

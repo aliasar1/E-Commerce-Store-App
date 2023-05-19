@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../controllers/cart_controller.dart';
+import '../controllers/inventory_controller.dart';
 import '../models/product_model.dart';
 import '../utils/exports/managers_exports.dart';
 import '../widgets/custom_text.dart';
@@ -22,6 +23,7 @@ class ProductOverviewScreen extends StatelessWidget {
 
   final authController = Get.put(AuthenticateController());
   final cartController = Get.put(CartController());
+  final inventoryController = Get.put(InventoryController());
 
   @override
   Widget build(BuildContext context) {
@@ -112,13 +114,41 @@ class ProductOverviewScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(
-                          height: SizeManager.sizeL,
+                          height: SizeManager.sizeL * 4,
                         ),
                         isUserBuyer
                             ? Container()
-                            : const CircularStepProgressIndicatorWidget(
-                                totalSteps: 5,
-                                currentStep: 3,
+                            : Column(
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(bottom: 8),
+                                    child: const Txt(
+                                      text: 'Total Stock Left',
+                                      fontWeight: FontWeightManager.medium,
+                                      fontSize: FontSize.textFontSize,
+                                      fontFamily:
+                                          FontsManager.fontFamilyPoppins,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[200],
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Txt(
+                                      text: inventoryController
+                                          .getProductStockQuantity(product.id)
+                                          .toString(),
+                                      fontWeight: FontWeightManager.bold,
+                                      color: ColorsManager.secondaryColor,
+                                      fontSize: FontSize.titleFontSize,
+                                      fontFamily:
+                                          FontsManager.fontFamilyPoppins,
+                                    ),
+                                  ),
+                                ],
                               ),
                       ],
                     ),
@@ -193,7 +223,8 @@ class ProductOverviewScreen extends StatelessWidget {
                   ),
                 ],
               ),
-        persistentFooterButtons: isUserBuyer
+        persistentFooterButtons: isUserBuyer &&
+                (firebaseAuth.currentUser!.uid != product.ownerId)
             ? [
                 Row(
                   children: [
@@ -214,7 +245,7 @@ class ProductOverviewScreen extends StatelessWidget {
                       child: InkWell(
                         onTap: () {
                           cartController.addToCart(product.id, product.name,
-                              product.price.toString());
+                              product.price.toString(), product.ownerId);
                         },
                         child: Container(
                           height: 45,

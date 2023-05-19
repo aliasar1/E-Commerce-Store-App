@@ -44,13 +44,15 @@ class CartController extends GetxController {
     return total;
   }
 
-  Future<void> addToCart(String productId, String name, String price) async {
+  Future<void> addToCart(
+      String productId, String name, String price, String ownerId) async {
     var newItem = CartItem(
       id: DateTime.now().toString(),
       name: name,
       quantity: 1,
       price: double.parse(price),
       productId: productId,
+      ownerId: ownerId,
     );
 
     var userDocRef =
@@ -81,5 +83,28 @@ class CartController extends GetxController {
 
   void clear() {
     _cartItems.clear();
+  }
+
+  Future<void> removeFromCart(String productId) async {
+    var userDocRef =
+        firestore.collection('cartItems').doc(firebaseAuth.currentUser!.uid);
+    var userDoc = await userDocRef.get();
+
+    if (userDoc.exists) {
+      var cartItems =
+          List<Map<String, dynamic>>.from(userDoc.data()?['items'] ?? []);
+      var existingItemIndex =
+          cartItems.indexWhere((item) => item['productId'] == productId);
+      print(cartItems.length);
+      if (existingItemIndex != -1) {
+        cartItems.removeAt(existingItemIndex);
+        await userDocRef.update({'items': cartItems});
+        Get.snackbar('Success!', 'Item removed from cart.');
+      } else {
+        Get.snackbar('Error!', 'Item not found in cart.');
+      }
+    } else {
+      Get.snackbar('Error!', 'Cart not found.');
+    }
   }
 }
