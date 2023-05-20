@@ -13,6 +13,7 @@ import '../controllers/inventory_controller.dart';
 import '../models/product_model.dart';
 import '../utils/exports/managers_exports.dart';
 import '../widgets/custom_text.dart';
+import '../widgets/fav_icon.dart';
 
 class ProductOverviewScreen extends StatelessWidget {
   ProductOverviewScreen(
@@ -223,48 +224,47 @@ class ProductOverviewScreen extends StatelessWidget {
                   ),
                 ],
               ),
-        persistentFooterButtons: isUserBuyer &&
-                (firebaseAuth.currentUser!.uid != product.ownerId)
-            ? [
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        width: 45,
-                        height: 45,
-                        color: ColorsManager.lightGreyColor.withOpacity(0.3),
-                        child: const Icon(Icons.favorite_border,
-                            color: ColorsManager.secondaryColor),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          cartController.addToCart(product.id, product.name,
-                              product.price.toString(), product.ownerId);
-                        },
-                        child: Container(
+        persistentFooterButtons:
+            isUserBuyer && (firebaseAuth.currentUser!.uid != product.ownerId)
+                ? [
+                    Row(
+                      children: [
+                        Container(
+                          width: 45,
                           height: 45,
-                          alignment: Alignment.center,
-                          color: ColorsManager.secondaryColor,
-                          child: const Txt(
-                            text: "Add to cart",
-                            color: ColorsManager.scaffoldBgColor,
-                            fontWeight: FontWeightManager.bold,
-                            fontSize: FontSize.titleFontSize * 0.75,
-                            fontFamily: FontsManager.fontFamilyPoppins,
+                          color: ColorsManager.lightGreyColor.withOpacity(0.3),
+                          child: FavoriteIcon(
+                            product: product,
+                            productController: controller,
                           ),
                         ),
-                      ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              cartController.addToCart(product.id, product.name,
+                                  product.price.toString(), product.ownerId);
+                            },
+                            child: Container(
+                              height: 45,
+                              alignment: Alignment.center,
+                              color: ColorsManager.secondaryColor,
+                              child: const Txt(
+                                text: "Add to cart",
+                                color: ColorsManager.scaffoldBgColor,
+                                fontWeight: FontWeightManager.bold,
+                                fontSize: FontSize.titleFontSize * 0.75,
+                                fontFamily: FontsManager.fontFamilyPoppins,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ]
-            : null,
+                  ]
+                : null,
       ),
     );
   }

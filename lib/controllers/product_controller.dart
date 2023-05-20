@@ -182,6 +182,55 @@ class ProductController extends GetxController {
     await firebaseStorage.ref().child('products').child(productId).delete();
   }
 
+  Future<void> toggleFavoriteStatus(Product product) async {
+    try {
+      var userDocRef =
+          firestore.collection('favorites').doc(firebaseAuth.currentUser!.uid);
+      var userDoc = await userDocRef.get();
+
+      if (userDoc.exists) {
+        var productDoc = userDocRef.collection('products').doc(product.id);
+        var productData = await productDoc.get();
+
+        if (productData.exists) {
+          await productDoc.delete();
+          Get.snackbar('Success!', 'Product removed from favorites.');
+        } else {
+          await productDoc.set(product.toJson());
+          Get.snackbar('Success!', 'Product added to favorites.');
+        }
+      } else {
+        await userDocRef.set({});
+        await userDocRef
+            .collection('products')
+            .doc(product.id)
+            .set(product.toJson());
+        Get.snackbar('Success!', 'Product added to favorites.');
+      }
+    } catch (error) {
+      Get.snackbar('Failure!', error.toString());
+    }
+  }
+
+  Future<bool> getFavoriteStatus(String productId) async {
+    try {
+      var userDocRef =
+          firestore.collection('favorites').doc(firebaseAuth.currentUser!.uid);
+      var userDoc = await userDocRef.get();
+
+      if (userDoc.exists) {
+        var productDoc =
+            await userDocRef.collection('products').doc(productId).get();
+        return productDoc.exists;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      Get.snackbar('Error', error.toString());
+      return false;
+    }
+  }
+
   void resetFields() {
     productCategoryController.clear();
     productPriceController.clear();
