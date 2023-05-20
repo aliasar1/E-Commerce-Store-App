@@ -3,6 +3,7 @@ import 'package:e_commerce_shopping_app/controllers/product_controller.dart';
 import 'package:e_commerce_shopping_app/utils/extension.dart';
 import 'package:e_commerce_shopping_app/views/add_product_screen.dart';
 import 'package:e_commerce_shopping_app/views/buyer_home_screen.dart';
+import 'package:e_commerce_shopping_app/views/favourites_screen.dart';
 import 'package:e_commerce_shopping_app/views/seller_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,10 +18,14 @@ import '../widgets/fav_icon.dart';
 
 class ProductOverviewScreen extends StatelessWidget {
   ProductOverviewScreen(
-      {super.key, required this.product, required this.controller});
+      {super.key,
+      required this.product,
+      required this.controller,
+      this.isFav = false});
 
   final Product product;
   final ProductController controller;
+  final bool isFav;
 
   final authController = Get.put(AuthenticateController());
   final cartController = Get.put(CartController());
@@ -61,7 +66,9 @@ class ProductOverviewScreen extends StatelessWidget {
                           ),
                           onPressed: () {
                             isUserBuyer
-                                ? Get.offAll(BuyerHomeScreen())
+                                ? isFav
+                                    ? Get.offAll(FavouriteScreen())
+                                    : Get.offAll(BuyerHomeScreen())
                                 : Get.offAll(SellerHomeScreen());
                           },
                         ),

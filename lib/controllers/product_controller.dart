@@ -10,12 +10,13 @@ import '../models/product_model.dart';
 
 class ProductController extends GetxController {
   final RxList<Product> _products = RxList<Product>([]);
-
   List<Product> get products => _products;
 
   final RxList<Product> _myProducts = RxList<Product>([]);
-
   List<Product> get myProducts => _myProducts;
+
+  final RxList<Product> _favProducts = RxList<Product>([]);
+  List<Product> get favProducts => _favProducts;
 
   final productNameController = TextEditingController();
   final productDescriptionController = TextEditingController();
@@ -38,20 +39,15 @@ class ProductController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     firestore.collection('products').snapshots().listen((querySnapshot) {
       final products = querySnapshot.docs
           .map((doc) => Product.fromSnap(doc))
           .toList(growable: false);
 
-      final currentUserID = firebaseAuth.currentUser?.uid;
-
       _products.value = products;
-      if (currentUserID != null) {
-        _myProducts.value = products
-            .where((product) => product.ownerId == currentUserID)
-            .toList(growable: false);
-      }
     });
+    fetchFavoriteProducts(firebaseAuth.currentUser!.uid);
   }
 
   void toggleLoading() {
@@ -207,6 +203,7 @@ class ProductController extends GetxController {
             .set(product.toJson());
         Get.snackbar('Success!', 'Product added to favorites.');
       }
+      fetchFavoriteProducts(firebaseAuth.currentUser!.uid);
     } catch (error) {
       Get.snackbar('Failure!', error.toString());
     }
@@ -228,6 +225,30 @@ class ProductController extends GetxController {
     } catch (error) {
       Get.snackbar('Error', error.toString());
       return false;
+    }
+  }
+
+  Future<List<Product>> fetchFavoriteProducts(String userId) async {
+    try {
+      var userDocRef = firestore.collection('favorites').doc(userId);
+      var userDoc = await userDocRef.get();
+
+      if (userDoc.exists) {
+        var productsCollection = userDocRef.collection('products');
+        var productsSnapshot = await productsCollection.get();
+
+        var favoriteProducts = productsSnapshot.docs.map((doc) {
+          var productData = doc.data();
+          return Product.fromMap(productData);
+        }).toList();
+
+        return favoriteProducts;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      Get.snackbar('Failure!', error.toString());
+      return [];
     }
   }
 

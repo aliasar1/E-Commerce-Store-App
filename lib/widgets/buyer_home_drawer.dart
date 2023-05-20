@@ -1,4 +1,5 @@
 import 'package:e_commerce_shopping_app/controllers/auth_controller.dart';
+import 'package:e_commerce_shopping_app/controllers/product_controller.dart';
 import 'package:e_commerce_shopping_app/views/buyer_home_screen.dart';
 import 'package:e_commerce_shopping_app/views/cart_screen.dart';
 import 'package:e_commerce_shopping_app/views/favourites_screen.dart';
@@ -6,6 +7,7 @@ import 'package:e_commerce_shopping_app/views/orders_history_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controllers/cart_controller.dart';
 import '../controllers/profile_controller.dart';
 import '../models/user_model.dart';
 import '../utils/exports/managers_exports.dart';
@@ -25,11 +27,14 @@ class BuyerHomeDrawer extends StatefulWidget {
 
 class _BuyerHomeDrawerState extends State<BuyerHomeDrawer> {
   final profileController = Get.put(ProfileController());
+  final prodController = Get.put(ProductController());
+  final cartController = Get.put(CartController());
 
   @override
   void initState() {
     super.initState();
     profileController.updateUserId(firebaseAuth.currentUser!.uid);
+    cartController.initializeCartItems();
   }
 
   @override

@@ -15,25 +15,37 @@ class CartController extends GetxController {
   Rx<bool> isLoading = false.obs;
 
   @override
-  void onInit() async {
-    isLoading.value = true;
-    await initializeCartItems();
+  void onInit() {
     super.onInit();
+    isLoading.value = true;
+    initializeCartItems();
   }
 
   Future<void> initializeCartItems() async {
-    var userDocRef =
-        firestore.collection('cartItems').doc(firebaseAuth.currentUser!.uid);
-    var userDoc = await userDocRef.get();
+    isLoading.value = true;
 
-    if (userDoc.exists) {
-      var cartItemsData =
-          List<Map<String, dynamic>>.from(userDoc.data()?['items'] ?? []);
-      var cartItems =
-          cartItemsData.map((itemData) => CartItem.fromMap(itemData)).toList();
-      _cartItems.addAll(cartItems);
+    try {
+      var userDocRef =
+          firestore.collection('cartItems').doc(firebaseAuth.currentUser!.uid);
+      var userDoc = await userDocRef.get();
+
+      if (userDoc.exists) {
+        var cartItemsData =
+            List<Map<String, dynamic>>.from(userDoc.data()?['items'] ?? []);
+        var cartItems = cartItemsData
+            .map((itemData) => CartItem.fromMap(itemData))
+            .toList();
+
+        _cartItems.assignAll(cartItems);
+      } else {
+        _cartItems.clear();
+      }
+
+      isLoading.value = false;
+    } catch (error) {
+      Get.snackbar('Error!', 'Failed to load cart items.');
+      isLoading.value = false;
     }
-    isLoading.value = false;
   }
 
   double get totalAmount {
