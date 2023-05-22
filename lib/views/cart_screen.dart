@@ -50,7 +50,7 @@ class CartScreen extends StatelessWidget {
                   if (cartController.isLoading.value) {
                     return Container();
                   } else {
-                    return buildTotalBar(cartController.totalAmount);
+                    return buildTotalBar(cartController);
                   }
                 },
               ),
@@ -70,7 +70,10 @@ class CartScreen extends StatelessWidget {
                         itemCount: cartController.cartItems.length,
                         itemBuilder: (ctx, i) {
                           final item = items[i];
-                          return CartItemCard(item: item);
+                          return CartItemCard(
+                            item: item,
+                            cartController: cartController,
+                          );
                         },
                       );
                     } else {
@@ -88,7 +91,7 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget buildTotalBar(double totalAmount) {
+  Widget buildTotalBar(CartController controller) {
     return Row(
       children: [
         const Expanded(
@@ -103,7 +106,7 @@ class CartScreen extends StatelessWidget {
         Chip(
           backgroundColor: ColorsManager.secondaryColor,
           label: Txt(
-            text: totalAmount.toStringAsFixed(1),
+            text: controller.total.toStringAsFixed(1),
             fontFamily: FontsManager.fontFamilyPoppins,
             fontSize: FontSize.textFontSize,
           ),
@@ -111,10 +114,10 @@ class CartScreen extends StatelessWidget {
         const SizedBox(width: 8),
         TextButton(
           onPressed: () {
-            if (cartController.cartItems.isNotEmpty) {
+            if (controller.cartItems.isNotEmpty) {
               orderController.placeOrder(
-                  cartController.cartItems, cartController.totalAmount);
-              cartController.clear();
+                  controller.cartItems, controller.total);
+              controller.clear();
             } else {
               Get.snackbar(
                 'Failed!',

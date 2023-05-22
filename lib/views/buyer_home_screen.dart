@@ -12,14 +12,27 @@ import '../utils/exports/managers_exports.dart';
 import '../widgets/custom_search.dart';
 import '../widgets/custom_text.dart';
 
-class BuyerHomeScreen extends StatelessWidget {
-  BuyerHomeScreen({super.key});
+class BuyerHomeScreen extends StatefulWidget {
+  const BuyerHomeScreen({super.key});
 
+  @override
+  State<BuyerHomeScreen> createState() => _BuyerHomeScreenState();
+}
+
+class _BuyerHomeScreenState extends State<BuyerHomeScreen> {
   final ProductController productController = Get.put(ProductController());
+
   final ctrl.SearchController searchController =
       Get.put(ctrl.SearchController());
+
   final AuthenticateController authController =
       Get.put(AuthenticateController());
+
+  @override
+  void dispose() {
+    Get.delete<SearchController>();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +70,15 @@ class BuyerHomeScreen extends StatelessWidget {
                 const SizedBox(height: 12),
                 Obx(
                   () {
-                    if (searchController.searchedProducts.isNotEmpty) {
+                    if (productController.isLoading.value) {
+                      return const Expanded(
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: ColorsManager.secondaryColor,
+                          ),
+                        ),
+                      );
+                    } else if (searchController.searchedProducts.isNotEmpty) {
                       return Expanded(
                         child: GridView.builder(
                           padding: const EdgeInsets.all(10.0),

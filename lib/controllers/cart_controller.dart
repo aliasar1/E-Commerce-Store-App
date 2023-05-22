@@ -14,6 +14,9 @@ class CartController extends GetxController {
 
   Rx<bool> isLoading = false.obs;
 
+  final RxDouble _total = 0.0.obs;
+  double get total => _total.value;
+
   @override
   void onInit() {
     super.onInit();
@@ -42,18 +45,19 @@ class CartController extends GetxController {
       }
 
       isLoading.value = false;
+      totalAmount();
     } catch (error) {
       Get.snackbar('Error!', 'Failed to load cart items.');
       isLoading.value = false;
     }
   }
 
-  double get totalAmount {
-    var total = 0.0;
+  void totalAmount() {
+    double total = 0.0;
     for (int i = 0; i < cartItemsCount; i++) {
-      total = total + (cartItems[i].price * cartItems[i].quantity);
+      total += cartItems[i].price * cartItems[i].quantity;
     }
-    return total;
+    _total.value = total;
   }
 
   Future<void> addToCart(
@@ -94,6 +98,7 @@ class CartController extends GetxController {
   }
 
   void clear() {
+    _total.value = 0;
     _cartItems.clear();
   }
 
@@ -107,7 +112,7 @@ class CartController extends GetxController {
           List<Map<String, dynamic>>.from(userDoc.data()?['items'] ?? []);
       var existingItemIndex =
           cartItems.indexWhere((item) => item['productId'] == productId);
-      print(cartItems.length);
+
       if (existingItemIndex != -1) {
         cartItems.removeAt(existingItemIndex);
         await userDocRef.update({'items': cartItems});
@@ -115,6 +120,9 @@ class CartController extends GetxController {
       } else {
         Get.snackbar('Error!', 'Item not found in cart.');
       }
+      _cartItems.assignAll(
+          cartItems.map((itemData) => CartItem.fromMap(itemData)).toList());
+      totalAmount();
     } else {
       Get.snackbar('Error!', 'Cart not found.');
     }

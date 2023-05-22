@@ -17,14 +17,27 @@ import '../widgets/fav_icon.dart';
 import '../widgets/seller_home_drawer.dart';
 import '../controllers/search_controller.dart' as ctrl;
 
-class SellerHomeScreen extends StatelessWidget {
-  SellerHomeScreen({Key? key}) : super(key: key);
+class SellerHomeScreen extends StatefulWidget {
+  const SellerHomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SellerHomeScreen> createState() => _SellerHomeScreenState();
+}
+
+class _SellerHomeScreenState extends State<SellerHomeScreen> {
   final ProductController productController = Get.put(ProductController());
+
   final ctrl.SearchController searchController =
       Get.put(ctrl.SearchController());
+
   final AuthenticateController authController =
       Get.put(AuthenticateController());
+
+  @override
+  void dispose() {
+    Get.delete<SearchController>();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,64 +74,68 @@ class SellerHomeScreen extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 12),
-              Obx(
-                () {
-                  if (searchController.searchedProducts.isNotEmpty) {
-                    return Expanded(
-                      child: GridView.builder(
-                        padding: const EdgeInsets.all(10.0),
-                        itemCount: searchController.searchedProducts.length,
-                        itemBuilder: (ctx, i) {
-                          final prod = searchController.searchedProducts[i];
-                          return firebaseAuth.currentUser!.uid == prod.ownerId
-                              ? ProductsCard(
-                                  prod: prod,
-                                  controller: productController,
-                                  isUserBuyer: isUserBuyer,
-                                )
-                              : Container();
-                        },
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
+              Obx(() {
+                if (productController.isLoading.value) {
+                  return const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: ColorsManager.secondaryColor,
                       ),
-                    );
-                  } else if (productController.myProducts.isEmpty) {
-                    return const Column(
-                      children: [
-                        SizedBox(height: SizeManager.sizeXL * 3),
-                        AddProductTemplate(),
-                      ],
-                    );
-                  } else {
-                    return Expanded(
-                      child: GridView.builder(
-                        padding: const EdgeInsets.all(10.0),
-                        itemCount: productController.myProducts.length,
-                        itemBuilder: (ctx, i) {
-                          final prod = productController.myProducts[i];
-                          return firebaseAuth.currentUser!.uid == prod.ownerId
-                              ? ProductsCard(
-                                  prod: prod,
-                                  controller: productController,
-                                  isUserBuyer: isUserBuyer,
-                                )
-                              : Container();
-                        },
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
+                    ),
+                  );
+                } else if (searchController.searchedProducts.isNotEmpty) {
+                  return Expanded(
+                    child: GridView.builder(
+                      padding: const EdgeInsets.all(10.0),
+                      itemCount: searchController.searchedProducts.length,
+                      itemBuilder: (ctx, i) {
+                        final prod = searchController.searchedProducts[i];
+                        return firebaseAuth.currentUser!.uid == prod.ownerId
+                            ? ProductsCard(
+                                prod: prod,
+                                controller: productController,
+                                isUserBuyer: isUserBuyer,
+                              )
+                            : Container();
+                      },
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
                       ),
-                    );
-                  }
-                },
-              ),
+                    ),
+                  );
+                } else if (productController.myProducts.isEmpty) {
+                  return const Column(
+                    children: [
+                      SizedBox(height: SizeManager.sizeXL * 3),
+                      AddProductTemplate(),
+                    ],
+                  );
+                } else {
+                  return Expanded(
+                    child: GridView.builder(
+                      padding: const EdgeInsets.all(10.0),
+                      itemCount: productController.myProducts.length,
+                      itemBuilder: (ctx, i) {
+                        final prod = productController.myProducts[i];
+                        return ProductsCard(
+                          prod: prod,
+                          controller: productController,
+                          isUserBuyer: isUserBuyer,
+                        );
+                      },
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                      ),
+                    ),
+                  );
+                }
+              }),
             ],
           ),
         ),

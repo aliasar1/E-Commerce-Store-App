@@ -38,16 +38,27 @@ class ProductController extends GetxController {
 
   @override
   void onInit() {
+    isLoading.value = true;
     super.onInit();
+    fetchProducts();
+    fetchFavoriteProducts(firebaseAuth.currentUser!.uid);
+    isLoading.value = false;
+  }
 
-    firestore.collection('products').snapshots().listen((querySnapshot) {
-      final products = querySnapshot.docs
-          .map((doc) => Product.fromSnap(doc))
-          .toList(growable: false);
+  void fetchProducts() {
+    firestore.collection('products').get().then((querySnapshot) {
+      final products = querySnapshot.docs.map((doc) {
+        final productData = doc.data();
+        final product = Product.fromMap(productData);
+
+        if (product.ownerId == firebaseAuth.currentUser!.uid) {
+          _myProducts.add(product);
+        }
+        return product;
+      }).toList();
 
       _products.value = products;
     });
-    fetchFavoriteProducts(firebaseAuth.currentUser!.uid);
   }
 
   void toggleLoading() {

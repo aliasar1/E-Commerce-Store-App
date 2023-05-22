@@ -79,7 +79,7 @@ class _SellerHomeDrawerState extends State<SellerHomeDrawer> {
                     ));
                   }),
                   buildDrawerTile("My Products", Icons.list_alt, () {
-                    Get.offAll(SellerHomeScreen());
+                    Get.offAll(const SellerHomeScreen());
                   }),
                   buildDrawerTile("Orders", Icons.local_shipping, () {
                     Get.offAll(OrdersScreen());
