@@ -5,6 +5,7 @@ import '../controllers/auth_controller.dart';
 import '../controllers/orders_controller.dart';
 import '../utils/exports/managers_exports.dart';
 import '../widgets/custom_text.dart';
+import '../widgets/order_card.dart';
 import '../widgets/seller_home_drawer.dart';
 
 class OrdersScreen extends StatelessWidget {
@@ -58,8 +59,10 @@ class OrdersScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(10.0),
                         itemCount: orderController.sellerOrders.length,
                         itemBuilder: (ctx, i) {
-                          return Txt(
-                              text: orderController.sellerOrders[i].amount);
+                          return OrderCard(
+                            orderController.sellerOrders[i],
+                            isSeller: true,
+                          );
                         },
                       ),
                     );

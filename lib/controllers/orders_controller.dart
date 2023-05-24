@@ -1,18 +1,22 @@
 import 'package:e_commerce_shopping_app/controllers/inventory_controller.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../models/cart_item.dart';
 import '../models/order_model.dart';
 import '../managers/firebase_manager.dart';
+// import '../models/user_model.dart';
 
 class OrderController extends GetxController {
   final inventoryController = Get.put(InventoryController());
   final RxList<OrderItem> _orders = <OrderItem>[].obs;
-
   List<OrderItem> get orders => _orders.toList();
 
   final RxList<OrderItem> _sellerOrders = <OrderItem>[].obs;
-
   List<OrderItem> get sellerOrders => _sellerOrders.toList();
+
+  final Rx<Map<String, dynamic>> _user = Rx<Map<String, dynamic>>({});
+  Map<String, dynamic> get user => _user.value;
 
   Rx<bool> isLoading = false.obs;
 
@@ -21,7 +25,8 @@ class OrderController extends GetxController {
     isLoading.value = true;
     super.onInit();
     fetchOrders();
-    fetchUserOrders();
+    fetchOrdersByOwner();
+    isLoading.value = false;
   }
 
   Future<void> fetchOrders() async {
@@ -44,8 +49,20 @@ class OrderController extends GetxController {
     }
   }
 
+  void getUserData() async {
+    DocumentSnapshot userDoc = await firestore
+        .collection('users')
+        .doc(firebaseAuth.currentUser!.uid)
+        .get();
+    _user.value = userDoc.data()! as dynamic;
+  }
+
   Future<void> placeOrder(List<CartItem> cartItems, double totalAmount) async {
     try {
+      final userId = firebaseAuth.currentUser!.uid;
+
+      final Map<String, List<CartItem>> ordersByOwner = {};
+
       var orderItem = OrderItem(
         id: DateTime.now().toString(),
         amount: totalAmount,
@@ -55,15 +72,53 @@ class OrderController extends GetxController {
 
       await firestore
           .collection('orders')
-          .doc(firebaseAuth.currentUser!.uid)
+          .doc(userId)
           .collection('user_orders')
           .doc(orderItem.id)
           .set(orderItem.toJson());
 
-      await firestore
-          .collection('cartItems')
-          .doc(firebaseAuth.currentUser!.uid)
-          .delete();
+      for (var cartItem in cartItems) {
+        final ownerId = cartItem.ownerId;
+
+        if (ordersByOwner.containsKey(ownerId)) {
+          ordersByOwner[ownerId]!.add(cartItem);
+        } else {
+          ordersByOwner[ownerId] = [cartItem];
+        }
+      }
+
+      for (var ownerId in ordersByOwner.keys) {
+        final orderItems = ordersByOwner[ownerId]!;
+        final orderItem = OrderItem(
+          id: DateTime.now().toString(),
+          amount: totalAmount,
+          products: orderItems,
+          dateTime: DateTime.now(),
+        );
+
+        await firestore
+            .collection('seller_orders')
+            .doc(ownerId)
+            .collection('user_orders')
+            .doc(orderItem.id)
+            .set(
+              orderItem.toJson(),
+            );
+
+        // getUserData();
+
+        // await firestore
+        //     .collection('seller_orders')
+        //     .doc(ownerId)
+        //     .collection('user_orders')
+        //     .doc(orderItem.id)
+        //     .set({
+        //   ...orderItem.toJson(),
+        //   'buyerInfo': User.fromMap(user),
+        // });
+      }
+
+      await firestore.collection('cartItems').doc(userId).delete();
 
       for (var cartItem in cartItems) {
         await inventoryController.decrementStockQuantity(cartItem.productId);
@@ -81,21 +136,18 @@ class OrderController extends GetxController {
     }
   }
 
-  Future<void> fetchUserOrders() async {
-    var currentUserID = firebaseAuth.currentUser!.uid;
-    var querySnapshot = await firestore.collection('orders').get();
+  Future<void> fetchOrdersByOwner() async {
+    final userId = firebaseAuth.currentUser!.uid;
 
-    for (var doc in querySnapshot.docs) {
-      var userOrdersSnapshot = await doc.reference
-          .collection('user_orders')
-          .where('ownerId', isEqualTo: currentUserID)
-          .get();
+    final querySnapshot = await firestore
+        .collection('seller_orders')
+        .doc(userId)
+        .collection('user_orders')
+        .orderBy('dateTime', descending: true)
+        .get();
 
-      for (var userOrderDoc in userOrdersSnapshot.docs) {
-        var orderItem = OrderItem.fromJson(userOrderDoc.data());
-        _sellerOrders.add(orderItem);
-      }
-    }
-    isLoading.value = false;
+    _sellerOrders.value = querySnapshot.docs
+        .map((doc) => OrderItem.fromJson(doc.data()))
+        .toList();
   }
 }

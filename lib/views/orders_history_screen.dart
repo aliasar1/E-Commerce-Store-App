@@ -59,7 +59,10 @@ class OrdersHistoryScreen extends StatelessWidget {
                           padding: const EdgeInsets.all(10.0),
                           itemCount: orderController.orders.length,
                           itemBuilder: (ctx, i) {
-                            return OrderCard(orderController.orders[i]);
+                            return OrderCard(
+                              orderController.orders[i],
+                              isSeller: false,
+                            );
                           },
                         ),
                       );
