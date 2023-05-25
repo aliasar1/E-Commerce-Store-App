@@ -3,10 +3,11 @@ import 'package:get/get.dart';
 
 import '../controllers/auth_controller.dart';
 import '../controllers/orders_controller.dart';
+import '../models/user_model.dart';
 import '../utils/exports/managers_exports.dart';
 import '../widgets/custom_text.dart';
-import '../widgets/order_card.dart';
 import '../widgets/seller_home_drawer.dart';
+import '../widgets/seller_orders_card.dart';
 
 class OrdersScreen extends StatelessWidget {
   OrdersScreen({super.key});
@@ -59,9 +60,10 @@ class OrdersScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(10.0),
                         itemCount: orderController.sellerOrders.length,
                         itemBuilder: (ctx, i) {
-                          return OrderCard(
+                          return SellerOrderCard(
                             orderController.sellerOrders[i],
-                            isSeller: true,
+                            buyer:
+                                User.fromMap(orderController.userOrderInfo[i]),
                           );
                         },
                       ),

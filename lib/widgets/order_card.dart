@@ -5,15 +5,13 @@ import 'package:e_commerce_shopping_app/utils/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../models/cart_item.dart';
 import '../utils/exports/managers_exports.dart';
 import 'custom_text.dart';
 
 class OrderCard extends StatefulWidget {
   final OrderItem order;
-  final bool isSeller;
 
-  const OrderCard(this.order, {super.key, required this.isSeller});
+  const OrderCard(this.order, {super.key});
 
   @override
   _OrderCardState createState() => _OrderCardState();
@@ -22,27 +20,15 @@ class OrderCard extends StatefulWidget {
 class _OrderCardState extends State<OrderCard> {
   var _expanded = false;
 
-  double calculateTotal(List<CartItem> cartItems) {
-    double total = 0;
-    for (var cartItem in cartItems) {
-      double productTotal = cartItem.quantity * cartItem.price;
-      total += productTotal;
-    }
-    return total;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final total = widget.isSeller ? calculateTotal(widget.order.products) : 0;
     return Card(
       margin: const EdgeInsets.symmetric(vertical: MarginManager.marginS * 0.8),
       child: Column(
         children: <Widget>[
           ListTile(
             title: Txt(
-              text: widget.isSeller
-                  ? '\$${total.toStringAsFixed(2)}'
-                  : '\$${widget.order.amount.toStringAsFixed(2)}',
+              text: '\$${widget.order.amount.toStringAsFixed(2)}',
               fontWeight: FontWeightManager.medium,
               color: ColorsManager.secondaryColor,
               fontSize: FontSize.textFontSize,

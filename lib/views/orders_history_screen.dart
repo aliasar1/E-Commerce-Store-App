@@ -61,7 +61,6 @@ class OrdersHistoryScreen extends StatelessWidget {
                           itemBuilder: (ctx, i) {
                             return OrderCard(
                               orderController.orders[i],
-                              isSeller: false,
                             );
                           },
                         ),

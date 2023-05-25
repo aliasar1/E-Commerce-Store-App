@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/cart_item.dart';
 import '../models/order_model.dart';
 import '../managers/firebase_manager.dart';
+import '../models/user_model.dart';
 // import '../models/user_model.dart';
 
 class OrderController extends GetxController {
@@ -17,6 +18,10 @@ class OrderController extends GetxController {
 
   final Rx<Map<String, dynamic>> _user = Rx<Map<String, dynamic>>({});
   Map<String, dynamic> get user => _user.value;
+
+  final RxList<Map<String, dynamic>> _userOrderInfo =
+      <Map<String, dynamic>>[].obs;
+  List<Map<String, dynamic>> get userOrderInfo => _userOrderInfo.toList();
 
   Rx<bool> isLoading = false.obs;
 
@@ -49,12 +54,12 @@ class OrderController extends GetxController {
     }
   }
 
-  void getUserData() async {
+  Future<void> getUserData() async {
     DocumentSnapshot userDoc = await firestore
         .collection('users')
         .doc(firebaseAuth.currentUser!.uid)
         .get();
-    _user.value = userDoc.data()! as dynamic;
+    _user.value = userDoc.data() as Map<String, dynamic>;
   }
 
   Future<void> placeOrder(List<CartItem> cartItems, double totalAmount) async {
@@ -62,6 +67,10 @@ class OrderController extends GetxController {
       final userId = firebaseAuth.currentUser!.uid;
 
       final Map<String, List<CartItem>> ordersByOwner = {};
+
+      await getUserData();
+
+      final bUser = User.fromMap(user);
 
       var orderItem = OrderItem(
         id: DateTime.now().toString(),
@@ -101,21 +110,10 @@ class OrderController extends GetxController {
             .doc(ownerId)
             .collection('user_orders')
             .doc(orderItem.id)
-            .set(
-              orderItem.toJson(),
-            );
-
-        // getUserData();
-
-        // await firestore
-        //     .collection('seller_orders')
-        //     .doc(ownerId)
-        //     .collection('user_orders')
-        //     .doc(orderItem.id)
-        //     .set({
-        //   ...orderItem.toJson(),
-        //   'buyerInfo': User.fromMap(user),
-        // });
+            .set({
+          ...orderItem.toJson(),
+          'buyerInfo': bUser.toJson(),
+        });
       }
 
       await firestore.collection('cartItems').doc(userId).delete();
@@ -149,5 +147,11 @@ class OrderController extends GetxController {
     _sellerOrders.value = querySnapshot.docs
         .map((doc) => OrderItem.fromJson(doc.data()))
         .toList();
+
+    _userOrderInfo.addAll(querySnapshot.docs.map((doc) {
+      final orderData = doc.data();
+      final buyerInfo = orderData['buyerInfo'] as Map<String, dynamic>;
+      return buyerInfo;
+    }).toList());
   }
 }
