@@ -42,44 +42,117 @@ class _SellerOrderCardState extends State<SellerOrderCard> {
           Container(
             padding: EdgeInsets.zero,
             child: ListTile(
-              leading: ClipOval(
-                child: Container(
-                  width: 60,
-                  height: 60,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: ColorsManager.lightSecondaryColor,
-                  ),
-                  child: Image.network(
-                    widget.buyer.profilePhoto == ""
-                        ? "'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'"
-                        : widget.buyer.profilePhoto,
-                    width: 60,
-                    height: 60,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child;
-                      }
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: ColorsManager.whiteColor,
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                              : null,
+              leading: InkWell(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ClipOval(
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: ColorsManager.lightSecondaryColor,
+                                  ),
+                                  child: Image.network(
+                                    widget.buyer.profilePhoto == ""
+                                        ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
+                                        : widget.buyer.profilePhoto,
+                                    width: 90,
+                                    height: 90,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Txt(
+                                text: widget.buyer.name,
+                                fontWeight: FontWeightManager.bold,
+                                color: ColorsManager.primaryColor,
+                                fontSize: FontSize.textFontSize,
+                                fontFamily: FontsManager.fontFamilyPoppins,
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Txt(
+                                text: widget.buyer.email,
+                                fontWeight: FontWeightManager.regular,
+                                color: ColorsManager.primaryColor,
+                                fontSize: FontSize.subTitleFontSize,
+                                fontFamily: FontsManager.fontFamilyPoppins,
+                              ),
+                              Txt(
+                                text: widget.buyer.phone,
+                                fontWeight: FontWeightManager.regular,
+                                color: ColorsManager.primaryColor,
+                                fontSize: FontSize.subTitleFontSize,
+                                fontFamily: FontsManager.fontFamilyPoppins,
+                              ),
+                              Center(
+                                child: Txt(
+                                  textAlign: TextAlign.center,
+                                  text: widget.buyer.address,
+                                  fontWeight: FontWeightManager.regular,
+                                  color: ColorsManager.primaryColor,
+                                  fontSize: FontSize.subTitleFontSize,
+                                  fontFamily: FontsManager.fontFamilyPoppins,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
-                    errorBuilder: (BuildContext context, Object exception,
-                        StackTrace? stackTrace) {
-                      return const Icon(
-                        Icons.person,
-                        size: 40,
-                        color: ColorsManager.whiteColor,
-                      );
-                    },
+                  );
+                },
+                child: ClipOval(
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: ColorsManager.lightSecondaryColor,
+                    ),
+                    child: Image.network(
+                      widget.buyer.profilePhoto == ""
+                          ? "'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'"
+                          : widget.buyer.profilePhoto,
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: ColorsManager.whiteColor,
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : null,
+                          ),
+                        );
+                      },
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        return const Icon(
+                          Icons.person,
+                          size: 40,
+                          color: ColorsManager.whiteColor,
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),

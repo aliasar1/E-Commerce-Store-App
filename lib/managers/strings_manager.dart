@@ -15,6 +15,7 @@ class StringsManager {
   static const String myOrdersTxt = "My Orders";
   static const String favouriteTxt = "Favourite Products";
   static const String ordersPlacedTxt = "Orders Log";
+  static const String addressTxt = "Address";
 
   //////////////////////////
   static const String searchEventTxt = "Search Event";
@@ -54,6 +55,7 @@ class StringsManager {
 class ErrorManager {
   // form field error
   static const String kProductNameNullError = 'Please enter product name';
+  static const String kaddressNullError = 'Please enter your address';
   static const String kEventNameNullError = 'Please enter a event name';
   static const String kUserNameNullError = 'Please Enter a Name';
   static const String kInvalidPriceError =

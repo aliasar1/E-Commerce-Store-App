@@ -160,7 +160,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     controller: productController.productDescriptionController,
                     keyboardType: TextInputType.multiline,
                     textCapitalization: TextCapitalization.sentences,
-                    maxLength: 100,
+                    maxLength: 300,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return ErrorManager.kDescriptionNullError;

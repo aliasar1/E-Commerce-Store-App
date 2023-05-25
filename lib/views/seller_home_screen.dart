@@ -234,11 +234,13 @@ class ProductsCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    prod.name.capitalizeFirstOfEach,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                  FittedBox(
+                    child: Text(
+                      prod.name.capitalizeFirstOfEach,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 5),
@@ -251,7 +253,7 @@ class ProductsCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            '\$ ${prod.price}',
+                            'Rs ${prod.price}',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeightManager.medium,

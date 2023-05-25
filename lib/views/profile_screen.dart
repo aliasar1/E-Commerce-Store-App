@@ -110,6 +110,19 @@ class ProfileScreen extends StatelessWidget {
                     fontFamily: FontsManager.fontFamilyPoppins,
                   ),
                 ),
+                Obx(
+                  () => Center(
+                    child: Txt(
+                      text: profileController.userAddress == ""
+                          ? user.address
+                          : profileController.userAddress,
+                      color: ColorsManager.primaryColor,
+                      fontSize: FontSize.subTitleFontSize,
+                      fontFamily: FontsManager.fontFamilyPoppins,
+                      useOverflow: true,
+                    ),
+                  ),
+                ),
                 const SizedBox(
                   height: SizeManager.sizeXL,
                 ),
@@ -148,6 +161,7 @@ class ProfileScreen extends StatelessWidget {
                       onTap: () async {
                         profileController.nameController.text = user.name;
                         profileController.phoneController.text = user.phone;
+                        profileController.addressController.text = user.address;
                         await buildUpdateProfileDialog(
                           profileController,
                         );
@@ -335,11 +349,27 @@ class ProfileScreen extends StatelessWidget {
               labelText: StringsManager.phoneTxt,
               maxLines: 1,
               prefixIconData: Icons.phone,
-              textInputAction: TextInputAction.done,
+              textInputAction: TextInputAction.next,
               autofocus: false,
               validator: (value) {
                 if (value!.isEmpty) {
                   return ErrorManager.kPhoneNullError;
+                }
+                return null;
+              },
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            CustomTextFormField(
+              controller: controller.addressController,
+              labelText: StringsManager.addressTxt,
+              prefixIconData: Icons.home,
+              textInputAction: TextInputAction.done,
+              autofocus: false,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return ErrorManager.kaddressNullError;
                 }
                 return null;
               },
@@ -361,6 +391,7 @@ class ProfileScreen extends StatelessWidget {
                 profileController.updateUser(
                   profileController.nameController.text.trim(),
                   profileController.phoneController.text.trim(),
+                  profileController.addressController.text.trim(),
                 );
               },
               text: "Edit",

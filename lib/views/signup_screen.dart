@@ -122,6 +122,23 @@ class SignupScreen extends StatelessWidget {
                     const SizedBox(
                       height: SizeManager.sizeSemiM,
                     ),
+                    CustomTextFormField(
+                      controller: controller.addressController,
+                      labelText: StringsManager.addressTxt,
+                      autofocus: false,
+                      keyboardType: TextInputType.streetAddress,
+                      textInputAction: TextInputAction.next,
+                      prefixIconData: Icons.home,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return ErrorManager.kaddressNullError;
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: SizeManager.sizeSemiM,
+                    ),
                     Obx(
                       () => CustomTextFormField(
                         controller: controller.passwordController,
@@ -140,6 +157,7 @@ class SignupScreen extends StatelessWidget {
                             name: controller.nameController.text,
                             password: controller.passwordController.text,
                             phone: controller.phoneController.text,
+                            address: controller.addressController.text,
                           );
                         },
                         validator: (value) {
@@ -172,6 +190,7 @@ class SignupScreen extends StatelessWidget {
                             name: controller.nameController.text,
                             password: controller.passwordController.text,
                             phone: controller.phoneController.text,
+                            address: controller.addressController.text,
                           );
                         },
                         text: StringsManager.registerTxt,

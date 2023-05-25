@@ -17,6 +17,7 @@ class AuthenticateController extends GetxController with CacheManager {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
   late String userTypeController = 'Buyer';
 
   RxBool isLoggedIn = false.obs;
@@ -37,9 +38,9 @@ class AuthenticateController extends GetxController with CacheManager {
         Get.off(const LoginScreen());
       } else {
         if (getUserType() == "Seller") {
-          Get.offAll(SellerHomeScreen());
+          Get.offAll(const SellerHomeScreen());
         } else {
-          Get.offAll(BuyerHomeScreen());
+          Get.offAll(const BuyerHomeScreen());
         }
       }
     });
@@ -60,6 +61,7 @@ class AuthenticateController extends GetxController with CacheManager {
     required String password,
     required String name,
     required String phone,
+    required String address,
   }) async {
     try {
       if (signupFormKey.currentState!.validate()) {
@@ -76,6 +78,7 @@ class AuthenticateController extends GetxController with CacheManager {
           phone: phone,
           email: email,
           profilePhoto: "",
+          address: address,
         );
 
         // adding user in our database
@@ -110,9 +113,9 @@ class AuthenticateController extends GetxController with CacheManager {
 
         setUserType(userType);
         if (userType == 'Buyer') {
-          Get.offAll(BuyerHomeScreen());
+          Get.offAll(const BuyerHomeScreen());
         } else {
-          Get.offAll(SellerHomeScreen());
+          Get.offAll(const SellerHomeScreen());
         }
         toggleLoading();
         clearfields();

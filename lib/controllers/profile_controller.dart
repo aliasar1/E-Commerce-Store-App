@@ -25,15 +25,18 @@ class ProfileController extends GetxController {
 
   final Rx<String> _nameRx = "".obs;
   final Rx<String> _phoneRx = "".obs;
+  final Rx<String> _addressRx = "".obs;
 
   String get userName => _nameRx.value;
   String get userPhone => _phoneRx.value;
+  String get userAddress => _addressRx.value;
 
   final editPassFormKey = GlobalKey<FormState>();
   final editInfoFormKey = GlobalKey<FormState>();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
   final TextEditingController oldPasswordController = TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController newRePasswordController = TextEditingController();
@@ -126,18 +129,20 @@ class ProfileController extends GetxController {
     resetFields();
   }
 
-  updateUser(String name, String phone) async {
+  updateUser(String name, String phone, String address) async {
     if (editInfoFormKey.currentState!.validate()) {
       editInfoFormKey.currentState!.save();
       toggleLoading();
       await firestore.collection('users').doc(_uid.value).update({
         'name': name,
         'phone': phone,
+        'address': address,
       }).whenComplete(() {
         toggleLoading();
         getUserData();
         _nameRx.value = name;
         _phoneRx.value = phone;
+        _addressRx.value = address;
         Get.back();
         Get.snackbar('User details updated!',
             'You have successfully updated user details!');
@@ -151,5 +156,6 @@ class ProfileController extends GetxController {
     newPasswordController.clear();
     oldPasswordController.clear();
     newRePasswordController.clear();
+    addressController.clear();
   }
 }

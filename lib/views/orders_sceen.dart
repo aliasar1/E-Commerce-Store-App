@@ -8,6 +8,7 @@ import '../utils/exports/managers_exports.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/seller_home_drawer.dart';
 import '../widgets/seller_orders_card.dart';
+import 'orders_history_screen.dart';
 
 class OrdersScreen extends StatelessWidget {
   OrdersScreen({super.key});
@@ -72,7 +73,7 @@ class OrdersScreen extends StatelessWidget {
                     return const Column(
                       children: [
                         SizedBox(height: SizeManager.sizeXL * 3),
-                        // NoOrdersTemplate(),
+                        NoOrdersTemplate(),
                       ],
                     );
                   }
