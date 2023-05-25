@@ -68,8 +68,8 @@ class ProductOverviewScreen extends StatelessWidget {
                             isUserBuyer
                                 ? isFav
                                     ? Get.offAll(FavouriteScreen())
-                                    : Get.offAll(BuyerHomeScreen())
-                                : Get.offAll(SellerHomeScreen());
+                                    : Get.offAll(const BuyerHomeScreen())
+                                : Get.offAll(const SellerHomeScreen());
                           },
                         ),
                       ),
@@ -204,7 +204,7 @@ class ProductOverviewScreen extends StatelessWidget {
                                       ColorsManager.secondaryColor)),
                               onPressed: () async {
                                 controller.deleteProduct(product.id);
-                                Get.offAll(SellerHomeScreen());
+                                Get.offAll(const SellerHomeScreen());
                               },
                               child: const Text(
                                 'Delete',
@@ -250,16 +250,21 @@ class ProductOverviewScreen extends StatelessWidget {
                         ),
                         Expanded(
                           child: InkWell(
-                            onTap: () {
-                              cartController.addToCart(product.id, product.name,
-                                  product.price.toString(), product.ownerId);
-                            },
+                            onTap: () => product.stockQuantity == 0
+                                ? null
+                                : cartController.addToCart(
+                                    product.id,
+                                    product.name,
+                                    product.price.toString(),
+                                    product.ownerId),
                             child: Container(
                               height: 45,
                               alignment: Alignment.center,
                               color: ColorsManager.secondaryColor,
-                              child: const Txt(
-                                text: "Add to cart",
+                              child: Txt(
+                                text: product.stockQuantity == 0
+                                    ? "Out of Stock"
+                                    : "Add to cart",
                                 color: ColorsManager.scaffoldBgColor,
                                 fontWeight: FontWeightManager.bold,
                                 fontSize: FontSize.titleFontSize * 0.75,

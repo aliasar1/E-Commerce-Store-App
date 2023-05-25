@@ -75,7 +75,8 @@ class _SellerOrderCardState extends State<SellerOrderCard> {
                     errorBuilder: (BuildContext context, Object exception,
                         StackTrace? stackTrace) {
                       return const Icon(
-                        Icons.error,
+                        Icons.person,
+                        size: 40,
                         color: ColorsManager.whiteColor,
                       );
                     },
