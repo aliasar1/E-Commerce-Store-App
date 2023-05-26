@@ -58,6 +58,7 @@ dev_dependencies:
   path_provider: ^2.0.15
   image_picker: ^0.8.7+5
   flutter_speed_dial: ^6.2.0
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
