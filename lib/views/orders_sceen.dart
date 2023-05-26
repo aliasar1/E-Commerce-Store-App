@@ -17,14 +17,19 @@ class OrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorsManager.scaffoldBgColor,
+        backgroundColor: isDarkMode
+            ? DarkColorsManager.scaffoldBgColor
+            : ColorsManager.scaffoldBgColor,
         drawer: SellerHomeDrawer(
           controller: authController,
         ),
         appBar: AppBar(
-          backgroundColor: ColorsManager.scaffoldBgColor,
+          backgroundColor: isDarkMode
+              ? DarkColorsManager.scaffoldBgColor
+              : ColorsManager.scaffoldBgColor,
           elevation: 0,
           iconTheme: const IconThemeData(color: ColorsManager.secondaryColor),
         ),

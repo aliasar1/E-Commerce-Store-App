@@ -18,10 +18,13 @@ class LoginScreen extends StatelessWidget {
     SizeConfig().init(context);
 
     AuthenticateController controller = Get.put(AuthenticateController());
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorsManager.scaffoldBgColor,
+        backgroundColor: isDarkMode
+            ? DarkColorsManager.scaffoldBgColor
+            : ColorsManager.scaffoldBgColor,
         body: Center(
           child: SingleChildScrollView(
             child: Container(
@@ -52,21 +55,25 @@ class LoginScreen extends StatelessWidget {
                     ),
                     Container(
                       alignment: Alignment.centerLeft,
-                      child: const Txt(
+                      child: Txt(
                         text: StringsManager.welcomTxt,
                         textAlign: TextAlign.left,
                         fontFamily: FontsManager.fontFamilyPoppins,
-                        color: ColorsManager.primaryColor,
+                        color: isDarkMode
+                            ? DarkColorsManager.whiteColor
+                            : ColorsManager.primaryColor,
                         fontWeight: FontWeightManager.bold,
                         fontSize: FontSize.titleFontSize,
                       ),
                     ),
                     Container(
                       alignment: Alignment.centerLeft,
-                      child: const Txt(
+                      child: Txt(
                         text: StringsManager.loginAccTxt,
                         fontFamily: FontsManager.fontFamilyPoppins,
-                        color: ColorsManager.primaryColor,
+                        color: isDarkMode
+                            ? DarkColorsManager.whiteColor
+                            : ColorsManager.primaryColor,
                         fontWeight: FontWeightManager.medium,
                         fontSize: FontSize.subTitleFontSize * 1.3,
                       ),
@@ -102,8 +109,10 @@ class LoginScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         labelText: 'User Type',
                         contentPadding: const EdgeInsets.all(0.0),
-                        labelStyle: const TextStyle(
-                          color: ColorsManager.primaryColor,
+                        labelStyle: TextStyle(
+                          color: isDarkMode
+                              ? DarkColorsManager.whiteColor
+                              : ColorsManager.primaryColor,
                           fontSize: FontSize.textFontSize,
                           fontWeight: FontWeight.w400,
                         ),
@@ -112,8 +121,10 @@ class LoginScreen extends StatelessWidget {
                           fontSize: FontSize.textFontSize,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: ColorsManager.primaryColor,
+                          borderSide: BorderSide(
+                            color: isDarkMode
+                                ? DarkColorsManager.whiteColor
+                                : ColorsManager.primaryColor,
                             width: 2,
                           ),
                           borderRadius:
@@ -156,9 +167,11 @@ class LoginScreen extends StatelessWidget {
                       child: Container(
                         width: double.infinity,
                         alignment: Alignment.bottomRight,
-                        child: const Txt(
+                        child: Txt(
                           text: StringsManager.forgotPassTxt,
-                          color: ColorsManager.primaryColor,
+                          color: isDarkMode
+                              ? DarkColorsManager.whiteColor
+                              : ColorsManager.primaryColor,
                           fontSize: FontSize.textFontSize * 0.9,
                           fontWeight: FontWeightManager.bold,
                         ),
@@ -197,10 +210,12 @@ class LoginScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Txt(
+                        Txt(
                           text: StringsManager.noAccTxt,
                           fontSize: FontSize.textFontSize,
-                          color: ColorsManager.primaryColor,
+                          color: isDarkMode
+                              ? DarkColorsManager.whiteColor
+                              : ColorsManager.primaryColor,
                         ),
                         InkWell(
                           onTap: () {

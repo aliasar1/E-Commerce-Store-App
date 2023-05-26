@@ -40,9 +40,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorsManager.scaffoldBgColor,
+        backgroundColor: isDarkMode
+            ? DarkColorsManager.scaffoldBgColor
+            : ColorsManager.scaffoldBgColor,
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(
@@ -54,13 +57,17 @@ class _AddProductScreenState extends State<AddProductScreen> {
               Get.back();
             },
           ),
-          backgroundColor: ColorsManager.scaffoldBgColor,
+          backgroundColor: isDarkMode
+              ? DarkColorsManager.scaffoldBgColor
+              : ColorsManager.scaffoldBgColor,
           elevation: 0,
           title: Txt(
             text: widget.isEdit
                 ? StringsManager.editProdTxt
                 : StringsManager.addProdTxt,
-            color: ColorsManager.primaryColor,
+            color: isDarkMode
+                ? DarkColorsManager.whiteColor
+                : ColorsManager.primaryColor,
             fontFamily: FontsManager.fontFamilyPoppins,
           ),
           centerTitle: true,

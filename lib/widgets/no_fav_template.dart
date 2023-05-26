@@ -11,6 +11,7 @@ class NoFavsTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: MarginManager.marginXL),
       child: Column(
@@ -26,12 +27,15 @@ class NoFavsTemplate extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          const Center(
+          Center(
             child: Txt(
               text: "You haven't marked any product as favourite yet.",
               fontFamily: FontsManager.fontFamilyPoppins,
               fontSize: FontSize.textFontSize,
               fontWeight: FontWeightManager.medium,
+              color: isDarkMode
+                  ? DarkColorsManager.whiteColor
+                  : ColorsManager.primaryColor,
               textAlign: TextAlign.center,
             ),
           ),

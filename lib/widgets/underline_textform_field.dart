@@ -32,6 +32,7 @@ class _UnderlineTextFormFieldState extends State<UnderlineTextFormField> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return TextFormField(
       validator: widget.validator,
       controller: widget.controller,
@@ -42,13 +43,18 @@ class _UnderlineTextFormFieldState extends State<UnderlineTextFormField> {
       cursorColor: ColorsManager.secondaryColor,
       decoration: InputDecoration(
         labelText: widget.label,
-        labelStyle: const TextStyle(
+        labelStyle: TextStyle(
           fontFamily: FontsManager.fontFamilyPoppins,
-          color: ColorsManager.primaryColor,
+          color: isDarkMode
+              ? DarkColorsManager.whiteColor
+              : ColorsManager.primaryColor,
           fontSize: FontSize.subTitleFontSize * 1.2,
         ),
-        enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: ColorsManager.primaryColor),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+              color: isDarkMode
+                  ? DarkColorsManager.whiteColor
+                  : ColorsManager.primaryColor),
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: ColorsManager.secondaryColor),

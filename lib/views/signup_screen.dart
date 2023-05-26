@@ -18,10 +18,12 @@ class SignupScreen extends StatelessWidget {
     SizeConfig().init(context);
 
     AuthenticateController controller = Get.put(AuthenticateController());
-
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorsManager.scaffoldBgColor,
+        backgroundColor: isDarkMode
+            ? DarkColorsManager.scaffoldBgColor
+            : ColorsManager.scaffoldBgColor,
         body: Center(
           child: SingleChildScrollView(
             child: Container(
@@ -47,21 +49,25 @@ class SignupScreen extends StatelessWidget {
                     ),
                     Container(
                       alignment: Alignment.centerLeft,
-                      child: const Txt(
+                      child: Txt(
                         text: StringsManager.registerTxt,
                         textAlign: TextAlign.left,
                         fontFamily: FontsManager.fontFamilyPoppins,
-                        color: ColorsManager.primaryColor,
+                        color: isDarkMode
+                            ? DarkColorsManager.whiteColor
+                            : ColorsManager.primaryColor,
                         fontWeight: FontWeightManager.bold,
                         fontSize: FontSize.titleFontSize,
                       ),
                     ),
                     Container(
                       alignment: Alignment.centerLeft,
-                      child: const Txt(
+                      child: Txt(
                         text: StringsManager.registerNowTxt,
                         fontFamily: FontsManager.fontFamilyPoppins,
-                        color: ColorsManager.primaryColor,
+                        color: isDarkMode
+                            ? DarkColorsManager.whiteColor
+                            : ColorsManager.primaryColor,
                         fontWeight: FontWeightManager.medium,
                         fontSize: FontSize.subTitleFontSize * 1.3,
                       ),
@@ -204,10 +210,12 @@ class SignupScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Txt(
+                        Txt(
                           text: StringsManager.alreadyHaveAccTxt,
                           fontSize: FontSize.textFontSize,
-                          color: ColorsManager.primaryColor,
+                          color: isDarkMode
+                              ? DarkColorsManager.whiteColor
+                              : ColorsManager.primaryColor,
                         ),
                         InkWell(
                           onTap: () {

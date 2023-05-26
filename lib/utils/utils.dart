@@ -9,9 +9,12 @@ import 'exports/managers_exports.dart';
 class Utils {
   Utils._();
   static showLoading(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     Get.defaultDialog(
       title: '',
-      backgroundColor: ColorsManager.scaffoldBgColor,
+      backgroundColor: isDarkMode
+          ? DarkColorsManager.backgroundColor
+          : ColorsManager.scaffoldBgColor,
       content: customLoading(context),
       radius: RadiusManager.buttonRadius,
       barrierDismissible: false,
@@ -19,18 +22,23 @@ class Utils {
   }
 
   static Widget customLoading(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Container(
-      color: ColorsManager.scaffoldBgColor,
+      color: isDarkMode
+          ? DarkColorsManager.backgroundColor
+          : ColorsManager.scaffoldBgColor,
       child: Center(
         child: Column(
           children: [
             const SizedBox(height: 10),
-            const Txt(
+            Txt(
               textAlign: TextAlign.center,
               text: 'Your order is proceeding...',
               fontWeight: FontWeightManager.bold,
               fontSize: FontSize.titleFontSize * 0.8,
-              color: ColorsManager.primaryColor,
+              color: isDarkMode
+                  ? DarkColorsManager.whiteColor
+                  : ColorsManager.primaryColor,
               fontFamily: FontsManager.fontFamilyPoppins,
             ),
             SizedBox(

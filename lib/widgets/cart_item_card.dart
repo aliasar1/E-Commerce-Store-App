@@ -18,6 +18,7 @@ class CartItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Dismissible(
       key: ValueKey(item.id),
       background: Container(
@@ -41,9 +42,11 @@ class CartItemCard extends StatelessWidget {
             ),
             actions: <Widget>[
               TextButton(
-                child: const Txt(
+                child: Txt(
                   text: 'No',
-                  color: ColorsManager.primaryColor,
+                  color: isDarkMode
+                      ? DarkColorsManager.whiteColor
+                      : ColorsManager.primaryColor,
                 ),
                 onPressed: () {
                   Navigator.of(ctx).pop(false);
@@ -77,7 +80,7 @@ class CartItemCard extends StatelessWidget {
                 child: Txt(
                   text: 'Rs ${item.price.toStringAsFixed(1)}',
                   fontWeight: FontWeightManager.medium,
-                  color: ColorsManager.whiteColor,
+                  color: DarkColorsManager.whiteColor,
                   fontSize: FontSize.subTitleFontSize,
                   fontFamily: FontsManager.fontFamilyPoppins,
                 ),
@@ -87,12 +90,16 @@ class CartItemCard extends StatelessWidget {
           title: Txt(
             text: item.name.capitalizeFirstOfEach,
             fontWeight: FontWeightManager.medium,
-            color: ColorsManager.primaryColor,
+            color: isDarkMode
+                ? DarkColorsManager.whiteColor
+                : ColorsManager.primaryColor,
             fontFamily: FontsManager.fontFamilyPoppins,
           ),
           subtitle: Txt(
             text: 'Total: Rs ${(item.price * item.quantity)}',
-            color: ColorsManager.primaryColor.withOpacity(0.7),
+            color: isDarkMode
+                ? DarkColorsManager.whiteColor.withOpacity(0.7)
+                : ColorsManager.primaryColor.withOpacity(0.7),
             fontFamily: FontsManager.fontFamilyPoppins,
           ),
           trailing: Text('${item.quantity} x'),

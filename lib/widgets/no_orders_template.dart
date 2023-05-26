@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../utils/exports/managers_exports.dart';
@@ -11,6 +11,7 @@ class NoOrdersTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: MarginManager.marginXL),
       child: Column(
@@ -26,11 +27,14 @@ class NoOrdersTemplate extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          const Center(
+          Center(
             child: Txt(
               text: "No order is placed yet.",
               fontFamily: FontsManager.fontFamilyPoppins,
               fontSize: FontSize.textFontSize,
+              color: isDarkMode
+                  ? DarkColorsManager.whiteColor
+                  : ColorsManager.primaryColor,
               fontWeight: FontWeightManager.medium,
             ),
           ),

@@ -26,6 +26,7 @@ class ProductsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: () {
         Get.to(
@@ -42,11 +43,15 @@ class ProductsCard extends StatelessWidget {
             Container(
               width: 140,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: isDarkMode
+                    ? DarkColorsManager.backgroundColor
+                    : Colors.white,
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: isDarkMode
+                        ? Colors.grey.withOpacity(0.1)
+                        : Colors.grey.withOpacity(0.5),
                     spreadRadius: 1,
                     blurRadius: 7,
                     offset: const Offset(0, 3),
@@ -112,8 +117,9 @@ class ProductsCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeightManager.medium,
-                              color:
-                                  ColorsManager.primaryColor.withOpacity(0.8),
+                              color: isDarkMode
+                                  ? DarkColorsManager.whiteColor
+                                  : ColorsManager.primaryColor.withOpacity(0.8),
                             ),
                           ),
                           const Spacer(),
@@ -142,7 +148,9 @@ class ProductsCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeightManager.medium,
-                          color: ColorsManager.primaryColor.withOpacity(0.8),
+                          color: isDarkMode
+                              ? DarkColorsManager.whiteColor
+                              : ColorsManager.primaryColor.withOpacity(0.8),
                         ),
                       ),
                     ),

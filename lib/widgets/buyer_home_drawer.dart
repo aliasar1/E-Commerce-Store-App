@@ -31,6 +31,7 @@ class _BuyerHomeDrawerState extends State<BuyerHomeDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return GetBuilder<ProfileController>(
       init: ProfileController(),
       builder: (controller) {
@@ -42,7 +43,9 @@ class _BuyerHomeDrawerState extends State<BuyerHomeDrawer> {
           );
         } else {
           return Drawer(
-            backgroundColor: ColorsManager.scaffoldBgColor,
+            backgroundColor: isDarkMode
+                ? DarkColorsManager.scaffoldBgColor
+                : ColorsManager.scaffoldBgColor,
             child: SafeArea(
               child: Column(
                 children: [
@@ -78,7 +81,7 @@ class _BuyerHomeDrawerState extends State<BuyerHomeDrawer> {
                     "Buy Products",
                     Icons.list_alt,
                     () {
-                      Get.offAll(BuyerHomeScreen());
+                      Get.offAll(const BuyerHomeScreen());
                     },
                   ),
                   buildDrawerTile(
@@ -105,7 +108,7 @@ class _BuyerHomeDrawerState extends State<BuyerHomeDrawer> {
                     },
                   ),
                   buildDrawerTile("Logout", Icons.logout, () {
-                    buildLogoutDialog();
+                    buildLogoutDialog(context);
                   }),
                   SizedBox(height: Get.height * 0.135),
                   const ModeSwitch(),
@@ -118,12 +121,25 @@ class _BuyerHomeDrawerState extends State<BuyerHomeDrawer> {
     );
   }
 
-  Future<dynamic> buildLogoutDialog() {
+  Future<dynamic> buildLogoutDialog(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Get.dialog(
       AlertDialog(
-        backgroundColor: ColorsManager.scaffoldBgColor,
-        title: const Text('Confirm Logout'),
-        content: const Text('Are you sure you want to log out?'),
+        backgroundColor: isDarkMode
+            ? DarkColorsManager.backgroundColor
+            : ColorsManager.scaffoldBgColor,
+        title: const Text(
+          'Confirm Logout',
+          style: TextStyle(
+            color: ColorsManager.whiteColor,
+          ),
+        ),
+        content: const Text(
+          'Are you sure you want to log out?',
+          style: TextStyle(
+            color: ColorsManager.whiteColor,
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () => Get.back(),
@@ -134,8 +150,9 @@ class _BuyerHomeDrawerState extends State<BuyerHomeDrawer> {
           ),
           ElevatedButton(
             style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(ColorsManager.secondaryColor)),
+              backgroundColor:
+                  MaterialStateProperty.all(ColorsManager.secondaryColor),
+            ),
             onPressed: () async {
               widget.controller.logout();
               Get.offAll(const LoginScreen());

@@ -35,14 +35,19 @@ class _SellerHomeScreenState extends State<SellerHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final isUserBuyer = authController.getUserType() == "Buyer" ? true : false;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorsManager.scaffoldBgColor,
+        backgroundColor: isDarkMode
+            ? DarkColorsManager.scaffoldBgColor
+            : ColorsManager.scaffoldBgColor,
         drawer: SellerHomeDrawer(
           controller: authController,
         ),
         appBar: AppBar(
-          backgroundColor: ColorsManager.scaffoldBgColor,
+          backgroundColor: isDarkMode
+              ? DarkColorsManager.scaffoldBgColor
+              : ColorsManager.scaffoldBgColor,
           elevation: 0,
           iconTheme: const IconThemeData(color: ColorsManager.secondaryColor),
         ),

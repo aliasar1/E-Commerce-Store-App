@@ -11,6 +11,7 @@ class NoProductTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: MarginManager.marginXL),
       child: Column(
@@ -26,11 +27,14 @@ class NoProductTemplate extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          const Center(
+          Center(
             child: Txt(
               text: "No products are added yet.",
               fontFamily: FontsManager.fontFamilyPoppins,
               fontSize: FontSize.textFontSize,
+              color: isDarkMode
+                  ? DarkColorsManager.whiteColor
+                  : ColorsManager.primaryColor,
               fontWeight: FontWeightManager.medium,
             ),
           ),

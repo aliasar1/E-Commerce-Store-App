@@ -27,6 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorsManager.secondaryColor,
@@ -34,14 +35,18 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
+              Icon(
                 Icons.shopping_cart,
-                color: ColorsManager.whiteColor,
+                color: isDarkMode
+                    ? DarkColorsManager.primaryColor
+                    : ColorsManager.whiteColor,
                 size: SizeManager.sizeXL * 8,
               ),
               Txt(
                 text: StringsManager.appName,
-                color: ColorsManager.whiteColor.withOpacity(0.8),
+                color: isDarkMode
+                    ? DarkColorsManager.primaryColor.withOpacity(0.8)
+                    : ColorsManager.whiteColor.withOpacity(0.8),
                 fontFamily: FontsManager.fontFamilyPoppins,
                 fontSize: FontSize.headerFontSize * 1.5,
                 fontWeight: FontWeightManager.bold,

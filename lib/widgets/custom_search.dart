@@ -22,7 +22,7 @@ class _CustomSearchWidgetState extends State<CustomSearchWidget> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: ColorsManager.whiteColor,
+        color: ColorsManager.whiteColor.withOpacity(0.8),
       ),
       child: TextFormField(
         cursorColor: ColorsManager.secondaryColor,
@@ -31,12 +31,14 @@ class _CustomSearchWidgetState extends State<CustomSearchWidget> {
         onChanged: widget.onFieldSubmit,
         validator: widget.validator,
         autovalidateMode: AutovalidateMode.onUserInteraction,
+        style: const TextStyle(color: DarkColorsManager.scaffoldBgColor),
         decoration: const InputDecoration(
           prefixIcon: Icon(
             Icons.search,
             color: ColorsManager.secondaryColor,
           ),
           hintText: 'Search for...',
+          hintStyle: TextStyle(color: DarkColorsManager.primaryColor),
           border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),

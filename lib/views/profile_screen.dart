@@ -23,14 +23,19 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorsManager.scaffoldBgColor,
+        backgroundColor: isDarkMode
+            ? DarkColorsManager.scaffoldBgColor
+            : ColorsManager.scaffoldBgColor,
         drawer: isUserBuyer
             ? BuyerHomeDrawer(controller: controller)
             : SellerHomeDrawer(controller: controller),
         appBar: AppBar(
-          backgroundColor: ColorsManager.scaffoldBgColor,
+          backgroundColor: isDarkMode
+              ? DarkColorsManager.scaffoldBgColor
+              : ColorsManager.scaffoldBgColor,
           elevation: 0,
           iconTheme: const IconThemeData(color: ColorsManager.secondaryColor),
         ),
@@ -81,7 +86,9 @@ class ProfileScreen extends StatelessWidget {
                           text: profileController.userName == ""
                               ? user.name
                               : profileController.userName,
-                          color: ColorsManager.primaryColor,
+                          color: isDarkMode
+                              ? DarkColorsManager.whiteColor
+                              : ColorsManager.primaryColor,
                           fontSize: FontSize.textFontSize,
                           fontFamily: FontsManager.fontFamilyPoppins,
                           fontWeight: FontWeightManager.bold,
@@ -92,7 +99,9 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 Txt(
                   text: user.email,
-                  color: ColorsManager.primaryColor,
+                  color: isDarkMode
+                      ? DarkColorsManager.whiteColor
+                      : ColorsManager.primaryColor,
                   fontSize: FontSize.subTitleFontSize,
                   fontFamily: FontsManager.fontFamilyPoppins,
                 ),
@@ -101,7 +110,9 @@ class ProfileScreen extends StatelessWidget {
                     text: profileController.userPhone == ""
                         ? user.phone
                         : profileController.userPhone,
-                    color: ColorsManager.primaryColor,
+                    color: isDarkMode
+                        ? DarkColorsManager.whiteColor
+                        : ColorsManager.primaryColor,
                     fontSize: FontSize.subTitleFontSize,
                     fontFamily: FontsManager.fontFamilyPoppins,
                   ),
@@ -112,7 +123,9 @@ class ProfileScreen extends StatelessWidget {
                       text: profileController.userAddress == ""
                           ? user.address
                           : profileController.userAddress,
-                      color: ColorsManager.primaryColor,
+                      color: isDarkMode
+                          ? DarkColorsManager.whiteColor
+                          : ColorsManager.primaryColor,
                       fontSize: FontSize.subTitleFontSize,
                       fontFamily: FontsManager.fontFamilyPoppins,
                       useOverflow: true,
@@ -136,14 +149,16 @@ class ProfileScreen extends StatelessWidget {
                       onTap: () {
                         buildUpdatePassDialog(profileController);
                       },
-                      child: const ListTile(
-                        leading: Icon(
+                      child: ListTile(
+                        leading: const Icon(
                           Icons.lock,
                           color: ColorsManager.secondaryColor,
                         ),
                         title: Txt(
                           text: "Update Password",
-                          color: ColorsManager.primaryColor,
+                          color: isDarkMode
+                              ? DarkColorsManager.whiteColor
+                              : ColorsManager.primaryColor,
                           fontSize: FontSize.subTitleFontSize * 1.1,
                           fontWeight: FontWeightManager.medium,
                           fontFamily: FontsManager.fontFamilyPoppins,
@@ -162,14 +177,16 @@ class ProfileScreen extends StatelessWidget {
                           profileController,
                         );
                       },
-                      child: const ListTile(
-                        leading: Icon(
+                      child: ListTile(
+                        leading: const Icon(
                           Icons.person,
                           color: ColorsManager.secondaryColor,
                         ),
                         title: Txt(
                           text: "Update Personal Information",
-                          color: ColorsManager.primaryColor,
+                          color: isDarkMode
+                              ? DarkColorsManager.whiteColor
+                              : ColorsManager.primaryColor,
                           fontSize: FontSize.subTitleFontSize * 1.1,
                           fontWeight: FontWeightManager.medium,
                           fontFamily: FontsManager.fontFamilyPoppins,
@@ -183,9 +200,11 @@ class ProfileScreen extends StatelessWidget {
                   margin:
                       const EdgeInsets.only(bottom: PaddingManager.paddingXS),
                   alignment: Alignment.bottomCenter,
-                  child: const Txt(
+                  child: Txt(
                     text: "Powered By E-Commerce Pakistan ©",
-                    color: ColorsManager.primaryColor,
+                    color: isDarkMode
+                        ? DarkColorsManager.whiteColor
+                        : ColorsManager.primaryColor,
                     fontSize: FontSize.subTitleFontSize * 1.1,
                     fontWeight: FontWeightManager.medium,
                     fontFamily: FontsManager.fontFamilyPoppins,

@@ -22,6 +22,7 @@ class _OrderCardState extends State<OrderCard> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Card(
       margin: const EdgeInsets.symmetric(vertical: MarginManager.marginS * 0.8),
       child: Column(
@@ -37,7 +38,9 @@ class _OrderCardState extends State<OrderCard> {
             subtitle: Txt(
               text: DateFormat('MMMM d, yyyy hh:mm a')
                   .format(widget.order.dateTime),
-              color: ColorsManager.primaryColor,
+              color: isDarkMode
+                  ? DarkColorsManager.whiteColor
+                  : ColorsManager.primaryColor,
               fontSize: FontSize.subTitleFontSize,
               fontFamily: FontsManager.fontFamilyPoppins,
             ),
@@ -67,14 +70,18 @@ class _OrderCardState extends State<OrderCard> {
                         children: <Widget>[
                           Txt(
                             text: prod.name.capitalizeFirstOfEach,
-                            color: ColorsManager.primaryColor,
+                            color: isDarkMode
+                                ? DarkColorsManager.whiteColor
+                                : ColorsManager.primaryColor,
                             fontWeight: FontWeightManager.semibold,
                             fontSize: FontSize.titleFontSize * 0.6,
                             fontFamily: FontsManager.fontFamilyPoppins,
                           ),
                           Txt(
                             text: '${prod.quantity}x Rs ${prod.price}',
-                            color: ColorsManager.primaryColor.withOpacity(0.7),
+                            color: isDarkMode
+                                ? DarkColorsManager.whiteColor.withOpacity(0.7)
+                                : ColorsManager.primaryColor.withOpacity(0.7),
                             fontSize: FontSize.titleFontSize * 0.6,
                             fontFamily: FontsManager.fontFamilyPoppins,
                           )

@@ -31,6 +31,7 @@ class _SellerHomeDrawerState extends State<SellerHomeDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Get.isDarkMode;
     return GetBuilder<ProfileController>(
       init: ProfileController(),
       builder: (controller) {
@@ -42,7 +43,9 @@ class _SellerHomeDrawerState extends State<SellerHomeDrawer> {
           );
         } else {
           return Drawer(
-            backgroundColor: ColorsManager.scaffoldBgColor,
+            backgroundColor: isDarkMode
+                ? DarkColorsManager.scaffoldBgColor
+                : ColorsManager.scaffoldBgColor,
             child: SafeArea(
               child: Column(
                 children: [
@@ -81,10 +84,10 @@ class _SellerHomeDrawerState extends State<SellerHomeDrawer> {
                     Get.offAll(OrdersScreen());
                   }),
                   buildDrawerTile("Logout", Icons.logout, () {
-                    buildLogoutDialog();
+                    buildLogoutDialog(context);
                   }),
                   SizedBox(height: Get.height * 0.25),
-                  const ModeSwitch(),
+                  ModeSwitch(),
                 ],
               ),
             ),
@@ -94,12 +97,25 @@ class _SellerHomeDrawerState extends State<SellerHomeDrawer> {
     );
   }
 
-  Future<dynamic> buildLogoutDialog() {
+  Future<dynamic> buildLogoutDialog(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Get.dialog(
       AlertDialog(
-        backgroundColor: ColorsManager.scaffoldBgColor,
-        title: const Text('Confirm Logout'),
-        content: const Text('Are you sure you want to log out?'),
+        backgroundColor: isDarkMode
+            ? DarkColorsManager.backgroundColor
+            : ColorsManager.scaffoldBgColor,
+        title: const Text(
+          'Confirm Logout',
+          style: TextStyle(
+            color: ColorsManager.whiteColor,
+          ),
+        ),
+        content: const Text(
+          'Are you sure you want to log out?',
+          style: TextStyle(
+            color: ColorsManager.whiteColor,
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () => Get.back(),
@@ -110,8 +126,9 @@ class _SellerHomeDrawerState extends State<SellerHomeDrawer> {
           ),
           ElevatedButton(
             style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(ColorsManager.secondaryColor)),
+              backgroundColor:
+                  MaterialStateProperty.all(ColorsManager.secondaryColor),
+            ),
             onPressed: () async {
               widget.controller.logout();
               Get.offAll(const LoginScreen());

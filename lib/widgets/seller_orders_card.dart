@@ -34,8 +34,12 @@ class _SellerOrderCardState extends State<SellerOrderCard> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final total = calculateTotal(widget.order.products);
     return Card(
+      color: isDarkMode
+          ? DarkColorsManager.backgroundColor
+          : ColorsManager.whiteColor.withOpacity(0.8),
       margin: const EdgeInsets.symmetric(vertical: MarginManager.marginS * 0.8),
       child: Column(
         children: <Widget>[
@@ -48,6 +52,9 @@ class _SellerOrderCardState extends State<SellerOrderCard> {
                     context: context,
                     builder: (BuildContext context) {
                       return Dialog(
+                        backgroundColor: isDarkMode
+                            ? DarkColorsManager.backgroundColor
+                            : ColorsManager.whiteColor,
                         child: Container(
                           margin: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 10),
@@ -76,7 +83,9 @@ class _SellerOrderCardState extends State<SellerOrderCard> {
                               Txt(
                                 text: widget.buyer.name,
                                 fontWeight: FontWeightManager.bold,
-                                color: ColorsManager.primaryColor,
+                                color: isDarkMode
+                                    ? DarkColorsManager.whiteColor
+                                    : ColorsManager.primaryColor,
                                 fontSize: FontSize.textFontSize,
                                 fontFamily: FontsManager.fontFamilyPoppins,
                               ),
@@ -86,14 +95,18 @@ class _SellerOrderCardState extends State<SellerOrderCard> {
                               Txt(
                                 text: widget.buyer.email,
                                 fontWeight: FontWeightManager.regular,
-                                color: ColorsManager.primaryColor,
+                                color: isDarkMode
+                                    ? DarkColorsManager.whiteColor
+                                    : ColorsManager.primaryColor,
                                 fontSize: FontSize.subTitleFontSize,
                                 fontFamily: FontsManager.fontFamilyPoppins,
                               ),
                               Txt(
                                 text: widget.buyer.phone,
                                 fontWeight: FontWeightManager.regular,
-                                color: ColorsManager.primaryColor,
+                                color: isDarkMode
+                                    ? DarkColorsManager.whiteColor
+                                    : ColorsManager.primaryColor,
                                 fontSize: FontSize.subTitleFontSize,
                                 fontFamily: FontsManager.fontFamilyPoppins,
                               ),
@@ -102,7 +115,9 @@ class _SellerOrderCardState extends State<SellerOrderCard> {
                                   textAlign: TextAlign.center,
                                   text: widget.buyer.address,
                                   fontWeight: FontWeightManager.regular,
-                                  color: ColorsManager.primaryColor,
+                                  color: isDarkMode
+                                      ? DarkColorsManager.whiteColor
+                                      : ColorsManager.primaryColor,
                                   fontSize: FontSize.subTitleFontSize,
                                   fontFamily: FontsManager.fontFamilyPoppins,
                                 ),
@@ -166,7 +181,9 @@ class _SellerOrderCardState extends State<SellerOrderCard> {
               subtitle: Txt(
                 text: DateFormat('MMMM d, yyyy hh:mm a')
                     .format(widget.order.dateTime),
-                color: ColorsManager.primaryColor,
+                color: isDarkMode
+                    ? DarkColorsManager.whiteColor
+                    : ColorsManager.primaryColor,
                 fontSize: FontSize.subTitleFontSize,
                 fontFamily: FontsManager.fontFamilyPoppins,
               ),
@@ -197,14 +214,18 @@ class _SellerOrderCardState extends State<SellerOrderCard> {
                         children: <Widget>[
                           Txt(
                             text: prod.name.capitalizeFirstOfEach,
-                            color: ColorsManager.primaryColor,
+                            color: isDarkMode
+                                ? DarkColorsManager.whiteColor
+                                : ColorsManager.primaryColor,
                             fontWeight: FontWeightManager.semibold,
                             fontSize: FontSize.titleFontSize * 0.6,
                             fontFamily: FontsManager.fontFamilyPoppins,
                           ),
                           Txt(
                             text: '${prod.quantity}x Rs ${prod.price}',
-                            color: ColorsManager.primaryColor.withOpacity(0.7),
+                            color: isDarkMode
+                                ? DarkColorsManager.whiteColor
+                                : ColorsManager.primaryColor.withOpacity(0.7),
                             fontSize: FontSize.titleFontSize * 0.6,
                             fontFamily: FontsManager.fontFamilyPoppins,
                           ),

@@ -30,10 +30,12 @@ class ProductOverviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isUserBuyer = authController.getUserType() == "Buyer" ? true : false;
-
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorsManager.scaffoldBgColor,
+        backgroundColor: isDarkMode
+            ? DarkColorsManager.scaffoldBgColor
+            : ColorsManager.scaffoldBgColor,
         body: CustomScrollView(
           slivers: [
             SliverList(
@@ -178,7 +180,9 @@ class ProductOverviewScreen extends StatelessWidget {
                     onTap: () => {
                       Get.dialog(
                         AlertDialog(
-                          backgroundColor: ColorsManager.scaffoldBgColor,
+                          backgroundColor: isDarkMode
+                              ? DarkColorsManager.scaffoldBgColor
+                              : ColorsManager.scaffoldBgColor,
                           title: const Text('Confirm Delete Product'),
                           content: const Text(
                             'Are you sure you want to delete the product?',
@@ -235,7 +239,9 @@ class ProductOverviewScreen extends StatelessWidget {
                         Container(
                           width: 45,
                           height: 45,
-                          color: ColorsManager.lightGreyColor.withOpacity(0.3),
+                          color: isDarkMode
+                              ? DarkColorsManager.whiteColor
+                              : ColorsManager.lightGreyColor.withOpacity(0.3),
                           child: FavoriteIcon(
                             product: product,
                             productController: controller,

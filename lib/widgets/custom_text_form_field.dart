@@ -60,19 +60,26 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return TextFormField(
-      cursorColor: ColorsManager.primaryColor,
+      cursorColor: isDarkMode
+          ? DarkColorsManager.whiteColor
+          : ColorsManager.primaryColor,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(0.0),
         labelText: labelText,
         hintText: hintText,
-        labelStyle: const TextStyle(
-          color: ColorsManager.primaryColor,
+        labelStyle: TextStyle(
+          color: isDarkMode
+              ? DarkColorsManager.whiteColor
+              : ColorsManager.primaryColor,
           fontSize: FontSize.textFontSize,
           fontWeight: FontWeight.w400,
         ),
-        hintStyle: const TextStyle(
-          color: ColorsManager.primaryColor,
+        hintStyle: TextStyle(
+          color: isDarkMode
+              ? DarkColorsManager.whiteColor
+              : ColorsManager.primaryColor,
           fontSize: FontSize.textFontSize,
         ),
         prefixIcon: prefixIconData != null
@@ -93,19 +100,26 @@ class CustomTextFormField extends StatelessWidget {
               )
             : null,
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: ColorsManager.primaryColor,
+          borderSide: BorderSide(
+            color: isDarkMode
+                ? DarkColorsManager.whiteColor
+                : ColorsManager.primaryColor,
             width: 2,
           ),
           borderRadius: BorderRadius.circular(RadiusManager.fieldRadius),
         ),
-        floatingLabelStyle: const TextStyle(
-          color: ColorsManager.primaryColor,
+        floatingLabelStyle: TextStyle(
+          color: isDarkMode
+              ? DarkColorsManager.whiteColor
+              : ColorsManager.primaryColor,
           fontSize: FontSize.textFontSize,
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide:
-              const BorderSide(color: ColorsManager.primaryColor, width: 1.5),
+          borderSide: BorderSide(
+              color: isDarkMode
+                  ? DarkColorsManager.whiteColor
+                  : ColorsManager.primaryColor,
+              width: 1.5),
           borderRadius: BorderRadius.circular(RadiusManager.fieldRadius),
         ),
 
@@ -113,7 +127,9 @@ class CustomTextFormField extends StatelessWidget {
         // filled: true,
         alignLabelWithHint: true,
 
-        focusColor: ColorsManager.primaryColor,
+        focusColor: isDarkMode
+            ? DarkColorsManager.whiteColor
+            : ColorsManager.primaryColor,
 
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(RadiusManager.fieldRadius),
@@ -162,9 +178,11 @@ class CustomTextFormField extends StatelessWidget {
       keyboardType: keyboardType ?? TextInputType.text,
       onChanged: onChanged,
       obscureText: obscureText ?? false,
-      style: const TextStyle(
+      style: TextStyle(
         // fontFamily: 'Ubuntu',
-        color: ColorsManager.primaryColor,
+        color: isDarkMode
+            ? DarkColorsManager.whiteColor
+            : ColorsManager.primaryColor,
         fontSize: FontSize.textFontSize + 2,
       ),
     );
