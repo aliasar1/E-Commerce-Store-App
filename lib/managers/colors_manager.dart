@@ -14,3 +14,18 @@ class ColorsManager {
   static const Color whiteColor = Color(0xFFfefeff);
   static const Color lightGreyColor = Color.fromARGB(255, 117, 117, 119);
 }
+
+class DarkColorsManager {
+  static const Color primaryColor = Color(0xFF0A0908);
+  static const Color secondaryColor = Color(0xFFD14949);
+  static const Color lightSecondaryColor = Color.fromARGB(255, 171, 85, 85);
+  static const Color scaffoldBgColor = Color.fromARGB(255, 60, 55, 55);
+  static const Color backgroundColor = Color(0xFFBEBDBD);
+  static const Color brownColor = Color(0xFF694C40);
+  static const Color darkGreyColor = Color(0xFF605E5D);
+  static const Color yellowBlackColor = Color(0xFF816646);
+  static const Color peachColor = Color(0xFFA37169);
+  static const Color blueColor = Color(0xFF3F5361);
+  static const Color whiteColor = Color(0xFFFAFAFA);
+  static const Color lightGreyColor = Color.fromARGB(255, 84, 84, 86);
+}

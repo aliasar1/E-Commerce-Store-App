@@ -1,17 +1,13 @@
-import 'package:e_commerce_shopping_app/local/local_storage.dart';
 import 'package:e_commerce_shopping_app/views/login_screen.dart';
-import 'package:e_commerce_shopping_app/views/seller_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../models/user_model.dart' as model;
-import '../managers/firebase_manager.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../local/local_storage.dart';
+import '../models/user_model.dart' as model;
 import '../utils/exports/managers_exports.dart';
+import '../utils/exports/views_exports.dart';
 import '../utils/utils.dart';
-import '../views/buyer_home_screen.dart';
 import '../widgets/custom_text.dart';
 
 class AuthenticateController extends GetxController with CacheManager {

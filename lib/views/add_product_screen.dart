@@ -57,7 +57,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
           backgroundColor: ColorsManager.scaffoldBgColor,
           elevation: 0,
           title: Txt(
-            text: widget.isEdit ? "Edit Product" : "Add Product",
+            text: widget.isEdit
+                ? StringsManager.editProdTxt
+                : StringsManager.addProdTxt,
             color: ColorsManager.primaryColor,
             fontFamily: FontsManager.fontFamilyPoppins,
           ),
@@ -78,7 +80,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     height: SizeManager.sizeSemiM,
                   ),
                   UnderlineTextFormField(
-                    label: "Product Name",
+                    label: StringsManager.prodNameTxt,
                     controller: productController.productNameController,
                     keyboardType: TextInputType.name,
                     textCapitalization: TextCapitalization.words,
@@ -93,7 +95,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: const Txt(
-                      text: "Product Image",
+                      text: StringsManager.prodImgTxt,
                       textAlign: TextAlign.start,
                       color: ColorsManager.primaryColor,
                       fontFamily: FontsManager.fontFamilyPoppins,
@@ -112,7 +114,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             child: productController.posterPhoto != null
                                 ? SizedBox(
                                     width: double.infinity,
-                                    height: 240,
+                                    height: SizeManager.sizeXXXL,
                                     child: Image.file(
                                       productController.posterPhoto!,
                                       fit: BoxFit.cover,
@@ -120,7 +122,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   )
                                 : SizedBox(
                                     width: double.infinity,
-                                    height: 240,
+                                    height: SizeManager.sizeXXXL,
                                     child: Image.network(
                                       widget.product!.imageUrl,
                                       fit: BoxFit.cover,
@@ -139,7 +141,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                     )
                                   : Container(
                                       width: double.infinity,
-                                      height: 100,
+                                      height: SizeManager.sizeXXL,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(
@@ -158,7 +160,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     height: SizeManager.sizeS,
                   ),
                   UnderlineTextFormField(
-                    label: "Description",
+                    label: StringsManager.descriptionTxt,
                     controller: productController.productDescriptionController,
                     keyboardType: TextInputType.multiline,
                     textCapitalization: TextCapitalization.sentences,
@@ -171,7 +173,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     },
                   ),
                   UnderlineTextFormField(
-                    label: "Price",
+                    label: StringsManager.priceTxt,
                     controller: productController.productPriceController,
                     keyboardType: TextInputType.number,
                     validator: (value) {
@@ -187,7 +189,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     height: SizeManager.sizeS,
                   ),
                   UnderlineTextFormField(
-                    label: "Stock Quantity",
+                    label: StringsManager.stockQtyTxt,
                     controller:
                         productController.productStockQuantityController,
                     keyboardType: TextInputType.number,

@@ -1,11 +1,9 @@
-import 'package:e_commerce_shopping_app/controllers/inventory_controller.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../models/cart_item.dart';
-import '../models/order_model.dart';
 import '../managers/firebase_manager.dart';
-import '../models/user_model.dart';
+import '../utils/exports/controllers_exports.dart';
+import '../utils/exports/models_exports.dart';
 import '../utils/utils.dart';
 
 class OrderController extends GetxController {

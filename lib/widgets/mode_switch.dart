@@ -1,6 +1,7 @@
 import 'package:e_commerce_shopping_app/managers/colors_manager.dart';
 import 'package:e_commerce_shopping_app/utils/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ModeSwitch extends StatefulWidget {
   const ModeSwitch({super.key});
@@ -30,12 +31,22 @@ class _ModeSwitchState extends State<ModeSwitch> {
           onChanged: (value) {
             setState(() {
               isDarkModeOn = value;
-              // Add your logic for changing the app theme here
+              if (isDarkModeOn) {
+                Get.changeThemeMode(ThemeMode.dark);
+              } else {
+                Get.changeThemeMode(ThemeMode.light);
+              }
             });
           },
-          activeColor: ColorsManager.lightSecondaryColor,
-          inactiveTrackColor: ColorsManager.primaryColor.withOpacity(0.5),
-          inactiveThumbColor: ColorsManager.primaryColor,
+          activeColor: isDarkModeOn
+              ? DarkColorsManager.lightSecondaryColor
+              : ColorsManager.lightSecondaryColor,
+          inactiveTrackColor: isDarkModeOn
+              ? DarkColorsManager.primaryColor.withOpacity(0.5)
+              : ColorsManager.primaryColor.withOpacity(0.5),
+          inactiveThumbColor: isDarkModeOn
+              ? DarkColorsManager.primaryColor
+              : ColorsManager.primaryColor,
         ),
       ],
     );

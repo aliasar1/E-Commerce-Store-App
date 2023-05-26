@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-import '../managers/colors_manager.dart';
-import '../managers/fonts_manager.dart';
-import '../managers/values_manager.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/toast.dart';
+import 'exports/managers_exports.dart';
 
 class Utils {
   Utils._();
@@ -94,51 +92,4 @@ class Utils {
 
   static void showToast(BuildContext context, String message) =>
       Toast.show(message, context, duration: 5, gravity: 2);
-
-  static showCustomDialogBox(
-    BuildContext context, {
-    required String titleText,
-    required Icon titleIcon,
-    required Widget body,
-    required List<Widget> actions,
-  }) {
-    return showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) {
-        return AlertDialog(
-          title: Center(
-            child: Column(
-              children: [
-                titleIcon,
-                const SizedBox(height: 20),
-                Text(titleText),
-              ],
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              body,
-              const SizedBox(
-                height: 16,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: actions,
-              )
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  static List<T> modelBuilder<M, T>(
-          List<M> models, T Function(int index, M model) builder) =>
-      models
-          .asMap()
-          .map<int, T>((index, model) => MapEntry(index, builder(index, model)))
-          .values
-          .toList();
 }

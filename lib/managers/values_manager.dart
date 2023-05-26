@@ -23,6 +23,8 @@ class SizeManager {
   static const double sizeSemiM = 14.0;
   static const double sizeL = 18.0;
   static const double sizeXL = 20.0;
+  static const double sizeXXL = 100.0;
+  static const double sizeXXXL = 240.0;
 
   static const double splashIconSize = 150.0;
   static const double svgImageSize = 230.0;

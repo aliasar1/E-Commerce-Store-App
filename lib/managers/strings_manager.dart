@@ -19,18 +19,17 @@ class StringsManager {
   static const String favouriteTxt = "Favourite Products";
   static const String ordersPlacedTxt = "Orders Log";
   static const String addressTxt = "Address";
+  static const String addProdTxt = "Add Product";
+  static const String editProdTxt = "Edit Product";
+  static const String prodNameTxt = "Product Name";
+  static const String prodImgTxt = "Product Image";
+  static const String priceTxt = "Price";
+  static const String stockQtyTxt = "Stock Quantity";
 
-  //////////////////////////
-  static const String searchEventTxt = "Search Event";
-  static const String searchNowEventTxt = "Search Events Now!";
-  static const String noEventsAttendedTxt = "Events Log is empty!";
   static const String descriptionTxt = 'Description';
   static const String registerNowTxt = 'Create your account';
   static const String noProducttTxt = "No product found!";
-  static const String eventsHistoryTxt = "Events Attended";
-  static const String eventsLogTxt = "Events Log";
-  static const String eventsNoHistoryTxt = "No Events Attended!";
-  static const String markFavTxt = "No Events Marked As Favourite!";
+
   static const String offlineMsgTxt =
       "No Internet Connection. Make sure that Wifi or Mobile data is turned on, then try again.";
   static const String openWifiTxt = "Open Wifi Settings";
@@ -45,11 +44,7 @@ class StringsManager {
   static const String newRePasswordTxt = 'Re-Enter Pass';
   static const String privacyPolicyTxt = 'Privacy and policy';
   static const String updateProfileTxt = 'Update Profile';
-  static const String eventNameTxt = 'Event Name';
-  static const String priceTxt = 'Event Fee';
-  static const String myEventsTxt = 'My Events';
-  static const String noEventsTxt = "You haven't organized any event!";
-  static const String ongoingEventsTxt = "Upcoming Events";
+
   // Hint Text
   static const String emailHintTxt = 'abc@gmail.com';
   static const String phoneHintTxt = '0331XXXXXXX';
@@ -59,31 +54,24 @@ class ErrorManager {
   // form field error
   static const String kProductNameNullError = 'Please enter product name';
   static const String kaddressNullError = 'Please enter your address';
-  static const String kEventNameNullError = 'Please enter a event name';
-  static const String kUserNameNullError = 'Please Enter a Name';
+  static const String kUserNameNullError = 'Please enter your name';
   static const String kInvalidPriceError =
       'Please enter a price greater than 0.';
   static const String kInvalidStockError =
       'Please enter a stock greater than 0.';
-  static const String kFieldEmptyError = 'Please Enter a Value';
+  static const String kFieldEmptyError = 'Please Enter a value';
   static const String kPriceEmptyError = 'Please enter a valid price.';
   static const String kStockEmptyError = 'Please enter a valid price.';
-  static const String kEmailNullError = 'Please Enter a Valid Email';
-  static const String kPhoneNullError = 'Please Enter a Phone Number';
+  static const String kEmailNullError = 'Please Enter a valid email';
+  static const String kPhoneNullError = 'Please Enter a phone number';
   static const String kDescriptionNullError = 'Please enter description';
 
-  static const String kPasswordNullError = 'Please Enter a Password';
+  static const String kPasswordNullError = 'Please enter a password';
   static const String kPasswordNotMatchingError = 'Passwords do not Match';
   static const String kPasswordShortError =
       'Please Enter a Password of at least 8 digit';
   static const String kPasswordNotSameError =
       'Confirm Password should be same as New Password';
 
-  static const String kCentreNameNullError = 'Please Enter a Centre Name';
-  static const String kDobNullError = 'Please Select Date of Birth';
   static const String kGenderNullError = 'Please Select a Gender';
-  static const String kPresetNameNullError = 'Please enter a preset name';
-  static const String kEventDayPresetNullError = 'Please select event day';
-  static const String kPresetSignInNullError = 'Please select sign in time';
-  static const String kPresetSignOffNullError = 'Please select sign off time';
 }
