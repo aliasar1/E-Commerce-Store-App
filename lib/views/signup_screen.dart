@@ -1,14 +1,12 @@
-import 'package:e_commerce_shopping_app/views/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../controllers/auth_controller.dart';
 import '../utils/exports/managers_exports.dart';
+import '../utils/exports/widgets_exports.dart';
 import '../utils/size_config.dart';
-import '../widgets/custom_text.dart';
-import '../widgets/custom_text_form_field.dart';
-import '../widgets/cutom_button.dart';
+import 'login_screen.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});

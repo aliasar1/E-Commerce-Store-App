@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-import '../controllers/auth_controller.dart';
-import '../controllers/orders_controller.dart';
+import '../utils/exports/controllers_exports.dart';
 import '../utils/exports/managers_exports.dart';
-import '../widgets/buyer_home_drawer.dart';
-import '../widgets/custom_text.dart';
-import '../widgets/order_card.dart';
+import '../utils/exports/widgets_exports.dart';
 
 class OrdersHistoryScreen extends StatelessWidget {
   OrdersHistoryScreen({super.key});
@@ -81,45 +77,6 @@ class OrdersHistoryScreen extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class NoOrdersTemplate extends StatelessWidget {
-  const NoOrdersTemplate({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: MarginManager.marginXL),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            'assets/images/no_order.svg',
-            height: SizeManager.svgImageSize,
-            width: SizeManager.svgImageSize,
-            fit: BoxFit.scaleDown,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          const Center(
-            child: Txt(
-              text: "No order is placed yet.",
-              fontFamily: FontsManager.fontFamilyPoppins,
-              fontSize: FontSize.textFontSize,
-              fontWeight: FontWeightManager.medium,
-            ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-        ],
       ),
     );
   }

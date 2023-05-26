@@ -1,20 +1,12 @@
-import 'package:e_commerce_shopping_app/controllers/auth_controller.dart';
-import 'package:e_commerce_shopping_app/controllers/product_controller.dart';
-import 'package:e_commerce_shopping_app/views/buyer_home_screen.dart';
-import 'package:e_commerce_shopping_app/views/cart_screen.dart';
-import 'package:e_commerce_shopping_app/views/favourites_screen.dart';
-import 'package:e_commerce_shopping_app/views/orders_history_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/cart_controller.dart';
-import '../controllers/profile_controller.dart';
+import '../managers/firebase_manager.dart';
 import '../models/user_model.dart';
+import '../utils/exports/controllers_exports.dart';
 import '../utils/exports/managers_exports.dart';
-import '../views/login_screen.dart';
-import '../views/profile_screen.dart';
-import 'custom_text.dart';
-import 'mode_switch.dart';
+import '../utils/exports/views_exports.dart';
+import '../utils/exports/widgets_exports.dart';
 
 class BuyerHomeDrawer extends StatefulWidget {
   const BuyerHomeDrawer({super.key, required this.controller});

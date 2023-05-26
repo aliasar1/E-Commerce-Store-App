@@ -1,14 +1,12 @@
-import 'package:e_commerce_shopping_app/views/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/auth_controller.dart';
 import '../utils/exports/managers_exports.dart';
+import '../utils/exports/widgets_exports.dart';
 import '../utils/size_config.dart';
-import '../widgets/custom_text.dart';
-import '../widgets/custom_text_form_field.dart';
-import '../widgets/cutom_button.dart';
 import '../widgets/packages/group_radio_buttons/src/radio_button_field.dart';
+import 'signup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

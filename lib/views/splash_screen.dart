@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:e_commerce_shopping_app/controllers/auth_controller.dart';
+import '../controllers/auth_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 

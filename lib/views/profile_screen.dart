@@ -1,16 +1,10 @@
-import 'package:e_commerce_shopping_app/controllers/auth_controller.dart';
-import 'package:e_commerce_shopping_app/controllers/profile_controller.dart';
-import 'package:e_commerce_shopping_app/widgets/buyer_home_drawer.dart';
-import 'package:e_commerce_shopping_app/widgets/seller_home_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../managers/colors_manager.dart';
 import '../models/user_model.dart';
+import '../utils/exports/controllers_exports.dart';
 import '../utils/exports/managers_exports.dart';
-import '../widgets/custom_text.dart';
-import '../widgets/custom_text_form_field.dart';
-import '../widgets/cutom_button.dart';
+import '../utils/exports/widgets_exports.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen(

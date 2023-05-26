@@ -1,18 +1,12 @@
-import 'package:e_commerce_shopping_app/controllers/auth_controller.dart';
-import 'package:e_commerce_shopping_app/controllers/product_controller.dart';
 import 'package:e_commerce_shopping_app/utils/extension.dart';
-import 'package:e_commerce_shopping_app/views/add_product_screen.dart';
-import 'package:e_commerce_shopping_app/views/buyer_home_screen.dart';
-import 'package:e_commerce_shopping_app/views/favourites_screen.dart';
-import 'package:e_commerce_shopping_app/views/seller_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
-import '../controllers/cart_controller.dart';
-import '../controllers/inventory_controller.dart';
-import '../models/product_model.dart';
+import '../utils/exports/controllers_exports.dart';
 import '../utils/exports/managers_exports.dart';
+import '../utils/exports/models_exports.dart';
+import '../utils/exports/views_exports.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/fav_icon.dart';
 
@@ -279,34 +273,6 @@ class ProductOverviewScreen extends StatelessWidget {
                     ),
                   ]
                 : null,
-      ),
-    );
-  }
-}
-
-class CircularStepProgressIndicatorWidget extends StatelessWidget {
-  final int totalSteps;
-  final int currentStep;
-
-  const CircularStepProgressIndicatorWidget({
-    super.key,
-    required this.totalSteps,
-    required this.currentStep,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: 120,
-        height: 120,
-        child: CircularProgressIndicator(
-          value: currentStep / totalSteps,
-          strokeWidth: 10,
-          backgroundColor: ColorsManager.lightSecondaryColor.withOpacity(0.3),
-          valueColor:
-              const AlwaysStoppedAnimation<Color>(ColorsManager.secondaryColor),
-        ),
       ),
     );
   }

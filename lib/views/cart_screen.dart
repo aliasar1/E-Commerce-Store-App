@@ -1,15 +1,10 @@
-import 'package:e_commerce_shopping_app/controllers/auth_controller.dart';
-import 'package:e_commerce_shopping_app/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-import '../controllers/cart_controller.dart';
-import '../controllers/orders_controller.dart';
+import '../utils/exports/controllers_exports.dart';
 import '../utils/exports/managers_exports.dart';
+import '../utils/exports/widgets_exports.dart';
 import '../utils/utils.dart';
-import '../widgets/buyer_home_drawer.dart';
-import '../widgets/cart_item_card.dart';
 
 class CartScreen extends StatelessWidget {
   CartScreen({Key? key, required this.authController}) : super(key: key);
@@ -140,45 +135,6 @@ class CartScreen extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class EmptyCartTemplate extends StatelessWidget {
-  const EmptyCartTemplate({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: MarginManager.marginXL),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            'assets/images/add_to_cart.svg',
-            height: SizeManager.svgImageSize,
-            width: SizeManager.svgImageSize,
-            fit: BoxFit.scaleDown,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          const Center(
-            child: Txt(
-              text: "No products are added to cart yet.",
-              fontFamily: FontsManager.fontFamilyPoppins,
-              fontSize: FontSize.textFontSize,
-              fontWeight: FontWeightManager.medium,
-            ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-        ],
-      ),
     );
   }
 }

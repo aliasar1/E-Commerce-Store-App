@@ -1,9 +1,10 @@
-import 'package:e_commerce_shopping_app/utils/extension.dart';
 import 'package:flutter/material.dart';
-import '../controllers/cart_controller.dart';
+
 import '../models/cart_item.dart';
+import '../utils/exports/controllers_exports.dart';
 import '../utils/exports/managers_exports.dart';
-import 'custom_text.dart';
+import '../utils/exports/widgets_exports.dart';
+import '../utils/extension.dart';
 
 class CartItemCard extends StatelessWidget {
   const CartItemCard({

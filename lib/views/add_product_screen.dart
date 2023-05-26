@@ -1,13 +1,11 @@
 import 'package:e_commerce_shopping_app/utils/extension.dart';
-import 'package:e_commerce_shopping_app/widgets/cutom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/product_controller.dart';
 import '../models/product_model.dart';
+import '../utils/exports/controllers_exports.dart';
 import '../utils/exports/managers_exports.dart';
-import '../widgets/custom_text.dart';
-import '../widgets/underline_textform_field.dart';
+import '../utils/exports/widgets_exports.dart';
 
 class AddProductScreen extends StatefulWidget {
   static const String routeName = '/addProductScreen';

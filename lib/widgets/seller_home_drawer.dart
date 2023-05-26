@@ -1,14 +1,10 @@
-import 'package:e_commerce_shopping_app/views/login_screen.dart';
-import 'package:e_commerce_shopping_app/views/orders_sceen.dart';
-import 'package:e_commerce_shopping_app/views/profile_screen.dart';
-import 'package:e_commerce_shopping_app/views/seller_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/auth_controller.dart';
-import '../controllers/profile_controller.dart';
 import '../models/user_model.dart';
+import '../utils/exports/controllers_exports.dart';
 import '../utils/exports/managers_exports.dart';
+import '../utils/exports/views_exports.dart';
 import 'custom_text.dart';
 import 'mode_switch.dart';
 
