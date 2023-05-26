@@ -14,6 +14,8 @@ import '../widgets/cart_item_card.dart';
 class CartScreen extends StatelessWidget {
   CartScreen({Key? key, required this.authController}) : super(key: key);
 
+  static const String routeName = '/cartScreen';
+
   final AuthenticateController authController;
   final CartController cartController = Get.put(CartController());
   final OrderController orderController = Get.put(OrderController());

@@ -10,6 +10,8 @@ import '../widgets/custom_text.dart';
 import '../widgets/underline_textform_field.dart';
 
 class AddProductScreen extends StatefulWidget {
+  static const String routeName = '/addProductScreen';
+
   const AddProductScreen({Key? key, this.isEdit = false, this.product})
       : super(key: key);
 

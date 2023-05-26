@@ -13,6 +13,8 @@ import '../widgets/packages/group_radio_buttons/src/radio_button_field.dart';
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
+  static const String routeName = '/loginScreen';
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);

@@ -10,6 +10,8 @@ import '../widgets/custom_text.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
+  static const String routeName = '/splashScreen';
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }

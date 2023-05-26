@@ -23,6 +23,8 @@ class ProductOverviewScreen extends StatelessWidget {
       required this.controller,
       this.isFav = false});
 
+  static const String routeName = '/productOverviewScreen';
+
   final Product product;
   final ProductController controller;
   final bool isFav;

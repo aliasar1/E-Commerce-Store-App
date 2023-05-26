@@ -13,6 +13,8 @@ import '../widgets/custom_text.dart';
 class FavouriteScreen extends StatelessWidget {
   FavouriteScreen({super.key});
 
+  static const String routeName = '/favouriteScreen';
+
   final AuthenticateController authController =
       Get.put(AuthenticateController());
 

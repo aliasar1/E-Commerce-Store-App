@@ -27,15 +27,14 @@ class OrderController extends GetxController {
 
   @override
   void onInit() {
-    isLoading.value = true;
     super.onInit();
     fetchOrders();
     fetchOrdersByOwner();
-    isLoading.value = false;
   }
 
   Future<void> fetchOrders() async {
     try {
+      isLoading.value = true;
       final querySnapshot = await firestore
           .collection('orders')
           .doc(firebaseAuth.currentUser!.uid)
@@ -155,5 +154,7 @@ class OrderController extends GetxController {
       final buyerInfo = orderData['buyerInfo'] as Map<String, dynamic>;
       return buyerInfo;
     }).toList());
+
+    isLoading.value = false;
   }
 }

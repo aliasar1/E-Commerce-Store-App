@@ -38,14 +38,13 @@ class ProductController extends GetxController {
 
   @override
   void onInit() {
-    isLoading.value = true;
     super.onInit();
     fetchProducts();
     fetchFavoriteProducts(firebaseAuth.currentUser!.uid);
-    isLoading.value = false;
   }
 
   void fetchProducts() {
+    isLoading.value = true;
     firestore.collection('products').get().then((querySnapshot) {
       final products = querySnapshot.docs.map((doc) {
         final productData = doc.data();
@@ -106,7 +105,6 @@ class ProductController extends GetxController {
         price: int.parse(price),
         imageUrl: imageUrl,
         stockQuantity: int.parse(stockQty),
-        isAvailable: true,
         ownerId: firebaseAuth.currentUser!.uid,
       );
       await firestore.collection('products').doc(id).set(product.toJson());
@@ -262,12 +260,14 @@ class ProductController extends GetxController {
             favoriteProducts.add(product);
           }
         }
-
+        isLoading.value = false;
         return favoriteProducts;
       } else {
+        isLoading.value = false;
         return [];
       }
     } catch (error) {
+      isLoading.value = false;
       Get.snackbar('Failure!', error.toString());
       return [];
     }

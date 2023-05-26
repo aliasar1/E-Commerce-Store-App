@@ -19,6 +19,8 @@ class ProfileScreen extends StatelessWidget {
       required this.controller,
       required this.isUserBuyer});
 
+  static const String routeName = '/profileScreen';
+
   final User user;
   final AuthenticateController controller;
   final bool isUserBuyer;

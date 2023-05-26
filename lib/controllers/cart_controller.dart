@@ -20,7 +20,6 @@ class CartController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    isLoading.value = true;
     initializeCartItems();
   }
 

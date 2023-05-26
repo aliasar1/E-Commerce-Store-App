@@ -15,6 +15,8 @@ import '../widgets/custom_text.dart';
 class BuyerHomeScreen extends StatefulWidget {
   const BuyerHomeScreen({super.key});
 
+  static const String routeName = '/buyerHomeScreen';
+
   @override
   State<BuyerHomeScreen> createState() => _BuyerHomeScreenState();
 }

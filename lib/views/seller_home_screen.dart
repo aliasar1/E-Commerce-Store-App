@@ -20,6 +20,8 @@ import '../controllers/search_controller.dart' as ctrl;
 class SellerHomeScreen extends StatefulWidget {
   const SellerHomeScreen({Key? key}) : super(key: key);
 
+  static const String routeName = '/sellerHomeScreen';
+
   @override
   State<SellerHomeScreen> createState() => _SellerHomeScreenState();
 }

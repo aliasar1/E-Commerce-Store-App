@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Product {
   String id, name, description, ownerId, imageUrl;
   int price, stockQuantity;
-  bool isAvailable;
 
   Product({
     required this.id,
@@ -13,7 +12,6 @@ class Product {
     required this.imageUrl,
     required this.price,
     required this.stockQuantity,
-    this.isAvailable = true,
   });
 
   Map<String, dynamic> toJson() => {
@@ -24,7 +22,6 @@ class Product {
         "imageUrl": imageUrl,
         "price": price,
         "stockQuantity": stockQuantity,
-        "isAvailable": isAvailable,
       };
 
   static Product fromSnap(DocumentSnapshot snap) {
@@ -34,12 +31,10 @@ class Product {
       id: snapshot['id'],
       name: snapshot['name'],
       description: snapshot['description'],
-      // category: snapshot['category'],
       ownerId: snapshot['ownerId'],
       imageUrl: snapshot['imageUrl'],
       price: snapshot['price'],
       stockQuantity: snapshot['stockQuantity'],
-      isAvailable: snapshot['isAvailable'],
     );
   }
 
@@ -52,7 +47,6 @@ class Product {
       imageUrl: map['imageUrl'],
       price: map['price'],
       stockQuantity: map['stockQuantity'],
-      isAvailable: map['isAvailable'],
     );
   }
 }

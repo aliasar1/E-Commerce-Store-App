@@ -12,6 +12,8 @@ import '../widgets/order_card.dart';
 class OrdersHistoryScreen extends StatelessWidget {
   OrdersHistoryScreen({super.key});
 
+  static const String routeName = '/orderHistoryScreen';
+
   final AuthenticateController authController =
       Get.put(AuthenticateController());
   final orderController = Get.put(OrderController());

@@ -13,6 +13,8 @@ import '../widgets/cutom_button.dart';
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
 
+  static const String routeName = '/signupScreen';
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
