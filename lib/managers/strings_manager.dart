@@ -1,7 +1,7 @@
 class StringsManager {
   static const String appName = 'TopShop';
   static const String firstTimeLogin =
-      'Please login to your account by email to proceed further.';
+      'Account verification email is sent to you. Please verify your account to login.';
   static const String firstTimeLoginTitle = 'First Login to Proceed';
   static const String loginTxt = 'Login';
   static const String loginAccTxt = 'Login to your account';

@@ -144,7 +144,7 @@ class ProductsCard extends StatelessWidget {
                   else
                     Center(
                       child: Text(
-                        '\$ ${prod.price}',
+                        'Rs ${prod.price}',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeightManager.medium,
