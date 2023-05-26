@@ -197,44 +197,27 @@ class ProductController extends GetxController {
       var userDoc = await userDocRef.get();
 
       if (userDoc.exists) {
-        var productDoc = userDocRef.collection('products').doc(product.id);
-        var productData = await productDoc.get();
+        var productIds = userDoc.data()?['productIds'] ?? [];
 
-        if (productData.exists) {
-          await productDoc.delete();
+        if (productIds.contains(product.id)) {
+          productIds.remove(product.id);
           Get.snackbar('Success!', 'Product removed from favorites.');
         } else {
-          await productDoc.set(product.toJson());
+          productIds.add(product.id);
           Get.snackbar('Success!', 'Product added to favorites.');
         }
+
+        await userDocRef.update({'productIds': productIds});
       } else {
-        await userDocRef.set({});
-        await userDocRef
-            .collection('products')
-            .doc(product.id)
-            .set(product.toJson());
+        await userDocRef.set({
+          'productIds': [product.id]
+        });
         Get.snackbar('Success!', 'Product added to favorites.');
       }
+
       fetchFavoriteProducts(firebaseAuth.currentUser!.uid);
     } catch (error) {
       Get.snackbar('Failure!', error.toString());
-    }
-  }
-
-  Future<Product?> fetchProductById(String productId) async {
-    try {
-      var productDoc =
-          await firestore.collection('products').doc(productId).get();
-
-      if (productDoc.exists) {
-        var productData = productDoc.data() as Map<String, dynamic>;
-        return Product.fromMap(productData);
-      } else {
-        return null;
-      }
-    } catch (error) {
-      Get.snackbar('Failure!', error.toString());
-      return null;
     }
   }
 
@@ -245,9 +228,10 @@ class ProductController extends GetxController {
       var userDoc = await userDocRef.get();
 
       if (userDoc.exists) {
-        var productDoc =
-            await userDocRef.collection('products').doc(productId).get();
-        return productDoc.exists;
+        var favoritesData = userDoc.data();
+        var productIds = favoritesData?['productIds'] ?? [];
+
+        return productIds.contains(productId);
       } else {
         return false;
       }
@@ -263,13 +247,21 @@ class ProductController extends GetxController {
       var userDoc = await userDocRef.get();
 
       if (userDoc.exists) {
-        var productsCollection = userDocRef.collection('products');
-        var productsSnapshot = await productsCollection.get();
+        var favoritesData = userDoc.data();
+        var productIds = favoritesData!['productIds'] as List<dynamic>;
 
-        var favoriteProducts = productsSnapshot.docs.map((doc) {
-          var productData = doc.data();
-          return Product.fromMap(productData);
-        }).toList();
+        var favoriteProducts = <Product>[];
+
+        for (var productId in productIds) {
+          var productDocRef = firestore.collection('products').doc(productId);
+          var productDoc = await productDocRef.get();
+
+          if (productDoc.exists) {
+            var productData = productDoc.data();
+            var product = Product.fromMap(productData!);
+            favoriteProducts.add(product);
+          }
+        }
 
         return favoriteProducts;
       } else {
