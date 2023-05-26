@@ -3,14 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Product {
   String id, name, description, ownerId, imageUrl;
   int price, stockQuantity;
-  // String category;
   bool isAvailable;
 
   Product({
     required this.id,
     required this.name,
     required this.description,
-    // required this.category,
     required this.ownerId,
     required this.imageUrl,
     required this.price,
@@ -22,7 +20,6 @@ class Product {
         "id": id,
         "name": name,
         "description": description,
-        // "category": category,
         "ownerId": ownerId,
         "imageUrl": imageUrl,
         "price": price,
@@ -46,12 +43,11 @@ class Product {
     );
   }
 
-  static Product fromMap(Map<String, dynamic> map) {
+  factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
       id: map['id'],
       name: map['name'],
       description: map['description'],
-      // category: map['category'],
       ownerId: map['ownerId'],
       imageUrl: map['imageUrl'],
       price: map['price'],

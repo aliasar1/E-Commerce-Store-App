@@ -157,7 +157,7 @@ class _SellerOrderCardState extends State<SellerOrderCard> {
                 ),
               ),
               title: Txt(
-                text: '\$${total.toStringAsFixed(2)}',
+                text: 'Rs ${total.toStringAsFixed(2)}',
                 fontWeight: FontWeightManager.medium,
                 color: ColorsManager.secondaryColor,
                 fontSize: FontSize.textFontSize,
@@ -203,7 +203,7 @@ class _SellerOrderCardState extends State<SellerOrderCard> {
                             fontFamily: FontsManager.fontFamilyPoppins,
                           ),
                           Txt(
-                            text: '${prod.quantity}x \$ ${prod.price}',
+                            text: '${prod.quantity}x Rs ${prod.price}',
                             color: ColorsManager.primaryColor.withOpacity(0.7),
                             fontSize: FontSize.titleFontSize * 0.6,
                             fontFamily: FontsManager.fontFamilyPoppins,

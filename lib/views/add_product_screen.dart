@@ -232,7 +232,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         if (widget.isEdit) {
                           productController.updateProduct(
                               widget.product!.id,
-                              name,
+                              name.toLowerCase(),
                               description,
                               price,
                               stock,

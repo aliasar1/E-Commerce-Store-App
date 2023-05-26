@@ -74,7 +74,7 @@ class CartItemCard extends StatelessWidget {
               padding: const EdgeInsets.all(5),
               child: FittedBox(
                 child: Txt(
-                  text: '\$ ${item.price.toStringAsFixed(1)}',
+                  text: 'Rs ${item.price.toStringAsFixed(1)}',
                   fontWeight: FontWeightManager.medium,
                   color: ColorsManager.whiteColor,
                   fontSize: FontSize.subTitleFontSize,
@@ -90,7 +90,7 @@ class CartItemCard extends StatelessWidget {
             fontFamily: FontsManager.fontFamilyPoppins,
           ),
           subtitle: Txt(
-            text: 'Total: \$${(item.price * item.quantity)}',
+            text: 'Total: Rs ${(item.price * item.quantity)}',
             color: ColorsManager.primaryColor.withOpacity(0.7),
             fontFamily: FontsManager.fontFamilyPoppins,
           ),

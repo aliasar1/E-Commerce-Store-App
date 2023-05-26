@@ -221,6 +221,23 @@ class ProductController extends GetxController {
     }
   }
 
+  Future<Product?> fetchProductById(String productId) async {
+    try {
+      var productDoc =
+          await firestore.collection('products').doc(productId).get();
+
+      if (productDoc.exists) {
+        var productData = productDoc.data() as Map<String, dynamic>;
+        return Product.fromMap(productData);
+      } else {
+        return null;
+      }
+    } catch (error) {
+      Get.snackbar('Failure!', error.toString());
+      return null;
+    }
+  }
+
   Future<bool> getFavoriteStatus(String productId) async {
     try {
       var userDocRef =
