@@ -44,7 +44,7 @@ class _BuyerHomeDrawerState extends State<BuyerHomeDrawer> {
         } else {
           return Drawer(
             backgroundColor: isDarkMode
-                ? DarkColorsManager.scaffoldBgColor
+                ? DarkColorsManager.backgroundColor
                 : ColorsManager.scaffoldBgColor,
             child: SafeArea(
               child: Column(
@@ -128,16 +128,20 @@ class _BuyerHomeDrawerState extends State<BuyerHomeDrawer> {
         backgroundColor: isDarkMode
             ? DarkColorsManager.backgroundColor
             : ColorsManager.scaffoldBgColor,
-        title: const Text(
+        title: Text(
           'Confirm Logout',
           style: TextStyle(
-            color: ColorsManager.whiteColor,
+            color: isDarkMode
+                ? DarkColorsManager.whiteColor
+                : ColorsManager.primaryColor,
           ),
         ),
-        content: const Text(
+        content: Text(
           'Are you sure you want to log out?',
           style: TextStyle(
-            color: ColorsManager.whiteColor,
+            color: isDarkMode
+                ? DarkColorsManager.whiteColor
+                : ColorsManager.primaryColor,
           ),
         ),
         actions: [

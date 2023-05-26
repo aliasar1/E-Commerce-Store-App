@@ -165,6 +165,7 @@ class SignupScreen extends StatelessWidget {
                             phone: controller.phoneController.text,
                             address: controller.addressController.text,
                           );
+                          firstTimeLoginDialog(isDarkMode, controller);
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -198,6 +199,7 @@ class SignupScreen extends StatelessWidget {
                             phone: controller.phoneController.text,
                             address: controller.addressController.text,
                           );
+                          firstTimeLoginDialog(isDarkMode, controller);
                         },
                         text: StringsManager.registerTxt,
                         textColor: ColorsManager.whiteColor,
@@ -238,6 +240,51 @@ class SignupScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<dynamic> firstTimeLoginDialog(
+      bool isDarkMode, AuthenticateController controller) {
+    return Get.dialog(
+      WillPopScope(
+        onWillPop: () async => false,
+        child: AlertDialog(
+          title: Txt(
+            text: StringsManager.firstTimeLoginTitle,
+            color: isDarkMode
+                ? DarkColorsManager.whiteColor
+                : ColorsManager.primaryColor,
+            fontFamily: FontsManager.fontFamilyPoppins,
+            fontSize: FontSize.textFontSize,
+            fontWeight: FontWeightManager.bold,
+          ),
+          content: Txt(
+            text: StringsManager.firstTimeLogin,
+            color: isDarkMode
+                ? DarkColorsManager.whiteColor
+                : ColorsManager.primaryColor,
+            fontFamily: FontsManager.fontFamilyPoppins,
+            fontSize: FontSize.subTitleFontSize,
+            fontWeight: FontWeightManager.regular,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                controller.logout();
+                Get.offAll(const LoginScreen());
+              },
+              child: const Txt(
+                text: StringsManager.loginTxt,
+                color: ColorsManager.secondaryColor,
+                fontFamily: FontsManager.fontFamilyPoppins,
+                fontSize: FontSize.textFontSize,
+                fontWeight: FontWeightManager.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+      barrierDismissible: false,
     );
   }
 }

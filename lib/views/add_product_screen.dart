@@ -101,10 +101,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
-                    child: const Txt(
+                    child: Txt(
                       text: StringsManager.prodImgTxt,
                       textAlign: TextAlign.start,
-                      color: ColorsManager.primaryColor,
+                      color: isDarkMode
+                          ? DarkColorsManager.whiteColor
+                          : ColorsManager.primaryColor,
                       fontFamily: FontsManager.fontFamilyPoppins,
                       fontSize: FontSize.subTitleFontSize * 1.2,
                     ),

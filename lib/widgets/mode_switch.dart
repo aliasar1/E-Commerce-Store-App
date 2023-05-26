@@ -3,6 +3,8 @@ import 'package:e_commerce_shopping_app/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controllers/theme_controller.dart';
+
 class ModeSwitch extends StatefulWidget {
   const ModeSwitch({super.key});
 
@@ -11,7 +13,7 @@ class ModeSwitch extends StatefulWidget {
 }
 
 class _ModeSwitchState extends State<ModeSwitch> {
-  bool isDarkModeOn = false;
+  final controller = Get.find<ThemeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,30 +23,27 @@ class _ModeSwitchState extends State<ModeSwitch> {
       children: [
         SizedBox(width: SizeConfig.screenWidth! * 0.04),
         Icon(
-          isDarkModeOn ? Icons.nightlight_round : Icons.wb_sunny_rounded,
+          controller.isDarkMode
+              ? Icons.nightlight_round
+              : Icons.wb_sunny_rounded,
           size: 24.0,
           color: ColorsManager.secondaryColor,
         ),
         SizedBox(width: SizeConfig.screenWidth! * 0.08),
         Switch(
-          value: isDarkModeOn,
-          onChanged: (value) {
+          value: controller.isDarkMode,
+          onChanged: (_) {
             setState(() {
-              isDarkModeOn = value;
-              if (isDarkModeOn) {
-                Get.changeThemeMode(ThemeMode.dark);
-              } else {
-                Get.changeThemeMode(ThemeMode.light);
-              }
+              controller.toggleTheme();
             });
           },
-          activeColor: isDarkModeOn
+          activeColor: controller.isDarkMode
               ? DarkColorsManager.lightSecondaryColor
               : ColorsManager.lightSecondaryColor,
-          inactiveTrackColor: isDarkModeOn
+          inactiveTrackColor: controller.isDarkMode
               ? DarkColorsManager.primaryColor.withOpacity(0.5)
               : ColorsManager.primaryColor.withOpacity(0.5),
-          inactiveThumbColor: isDarkModeOn
+          inactiveThumbColor: controller.isDarkMode
               ? DarkColorsManager.primaryColor
               : ColorsManager.primaryColor,
         ),

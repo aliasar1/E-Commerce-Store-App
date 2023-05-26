@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/exports/managers_exports.dart';
 import 'custom_text.dart';
 
-class NoProductTemplate extends StatelessWidget {
-  const NoProductTemplate({
+class AddProductTemplate extends StatelessWidget {
+  const AddProductTemplate({
     super.key,
   });
 
@@ -18,7 +19,7 @@ class NoProductTemplate extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SvgPicture.asset(
-            'assets/images/no_products.svg',
+            'assets/images/add_product.svg',
             height: SizeManager.svgImageSize,
             width: SizeManager.svgImageSize,
             fit: BoxFit.scaleDown,
@@ -28,7 +29,7 @@ class NoProductTemplate extends StatelessWidget {
           ),
           Center(
             child: Txt(
-              text: "No products are added yet.",
+              text: "You haven't added any product.",
               fontFamily: FontsManager.fontFamilyPoppins,
               fontSize: FontSize.textFontSize,
               color: isDarkMode

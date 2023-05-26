@@ -147,7 +147,7 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        buildUpdatePassDialog(profileController);
+                        buildUpdatePassDialog(profileController, context);
                       },
                       child: ListTile(
                         leading: const Icon(
@@ -174,8 +174,7 @@ class ProfileScreen extends StatelessWidget {
                         profileController.phoneController.text = user.phone;
                         profileController.addressController.text = user.address;
                         await buildUpdateProfileDialog(
-                          profileController,
-                        );
+                            profileController, context);
                       },
                       child: ListTile(
                         leading: const Icon(
@@ -218,11 +217,15 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Future<dynamic> buildUpdatePassDialog(ProfileController controller) {
+  Future<dynamic> buildUpdatePassDialog(
+      ProfileController controller, BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Get.defaultDialog(
       title: StringsManager.changePasswordTxt,
-      titleStyle: const TextStyle(
-          color: ColorsManager.primaryColor,
+      titleStyle: TextStyle(
+          color: isDarkMode
+              ? DarkColorsManager.whiteColor
+              : ColorsManager.primaryColor,
           fontWeight: FontWeight.bold,
           fontSize: FontSize.titleFontSize),
       titlePadding:
@@ -329,11 +332,15 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Future<dynamic> buildUpdateProfileDialog(ProfileController controller) {
+  Future<dynamic> buildUpdateProfileDialog(
+      ProfileController controller, BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Get.defaultDialog(
       title: "Edit Personal Details",
-      titleStyle: const TextStyle(
-          color: ColorsManager.primaryColor,
+      titleStyle: TextStyle(
+          color: isDarkMode
+              ? DarkColorsManager.whiteColor
+              : ColorsManager.primaryColor,
           fontWeight: FontWeight.bold,
           fontSize: FontSize.titleFontSize),
       titlePadding:

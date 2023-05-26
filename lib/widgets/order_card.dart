@@ -4,7 +4,6 @@ import 'package:e_commerce_shopping_app/models/order_model.dart';
 import 'package:e_commerce_shopping_app/utils/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../utils/exports/managers_exports.dart';
 import 'custom_text.dart';
 

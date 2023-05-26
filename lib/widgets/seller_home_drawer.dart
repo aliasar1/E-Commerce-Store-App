@@ -31,7 +31,7 @@ class _SellerHomeDrawerState extends State<SellerHomeDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Get.isDarkMode;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return GetBuilder<ProfileController>(
       init: ProfileController(),
       builder: (controller) {
@@ -44,7 +44,7 @@ class _SellerHomeDrawerState extends State<SellerHomeDrawer> {
         } else {
           return Drawer(
             backgroundColor: isDarkMode
-                ? DarkColorsManager.scaffoldBgColor
+                ? DarkColorsManager.backgroundColor
                 : ColorsManager.scaffoldBgColor,
             child: SafeArea(
               child: Column(

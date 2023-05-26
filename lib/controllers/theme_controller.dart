@@ -8,6 +8,8 @@ class ThemeController extends GetxController {
 
   bool get isDarkMode => _box.read(_key) ?? false;
 
+  ThemeMode get themeMode => isDarkMode ? ThemeMode.dark : ThemeMode.light;
+
   @override
   void onInit() {
     super.onInit();

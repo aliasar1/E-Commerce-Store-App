@@ -1,5 +1,6 @@
 import 'package:e_commerce_shopping_app/routes/app_pages.dart';
 import 'package:e_commerce_shopping_app/routes/app_routes.dart';
+import 'package:e_commerce_shopping_app/utils/exports/controllers_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
@@ -10,17 +11,21 @@ import 'managers/strings_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   await GetStorage.init();
+  await Firebase.initializeApp().then((value) {
+    Get.put(ThemeController());
+  });
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final themeController = Get.find<ThemeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,7 @@ class MyApp extends StatelessWidget {
       getPages: AppPages.pages,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      themeMode: ThemeMode.light,
+      themeMode: themeController.themeMode,
     );
   }
 }

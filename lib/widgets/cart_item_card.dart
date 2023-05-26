@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../models/cart_item.dart';
 import '../utils/exports/controllers_exports.dart';
 import '../utils/exports/managers_exports.dart';

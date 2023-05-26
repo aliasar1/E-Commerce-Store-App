@@ -147,10 +147,15 @@ class LoginScreen extends StatelessWidget {
                             : Icons.visibility_off_rounded,
                         onSuffixTap: controller.toggleVisibility,
                         textInputAction: TextInputAction.done,
-                        onFieldSubmit: (_) => controller.login(
-                            controller.emailController.text,
-                            controller.passwordController.text,
-                            controller.userTypeController),
+                        onFieldSubmit: (_) async {
+                          await controller.login(
+                              controller.emailController.text,
+                              controller.passwordController.text,
+                              controller.userTypeController);
+                          if (!firebaseAuth.currentUser!.emailVerified) {
+                            verifyDialog(isDarkMode, controller);
+                          }
+                        },
                         validator: (value) {
                           if (value!.isEmpty) {
                             return ErrorManager.kPasswordNullError;
@@ -163,7 +168,15 @@ class LoginScreen extends StatelessWidget {
                       height: SizeManager.sizeM,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        if (controller.emailController.text.isNotEmpty) {
+                          controller.resetPassword(
+                              controller.emailController.text.trim());
+                        } else {
+                          Get.snackbar('Invalid',
+                              'Please provide email first to reset password.');
+                        }
+                      },
                       child: Container(
                         width: double.infinity,
                         alignment: Alignment.bottomRight,
@@ -194,11 +207,14 @@ class LoginScreen extends StatelessWidget {
                                 ),
                               )
                             : null,
-                        onPressed: () {
-                          controller.login(
+                        onPressed: () async {
+                          await controller.login(
                               controller.emailController.text,
                               controller.passwordController.text,
                               controller.userTypeController);
+                          if (!firebaseAuth.currentUser!.emailVerified) {
+                            verifyDialog(isDarkMode, controller);
+                          }
                         },
                         text: StringsManager.loginTxt,
                         textColor: ColorsManager.whiteColor,
@@ -238,6 +254,77 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<dynamic> verifyDialog(
+      bool isDarkMode, AuthenticateController controller) {
+    return Get.dialog(
+      WillPopScope(
+        onWillPop: () async => false,
+        child: AlertDialog(
+          title: Txt(
+            text: "Verify your email",
+            color: isDarkMode
+                ? DarkColorsManager.whiteColor
+                : ColorsManager.primaryColor,
+            fontFamily: FontsManager.fontFamilyPoppins,
+            fontSize: FontSize.textFontSize,
+            fontWeight: FontWeightManager.bold,
+          ),
+          content: Txt(
+            text: "An email is sent to you, please verify your account.",
+            color: isDarkMode
+                ? DarkColorsManager.whiteColor
+                : ColorsManager.primaryColor,
+            fontFamily: FontsManager.fontFamilyPoppins,
+            fontSize: FontSize.subTitleFontSize,
+            fontWeight: FontWeightManager.regular,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                try {
+                  await firebaseAuth.currentUser!.sendEmailVerification();
+                  controller.logout();
+                  Get.offAll(const LoginScreen());
+                } catch (e) {
+                  Get.snackbar(
+                    'Error',
+                    'Failed to send email verification: $e',
+                  );
+                }
+              },
+              child: const Txt(
+                text: "Resend Email",
+                color: ColorsManager.secondaryColor,
+                fontFamily: FontsManager.fontFamilyPoppins,
+                fontSize: FontSize.subTitleFontSize,
+                fontWeight: FontWeightManager.regular,
+              ),
+            ),
+            TextButton(
+              style: ButtonStyle(
+                  backgroundColor: isDarkMode
+                      ? MaterialStateProperty.all(ColorsManager.backgroundColor)
+                      : MaterialStateProperty.all(
+                          DarkColorsManager.backgroundColor)),
+              onPressed: () {
+                controller.logout();
+                Get.offAll(const LoginScreen());
+              },
+              child: const Txt(
+                text: "Login",
+                color: ColorsManager.secondaryColor,
+                fontFamily: FontsManager.fontFamilyPoppins,
+                fontSize: FontSize.subTitleFontSize,
+                fontWeight: FontWeightManager.regular,
+              ),
+            ),
+          ],
+        ),
+      ),
+      barrierDismissible: false,
     );
   }
 }

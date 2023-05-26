@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
+import '../controllers/theme_controller.dart';
 import '../utils/exports/managers_exports.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -60,7 +62,7 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final isDarkMode = Get.find<ThemeController>().isDarkMode;
     return TextFormField(
       cursorColor: isDarkMode
           ? DarkColorsManager.whiteColor

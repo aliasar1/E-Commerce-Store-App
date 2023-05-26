@@ -8,7 +8,6 @@ import '../models/user_model.dart' as model;
 import '../utils/exports/managers_exports.dart';
 import '../utils/exports/views_exports.dart';
 import '../utils/utils.dart';
-import '../widgets/custom_text.dart';
 
 class AuthenticateController extends GetxController with CacheManager {
   final TextEditingController nameController = TextEditingController();
@@ -54,6 +53,21 @@ class AuthenticateController extends GetxController with CacheManager {
     }
   }
 
+  void resetPassword(String email) async {
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+      Get.snackbar(
+        'Success',
+        'Password reset email is send successfully.',
+      );
+    } catch (err) {
+      Get.snackbar(
+        'Error',
+        err.toString(),
+      );
+    }
+  }
+
   Future<void> signUpUser({
     required String email,
     required String password,
@@ -69,6 +83,7 @@ class AuthenticateController extends GetxController with CacheManager {
           email: email,
           password: password,
         );
+        await firebaseAuth.currentUser!.sendEmailVerification();
 
         model.User user = model.User(
           name: name,
@@ -88,46 +103,10 @@ class AuthenticateController extends GetxController with CacheManager {
         toggleLoading();
 
         Get.snackbar(
-          'Success!',
-          'Account created successfully.',
+          'Account created successfully!',
+          'Please verify account to proceed.',
         );
-        Get.dialog(
-          WillPopScope(
-            onWillPop: () async => false,
-            child: AlertDialog(
-              title: const Txt(
-                text: StringsManager.firstTimeLoginTitle,
-                color: ColorsManager.primaryColor,
-                fontFamily: FontsManager.fontFamilyPoppins,
-                fontSize: FontSize.textFontSize,
-                fontWeight: FontWeightManager.bold,
-              ),
-              content: const Txt(
-                text: StringsManager.firstTimeLogin,
-                color: ColorsManager.primaryColor,
-                fontFamily: FontsManager.fontFamilyPoppins,
-                fontSize: FontSize.subTitleFontSize,
-                fontWeight: FontWeightManager.regular,
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    logout();
-                    Get.offAll(const LoginScreen());
-                  },
-                  child: const Txt(
-                    text: StringsManager.loginTxt,
-                    color: ColorsManager.secondaryColor,
-                    fontFamily: FontsManager.fontFamilyPoppins,
-                    fontSize: FontSize.textFontSize,
-                    fontWeight: FontWeightManager.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          barrierDismissible: false,
-        );
+
         clearfields();
       }
     } catch (e) {
@@ -144,22 +123,41 @@ class AuthenticateController extends GetxController with CacheManager {
       if (loginFormKey.currentState!.validate()) {
         loginFormKey.currentState!.save();
         toggleLoading();
-        await firebaseAuth.signInWithEmailAndPassword(
-            email: email, password: password);
 
-        setUserType(userType);
-        if (userType == 'Buyer') {
-          Get.offAll(const BuyerHomeScreen());
+        UserCredential userCredential = await firebaseAuth
+            .signInWithEmailAndPassword(email: email, password: password);
+
+        User? user = userCredential.user;
+
+        if (user != null) {
+          if (user.emailVerified) {
+            setUserType(userType);
+            if (userType == 'Buyer') {
+              Get.offAll(const BuyerHomeScreen());
+            } else {
+              Get.offAll(const SellerHomeScreen());
+            }
+            toggleLoading();
+            clearfields();
+          } else {
+            toggleLoading();
+            Get.snackbar(
+              'Error Logging in',
+              'Please verify your email to login.',
+            );
+          }
         } else {
-          Get.offAll(const SellerHomeScreen());
+          toggleLoading();
+          Get.snackbar(
+            'Error Logging in',
+            'Invalid email or password.',
+          );
         }
-        toggleLoading();
-        clearfields();
       }
     } catch (err) {
       toggleLoading();
       Get.snackbar(
-        'Error Loggin in',
+        'Error Logging in',
         err.toString(),
       );
     }
