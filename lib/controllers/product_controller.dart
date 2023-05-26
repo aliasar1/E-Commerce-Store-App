@@ -111,6 +111,7 @@ class ProductController extends GetxController {
       );
       await firestore.collection('products').doc(id).set(product.toJson());
       toggleLoading();
+      _myProducts.add(product);
       Get.back();
       Get.snackbar(
         'Success!',

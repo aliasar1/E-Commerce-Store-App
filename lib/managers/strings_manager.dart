@@ -1,5 +1,8 @@
 class StringsManager {
   static const String appName = 'TopShop';
+  static const String firstTimeLogin =
+      'Please login to your account to proceed further.';
+  static const String firstTimeLoginTitle = 'First Login to Proceed';
   static const String loginTxt = 'Login';
   static const String loginAccTxt = 'Login to your account';
   static const String emailTxt = 'Email Address';

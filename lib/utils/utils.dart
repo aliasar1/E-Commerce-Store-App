@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import '../managers/colors_manager.dart';
 import '../managers/fonts_manager.dart';
 import '../managers/values_manager.dart';
+import '../widgets/custom_text.dart';
 import '../widgets/toast.dart';
 
 class Utils {
@@ -12,8 +13,7 @@ class Utils {
   static showLoading(BuildContext context) {
     Get.defaultDialog(
       title: '',
-      titleStyle: const TextStyle(color: ColorsManager.primaryColor),
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: ColorsManager.scaffoldBgColor,
       content: customLoading(context),
       radius: RadiusManager.buttonRadius,
       barrierDismissible: false,
@@ -22,20 +22,29 @@ class Utils {
 
   static Widget customLoading(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).backgroundColor,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).backgroundColor.withOpacity(0.32),
-            offset: const Offset(0, 6),
-            blurRadius: 10,
-          )
-        ],
-      ),
-      child: Lottie.asset(
-        'assets/lottie/loading_animation.json',
-        height: 200,
+      color: ColorsManager.scaffoldBgColor,
+      child: Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 10),
+            const Txt(
+              textAlign: TextAlign.center,
+              text: 'Your order is proceeding...',
+              fontWeight: FontWeightManager.bold,
+              fontSize: FontSize.titleFontSize * 0.8,
+              color: ColorsManager.primaryColor,
+              fontFamily: FontsManager.fontFamilyPoppins,
+            ),
+            SizedBox(
+              height: 300,
+              width: 300,
+              child: Lottie.asset(
+                'assets/lottie/logo.json',
+                fit: BoxFit.contain,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

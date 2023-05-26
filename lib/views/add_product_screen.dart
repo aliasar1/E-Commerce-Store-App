@@ -1,3 +1,4 @@
+import 'package:e_commerce_shopping_app/utils/extension.dart';
 import 'package:e_commerce_shopping_app/widgets/cutom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   void initState() {
     if (widget.isEdit) {
-      productController.productNameController.text = widget.product!.name;
+      productController.productNameController.text =
+          widget.product!.name.capitalizeFirstOfEach;
       productController.productDescriptionController.text =
           widget.product!.description;
       productController.productStockQuantityController.text =

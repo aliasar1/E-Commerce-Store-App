@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../controllers/cart_controller.dart';
 import '../controllers/orders_controller.dart';
 import '../utils/exports/managers_exports.dart';
+import '../utils/utils.dart';
 import '../widgets/buyer_home_drawer.dart';
 import '../widgets/cart_item_card.dart';
 
@@ -50,7 +51,7 @@ class CartScreen extends StatelessWidget {
                   if (cartController.isLoading.value) {
                     return Container();
                   } else {
-                    return buildTotalBar(cartController);
+                    return buildTotalBar(cartController, context);
                   }
                 },
               ),
@@ -91,7 +92,7 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget buildTotalBar(CartController controller) {
+  Widget buildTotalBar(CartController controller, BuildContext context) {
     return Row(
       children: [
         const Expanded(
@@ -113,9 +114,10 @@ class CartScreen extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         TextButton(
-          onPressed: () {
+          onPressed: () async {
             if (controller.cartItems.isNotEmpty) {
-              orderController.placeOrder(
+              Utils.showLoading(context);
+              await orderController.placeOrder(
                   controller.cartItems, controller.total);
               controller.clear();
             } else {

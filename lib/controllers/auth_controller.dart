@@ -9,8 +9,10 @@ import '../managers/firebase_manager.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../utils/exports/managers_exports.dart';
 import '../utils/utils.dart';
 import '../views/buyer_home_screen.dart';
+import '../widgets/custom_text.dart';
 
 class AuthenticateController extends GetxController with CacheManager {
   final TextEditingController nameController = TextEditingController();
@@ -81,23 +83,61 @@ class AuthenticateController extends GetxController with CacheManager {
           address: address,
         );
 
-        // adding user in our database
         await firestore
             .collection("users")
             .doc(cred.user!.uid)
             .set(user.toJson());
+
+        removeToken();
         toggleLoading();
-        Get.offAll(const LoginScreen());
+
         Get.snackbar(
           'Success!',
           'Account created successfully.',
+        );
+        Get.dialog(
+          WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              title: const Txt(
+                text: StringsManager.firstTimeLoginTitle,
+                color: ColorsManager.primaryColor,
+                fontFamily: FontsManager.fontFamilyPoppins,
+                fontSize: FontSize.textFontSize,
+                fontWeight: FontWeightManager.bold,
+              ),
+              content: const Txt(
+                text: StringsManager.firstTimeLogin,
+                color: ColorsManager.primaryColor,
+                fontFamily: FontsManager.fontFamilyPoppins,
+                fontSize: FontSize.subTitleFontSize,
+                fontWeight: FontWeightManager.regular,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    logout();
+                    Get.offAll(const LoginScreen());
+                  },
+                  child: const Txt(
+                    text: StringsManager.loginTxt,
+                    color: ColorsManager.secondaryColor,
+                    fontFamily: FontsManager.fontFamilyPoppins,
+                    fontSize: FontSize.textFontSize,
+                    fontWeight: FontWeightManager.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          barrierDismissible: false,
         );
         clearfields();
       }
     } catch (e) {
       toggleLoading();
       Get.snackbar(
-        'Error Loggin in',
+        'Error Logging in',
         e.toString(),
       );
     }
@@ -139,6 +179,7 @@ class AuthenticateController extends GetxController with CacheManager {
     emailController.clear();
     passwordController.clear();
     phoneController.clear();
+    addressController.clear();
     userTypeController = 'Buyer';
   }
 }

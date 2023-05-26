@@ -6,6 +6,7 @@ import '../models/cart_item.dart';
 import '../models/order_model.dart';
 import '../managers/firebase_manager.dart';
 import '../models/user_model.dart';
+import '../utils/utils.dart';
 
 class OrderController extends GetxController {
   final inventoryController = Get.put(InventoryController());
@@ -120,12 +121,14 @@ class OrderController extends GetxController {
       for (var cartItem in cartItems) {
         await inventoryController.decrementStockQuantity(cartItem.productId);
       }
+      Utils.dismissLoadingWidget();
 
       Get.snackbar(
         'Success!',
         'Order placed successfully.',
       );
     } catch (error) {
+      Utils.dismissLoadingWidget();
       Get.snackbar(
         'Failure!',
         error.toString(),

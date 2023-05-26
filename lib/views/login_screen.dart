@@ -203,12 +203,10 @@ class LoginScreen extends StatelessWidget {
                           color: ColorsManager.primaryColor,
                         ),
                         InkWell(
-                          onTap: () => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SignupScreen(),
-                            ),
-                          ),
+                          onTap: () {
+                            controller.clearfields();
+                            Get.offAll(const SignupScreen());
+                          },
                           child: const Txt(
                             text: StringsManager.registerTxt,
                             fontSize: FontSize.textFontSize,

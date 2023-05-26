@@ -310,7 +310,7 @@ class ProductsCard extends StatelessWidget {
             if (isFav)
               Positioned(
                 top: 10,
-                right: 25,
+                right: 5,
                 child:
                     FavoriteIcon(product: prod, productController: controller),
               ),
