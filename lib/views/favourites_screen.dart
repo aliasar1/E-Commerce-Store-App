@@ -51,7 +51,7 @@ class FavouriteScreen extends StatelessWidget {
                     fontFamily: FontsManager.fontFamilyPoppins,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: SizeManager.sizeM),
                 StreamBuilder<List<Product>>(
                   stream: prodController
                       .fetchFavoriteProducts(firebaseAuth.currentUser!.uid)

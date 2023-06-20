@@ -49,7 +49,7 @@ class CartScreen extends StatelessWidget {
                   fontFamily: FontsManager.fontFamilyPoppins,
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: SizeManager.sizeM),
               GetX<CartController>(
                 init: cartController,
                 builder: (cartController) {
@@ -120,7 +120,7 @@ class CartScreen extends StatelessWidget {
             fontSize: FontSize.textFontSize,
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: SizeManager.sizeS),
         TextButton(
           onPressed: () async {
             if (controller.cartItems.isNotEmpty) {

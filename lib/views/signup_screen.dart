@@ -158,14 +158,17 @@ class SignupScreen extends StatelessWidget {
                         onSuffixTap: controller.toggleVisibility,
                         textInputAction: TextInputAction.done,
                         onFieldSubmit: (_) async {
-                          await controller.signUpUser(
+                          final isValid = await controller.signUpUser(
                             email: controller.emailController.text,
                             name: controller.nameController.text,
                             password: controller.passwordController.text,
                             phone: controller.phoneController.text,
                             address: controller.addressController.text,
                           );
-                          firstTimeLoginDialog(isDarkMode, controller);
+                          await controller.removeToken();
+                          if (isValid) {
+                            firstTimeLoginDialog(isDarkMode, controller);
+                          }
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -192,14 +195,17 @@ class SignupScreen extends StatelessWidget {
                               )
                             : null,
                         onPressed: () async {
-                          await controller.signUpUser(
+                          final isValid = await controller.signUpUser(
                             email: controller.emailController.text,
                             name: controller.nameController.text,
                             password: controller.passwordController.text,
                             phone: controller.phoneController.text,
                             address: controller.addressController.text,
                           );
-                          firstTimeLoginDialog(isDarkMode, controller);
+                          await controller.removeToken();
+                          if (isValid) {
+                            firstTimeLoginDialog(isDarkMode, controller);
+                          }
                         },
                         text: StringsManager.registerTxt,
                         textColor: ColorsManager.whiteColor,
@@ -271,6 +277,7 @@ class SignupScreen extends StatelessWidget {
             TextButton(
               onPressed: () {
                 controller.logout();
+                controller.clearfields();
                 Get.offAll(const LoginScreen());
               },
               child: const Txt(

@@ -148,12 +148,15 @@ class LoginScreen extends StatelessWidget {
                         onSuffixTap: controller.toggleVisibility,
                         textInputAction: TextInputAction.done,
                         onFieldSubmit: (_) async {
-                          await controller.login(
+                          bool isValid = await controller.login(
                               controller.emailController.text,
                               controller.passwordController.text,
                               controller.userTypeController);
-                          if (!firebaseAuth.currentUser!.emailVerified) {
-                            verifyDialog(isDarkMode, controller);
+                          if (isValid) {
+                            if (!firebaseAuth.currentUser!.emailVerified) {
+                              await controller.removeToken();
+                              verifyDialog(isDarkMode, controller);
+                            }
                           }
                         },
                         validator: (value) {
@@ -208,12 +211,15 @@ class LoginScreen extends StatelessWidget {
                               )
                             : null,
                         onPressed: () async {
-                          await controller.login(
+                          bool isValid = await controller.login(
                               controller.emailController.text,
                               controller.passwordController.text,
                               controller.userTypeController);
-                          if (!firebaseAuth.currentUser!.emailVerified) {
-                            verifyDialog(isDarkMode, controller);
+                          if (isValid) {
+                            if (!firebaseAuth.currentUser!.emailVerified) {
+                              await controller.removeToken();
+                              verifyDialog(isDarkMode, controller);
+                            }
                           }
                         },
                         text: StringsManager.loginTxt,
@@ -308,14 +314,16 @@ class LoginScreen extends StatelessWidget {
                   backgroundColor: isDarkMode
                       ? MaterialStateProperty.all(ColorsManager.backgroundColor)
                       : MaterialStateProperty.all(
-                          DarkColorsManager.backgroundColor)),
+                          DarkColorsManager.secondaryColor)),
               onPressed: () {
                 controller.logout();
                 Get.offAll(const LoginScreen());
               },
-              child: const Txt(
+              child: Txt(
                 text: "Login",
-                color: ColorsManager.secondaryColor,
+                color: isDarkMode
+                    ? ColorsManager.secondaryColor
+                    : ColorsManager.backgroundColor,
                 fontFamily: FontsManager.fontFamilyPoppins,
                 fontSize: FontSize.subTitleFontSize,
                 fontWeight: FontWeightManager.regular,

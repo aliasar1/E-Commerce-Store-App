@@ -47,7 +47,7 @@ class OrdersScreen extends StatelessWidget {
                   fontFamily: FontsManager.fontFamilyPoppins,
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: SizeManager.sizeM),
               Obx(
                 () {
                   if (orderController.isLoading.value) {
@@ -61,7 +61,7 @@ class OrdersScreen extends StatelessWidget {
                   } else if (orderController.sellerOrders.isNotEmpty) {
                     return Expanded(
                       child: ListView.builder(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(PaddingManager.paddingXS),
                         itemCount: orderController.sellerOrders.length,
                         itemBuilder: (ctx, i) {
                           return SellerOrderCard(

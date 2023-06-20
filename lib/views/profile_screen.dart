@@ -363,9 +363,7 @@ class ProfileScreen extends StatelessWidget {
                 return null;
               },
             ),
-            const SizedBox(
-              height: 12,
-            ),
+            const SizedBox(height: SizeManager.sizeM),
             CustomTextFormField(
               controller: controller.phoneController,
               labelText: StringsManager.phoneTxt,
@@ -380,9 +378,7 @@ class ProfileScreen extends StatelessWidget {
                 return null;
               },
             ),
-            const SizedBox(
-              height: 12,
-            ),
+            const SizedBox(height: SizeManager.sizeM),
             CustomTextFormField(
               controller: controller.addressController,
               labelText: StringsManager.addressTxt,
@@ -396,9 +392,7 @@ class ProfileScreen extends StatelessWidget {
                 return null;
               },
             ),
-            const SizedBox(
-              height: 12,
-            ),
+            const SizedBox(height: SizeManager.sizeM),
             CustomButton(
               color: ColorsManager.secondaryColor,
               loadingWidget: controller.isLoading.value

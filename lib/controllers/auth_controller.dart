@@ -28,19 +28,18 @@ class AuthenticateController extends GetxController with CacheManager {
     isObscure.value = !isObscure.value;
   }
 
-  Future<void> checkLoginStatus() async {
-    firebaseAuth.idTokenChanges().listen((User? user) {
-      if (user == null) {
-        removeToken();
-        Get.off(const LoginScreen());
+  void checkLoginStatus() {
+    final userType = getUserType();
+
+    if (userType == null || userType.isEmpty) {
+      Get.off(const LoginScreen());
+    } else {
+      if (userType == "Seller") {
+        Get.offAll(const SellerHomeScreen());
       } else {
-        if (getUserType() == "Seller") {
-          Get.offAll(const SellerHomeScreen());
-        } else {
-          Get.offAll(const BuyerHomeScreen());
-        }
+        Get.offAll(const BuyerHomeScreen());
       }
-    });
+    }
   }
 
   void toggleLoading({bool showMessage = false, String message = ''}) {
@@ -68,7 +67,7 @@ class AuthenticateController extends GetxController with CacheManager {
     }
   }
 
-  Future<void> signUpUser({
+  Future<bool> signUpUser({
     required String email,
     required String password,
     required String name,
@@ -106,19 +105,20 @@ class AuthenticateController extends GetxController with CacheManager {
           'Account created successfully!',
           'Please verify account to proceed.',
         );
-
-        clearfields();
+        return true;
       }
+      return false;
     } catch (e) {
       toggleLoading();
       Get.snackbar(
         'Error Logging in',
         e.toString(),
       );
+      return false;
     }
   }
 
-  Future<void> login(String email, String password, String userType) async {
+  Future<bool> login(String email, String password, String userType) async {
     try {
       if (loginFormKey.currentState!.validate()) {
         loginFormKey.currentState!.save();
@@ -132,19 +132,17 @@ class AuthenticateController extends GetxController with CacheManager {
         if (user != null) {
           if (user.emailVerified) {
             setUserType(userType);
-            if (userType == 'Buyer') {
-              Get.offAll(const BuyerHomeScreen());
-            } else {
-              Get.offAll(const SellerHomeScreen());
-            }
             toggleLoading();
             clearfields();
+            checkLoginStatus();
+            return true;
           } else {
             toggleLoading();
             Get.snackbar(
               'Error Logging in',
               'Please verify your email to login.',
             );
+            return true;
           }
         } else {
           toggleLoading();
@@ -152,14 +150,17 @@ class AuthenticateController extends GetxController with CacheManager {
             'Error Logging in',
             'Invalid email or password.',
           );
+          return false;
         }
       }
+      return false;
     } catch (err) {
       toggleLoading();
       Get.snackbar(
         'Error Logging in',
         err.toString(),
       );
+      return false;
     }
   }
 

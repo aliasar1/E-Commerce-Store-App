@@ -8,7 +8,8 @@ class MarginManager {
 }
 
 class PaddingManager {
-  static const double paddingXS = 8.0;
+  static const double paddingXXS = 8.0;
+  static const double paddingXS = 10.0;
   static const double paddingS = 12.0;
   static const double paddingM = 14.0;
   static const double paddingSemiM = 16.0;

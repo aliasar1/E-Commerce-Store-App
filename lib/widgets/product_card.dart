@@ -41,10 +41,10 @@ class ProductsCard extends StatelessWidget {
         child: Stack(
           children: [
             Container(
-              width: 140,
+              width: Get.width * 0.4,
               decoration: BoxDecoration(
                 color: isDarkMode
-                    ? DarkColorsManager.backgroundColor
+                    ? DarkColorsManager.cardBackgroundColor
                     : Colors.white,
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
@@ -64,8 +64,8 @@ class ProductsCard extends StatelessWidget {
                   Hero(
                     tag: prod.id,
                     child: SizedBox(
-                      height: 100,
-                      width: 140,
+                      height: Get.height * 0.13,
+                      width: Get.width * 0.4,
                       child: Image.network(
                         prod.imageUrl,
                         loadingBuilder: (BuildContext context, Widget child,

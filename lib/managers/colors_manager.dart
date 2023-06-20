@@ -21,6 +21,7 @@ class DarkColorsManager {
   static const Color lightSecondaryColor = Color.fromARGB(255, 171, 85, 85);
   static const Color scaffoldBgColor = Color.fromARGB(255, 0, 0, 0);
   static const Color backgroundColor = Color.fromARGB(255, 32, 33, 36);
+  static const Color cardBackgroundColor = Color.fromARGB(255, 53, 53, 52);
   static const Color brownColor = Color(0xFF694C40);
   static const Color darkGreyColor = Color(0xFF605E5D);
   static const Color yellowBlackColor = Color(0xFF816646);

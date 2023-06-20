@@ -65,13 +65,13 @@ class _BuyerHomeScreenState extends State<BuyerHomeScreen> {
                     fontFamily: FontsManager.fontFamilyPoppins,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: SizeManager.sizeM),
                 CustomSearchWidget(
                   onFieldSubmit: (value) {
                     searchController.searchProduct(value.trim());
                   },
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: SizeManager.sizeM),
                 Obx(
                   () {
                     if (productController.isLoading.value) {
@@ -85,7 +85,8 @@ class _BuyerHomeScreenState extends State<BuyerHomeScreen> {
                     } else if (searchController.searchedProducts.isNotEmpty) {
                       return Expanded(
                         child: GridView.builder(
-                          padding: const EdgeInsets.all(10.0),
+                          padding:
+                              const EdgeInsets.all(PaddingManager.paddingXS),
                           itemCount: searchController.searchedProducts.length,
                           itemBuilder: (ctx, i) {
                             final prod = searchController.searchedProducts[i];
@@ -113,7 +114,8 @@ class _BuyerHomeScreenState extends State<BuyerHomeScreen> {
                     } else {
                       return Expanded(
                         child: GridView.builder(
-                          padding: const EdgeInsets.all(10.0),
+                          padding:
+                              const EdgeInsets.all(PaddingManager.paddingXS),
                           itemCount: productController.products.length,
                           itemBuilder: (ctx, i) {
                             final prod = productController.products[i];

@@ -43,15 +43,34 @@ class ProductOverviewScreen extends StatelessWidget {
                 [
                   Stack(
                     children: [
-                      Hero(
-                        tag: product.id,
-                        child: Container(
-                          color: ColorsManager.lightGreyColor.withOpacity(0.1),
-                          height: Get.height * 0.35,
-                          width: double.infinity,
-                          child: Image.network(
-                            product.imageUrl,
-                            fit: BoxFit.cover,
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Image.network(
+                                    product.imageUrl,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Hero(
+                          tag: product.id,
+                          child: Container(
+                            color:
+                                ColorsManager.lightGreyColor.withOpacity(0.1),
+                            height: Get.height * 0.35,
+                            width: double.infinity,
+                            child: Image.network(
+                              product.imageUrl,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
@@ -127,7 +146,8 @@ class ProductOverviewScreen extends StatelessWidget {
                             : Column(
                                 children: [
                                   Container(
-                                    margin: const EdgeInsets.only(bottom: 8),
+                                    margin: const EdgeInsets.only(
+                                        bottom: MarginManager.marginXS),
                                     child: const Txt(
                                       text: 'Total Stock Left',
                                       fontWeight: FontWeightManager.medium,
@@ -138,10 +158,12 @@ class ProductOverviewScreen extends StatelessWidget {
                                   ),
                                   Container(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 12),
+                                        vertical: PaddingManager.paddingXXS,
+                                        horizontal: PaddingManager.paddingXS),
                                     decoration: BoxDecoration(
                                       color: Colors.grey[200],
-                                      borderRadius: BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(
+                                          RadiusManager.fieldRadius),
                                     ),
                                     child: Txt(
                                       text: inventoryController

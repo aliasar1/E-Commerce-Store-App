@@ -87,7 +87,7 @@ class _SellerHomeDrawerState extends State<SellerHomeDrawer> {
                     buildLogoutDialog(context);
                   }),
                   SizedBox(height: Get.height * 0.25),
-                  ModeSwitch(),
+                  const ModeSwitch(),
                 ],
               ),
             ),
@@ -104,16 +104,20 @@ class _SellerHomeDrawerState extends State<SellerHomeDrawer> {
         backgroundColor: isDarkMode
             ? DarkColorsManager.backgroundColor
             : ColorsManager.scaffoldBgColor,
-        title: const Text(
+        title: Text(
           'Confirm Logout',
           style: TextStyle(
-            color: ColorsManager.whiteColor,
+            color: isDarkMode
+                ? DarkColorsManager.whiteColor
+                : ColorsManager.primaryColor,
           ),
         ),
-        content: const Text(
+        content: Text(
           'Are you sure you want to log out?',
           style: TextStyle(
-            color: ColorsManager.whiteColor,
+            color: isDarkMode
+                ? DarkColorsManager.whiteColor
+                : ColorsManager.primaryColor,
           ),
         ),
         actions: [

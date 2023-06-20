@@ -9,7 +9,7 @@ import 'package:get_storage/get_storage.dart';
 
 import 'managers/strings_manager.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   await Firebase.initializeApp().then((value) {
